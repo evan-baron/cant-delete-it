@@ -9,7 +9,7 @@ const Home = ({ loading, user }) => {
 
 	useEffect(() => {
 		user && setVerified(user.verified);
-	}, [user])
+	}, [user]);
 
 	const handleSubmit = async () => {
 		setFormComplete(true);
@@ -21,15 +21,32 @@ const Home = ({ loading, user }) => {
 		} catch (error) {
 			console.error('There was an error: ', error);
 		}
-	}
+	};
 
 	return (
-		<div className="home">
-			<div className="home-container">
-				<div className="left-side">
-					<div className="style-blob-1"></div>
-				</div>
-				<div className="right-side"></div>
+		<div className='home'>
+			<div className='home-container'>
+				<section className='left-side'>
+					<div className='content'>
+						<section className='hero'>
+							<h1 className='title'>Can't Delete It</h1>
+							<p className='pitch'>The Pitch</p>
+						</section>
+						<section className='rules'>
+							<h2>The Rules:</h2>
+							<div className='divider'></div>
+							<ul>
+								<li>Rule 1</li>
+								<li>Rule 2</li>
+								<li>Rule 3</li>
+								<li>Rule 4</li>
+							</ul>
+						</section>
+						<div className='contact'>Contact Us</div>
+					</div>
+					<div className='style-blob-1'></div>
+				</section>
+				<section className='right-side'></section>
 			</div>
 		</div>
 	);
