@@ -1,18 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
-import '../style.scss';
+import './app.scss';
 import axiosInstance from '../utils/axios';
 
 // Pages
-import Home from '../pages/Home.jsx';
-import Register from '../pages/Register.jsx';
-import Login from '../pages/Login.jsx';
-import PasswordRecovery from '../pages/PasswordRecovery.jsx';
-import PasswordReset from '../pages/PasswordReset.jsx';
-import Verify from '../pages/Verify';
+import Home from '../pages/HomePage/Home.jsx';
+// import Register from '../pages/Register.jsx';
+// import Login from '../pages/Login.jsx';
+// import PasswordRecovery from '../pages/PasswordRecovery.jsx';
+// import PasswordReset from '../pages/PasswordReset.jsx';
+// import Verify from '../pages/Verify';
 
 // Components
-import Navbar from '../components/Navbar.jsx';
+// import Navbar from '../components/Navbar.jsx';
 
 const App = () => {
 	const [user, setUser] = useState(null);
@@ -64,14 +64,14 @@ const App = () => {
 		<div className='app'>
 			<div className='container'>
 				<BrowserRouter>
-					<Navbar user={user} setUser={setUser} />
+					{/* <Navbar user={user} setUser={setUser} /> */}
 					<Routes>
 						<Route path='/' element={<Home loading={loading} user={user} />} />
-						<Route path='/register' element={user ? <Navigate to='/' /> : <Register />} />
+						{/* <Route path='/register' element={user ? <Navigate to='/' /> : <Register />} />
 						<Route path='/login' element={user ? <Navigate to='/' /> : <Login setUser={setUser} />} />
 						<Route path='/recovery' element={user ? <Navigate to='/' /> : <PasswordRecovery />} />
 						<Route path='/reset-password' element={user ? <Navigate to='/' /> : <PasswordReset />} />
-						<Route path='/verify' element={user ? <Navigate to='/' /> : <Verify />} />
+						<Route path='/verify' element={user ? <Navigate to='/' /> : <Verify />} /> */}
 					</Routes>
 				</BrowserRouter>
 			</div>

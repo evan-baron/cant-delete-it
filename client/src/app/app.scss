@@ -1,0 +1,21 @@
+* {
+	box-sizing: border-box;
+}
+
+html, body, #root {
+	height: 100dvh;
+}
+
+.app {
+	font-family: Calibri;
+	display: flex;
+	justify-content: center;
+	height: 100%;
+
+	.container {
+		display: flex;
+		flex-direction: column;
+		width: 100%;
+		height: 100%;
+	}
+}

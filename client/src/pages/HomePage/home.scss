@@ -1,0 +1,40 @@
+.home {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	height: 100%;
+	width: 100%;
+
+	.home-container {
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		height: 100%;
+		width: 100%;
+
+		.left-side {
+			position: relative;
+			height: 100%;
+			width: calc(7/12 * 100%);
+			background-color: #252525;
+			overflow: hidden;
+			box-shadow: 0 0 1rem black;
+
+			.style-blob-1 {
+				position: absolute;
+				bottom: 0;
+				right: 0;
+				transform: translate(50%, 50%);
+				width: 150rem;
+				aspect-ratio: 1;
+				border-radius: 50%;
+				background-image: radial-gradient(#525252 20%, #252525 60%);
+			}
+		}
+
+		.right-side {
+			height: 100%;
+			width: calc(5/12* 100%);
+		}
+	}
+}
