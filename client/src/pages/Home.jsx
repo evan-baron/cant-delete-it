@@ -6,7 +6,7 @@ const Home = ({ loading, user }) => {
 		<div className="home">
 			<div className="home-container">
 				{!loading && (user ? (
-					<h1>{`Welcome, ${user.user.first_name}!`}</h1>
+					<h1>{`Welcome, ${user.first_name}!`}</h1>
 					) : (
 						<>
 							<h2>Welcome!</h2>

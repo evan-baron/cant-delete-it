@@ -25,7 +25,7 @@ router.get('/authenticate', async (req, res) => {
 		
 		const user = await userService.getUserById(decoded.userId);
 		
-		return res.json({ user: user });
+		return res.json(user);
 	} catch (error) {
 		console.error('Error during token verification:', error.message);
 		return res.status(401).json({ message: 'Invalid or expired token' });

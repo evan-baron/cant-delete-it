@@ -68,7 +68,7 @@ const Login = ({ setUser }) => {
 				// Sets current user
 				console.log('Current user: ');
 				console.log(response.data.user);
-				setUser(response.data);
+				setUser(response.data.user);
 
 				// // Redirects to home
 				navigate('/');
