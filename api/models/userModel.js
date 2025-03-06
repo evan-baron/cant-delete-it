@@ -48,9 +48,17 @@ const User = {
 
 	// Update user password
 	async updateUserPassword(hashedPassword, token) {
-		const [result] = await pool.execute('UPDATE users SET password = ? WHERE id = (SELECT user_id FROM email_recovery_tokens WHERE token = ?)', [hashedPassword, token]);
+		const [result] = await pool.execute('UPDATE users SET password = ? WHERE id = (SELECT user_id FROM email_tokens WHERE token = ?)', [hashedPassword, token]);
 		return result.affectedRows > 0;
 	},
+
+	// Update verified
+	async updateVerified(user_id) {
+		const [result] = await pool.execute(
+			'UPDATE users SET verified = 1 WHERE id = ?', [user_id]
+		);
+		return result.affectedRows > 0;
+	}
 };
 
 module.exports = User;

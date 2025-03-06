@@ -18,6 +18,8 @@ const Register = () => {
 	const [passwordValid, setPasswordValid] = useState(null);
 	const [formSubmitted, setFormSubmitted] = useState(null);
 	const [registrationError, setRegistrationError] = useState(null);
+	const [registrationComplete, setRegistrationComplete] = useState(false);
+	const [loadingScreen, setLoadingScreen] = useState(false);
 
 	useEffect(() => {
 		const passwordsMatch =
@@ -69,16 +71,13 @@ const Register = () => {
 		setFormSubmitted(true);
 
 		if (!emailValid || !passwordValid) {
-			console.log(
-				'Registration Error! Email Valid: ' +
-					emailValid +
-					' Password Valid: ' +
-					passwordValid
-			);
 			setFormComplete(false);
 			return;
 		} else {
+			// Redirects to home
+			// navigate('/login');
 			try {
+				setLoadingScreen(true);
 				const response = await axiosInstance.post('/register', {
 					firstname: formData.firstname.trim(),
 					lastname: formData.lastname.trim(),
@@ -87,6 +86,15 @@ const Register = () => {
 				});
 				console.log('Registration complete!');
 				console.log(response.data);
+				
+				await axiosInstance.post('/verify-email', {
+					email: formData.email,
+					tokenName: 'email_verification',
+				});
+				setLoadingScreen(false);
+
+				// Changes page to registration complete
+				setRegistrationComplete(true);
 
 				// Reset the form and related states
 				setFormData({
@@ -105,8 +113,6 @@ const Register = () => {
 				setPasswordValid(null);
 				setFormSubmitted(false);
 
-				// Redirects to home
-				navigate('/login');
 			} catch (error) {
 				console.error('Registration error: ', error.response?.data);
 				setRegistrationError(
@@ -119,165 +125,179 @@ const Register = () => {
 
 	return (
 		<div className='auth' role='main'>
-			<h1>Register</h1>
-			<form role='form'>
-				<label htmlFor='firstname'>First Name:</label>
-				<div className='input-container'>
-					<input
-						id='firstname'
-						type='text'
-						name='firstname'
-						placeholder=''
-						onChange={handleChange}
-						required
-						aria-label='Enter your first name'
-					/>
-				</div>
+			{!loadingScreen ? (
+				<>
+					<h1>{!registrationComplete? 'Register' : 'Registration Complete'}</h1>
+					{!registrationComplete ? (
+						<form role='form'>
+							<label htmlFor='firstname'>First Name:</label>
+							<div className='input-container'>
+								<input
+									id='firstname'
+									type='text'
+									name='firstname'
+									placeholder=''
+									onChange={handleChange}
+									required
+									aria-label='Enter your first name'
+								/>
+							</div>
 
-				<label htmlFor='lastname'>Last Name:</label>
-				<div className='input-container'>
-					<input
-						id='lastname'
-						type='text'
-						name='lastname'
-						placeholder=''
-						onChange={handleChange}
-						required
-						aria-label='Enter your last name'
-					/>
-				</div>
+							<label htmlFor='lastname'>Last Name:</label>
+							<div className='input-container'>
+								<input
+									id='lastname'
+									type='text'
+									name='lastname'
+									placeholder=''
+									onChange={handleChange}
+									required
+									aria-label='Enter your last name'
+								/>
+							</div>
 
-				<label htmlFor='email'>Email:</label>
-				<div className='input-container'>
-					<input
-						id='email'
-						type='email'
-						name='email'
-						placeholder=''
-						onChange={handleChange}
-						required
-						aria-label='Enter your email address'
-					/>
-				</div>
-				{formSubmitted && !emailValid ? (
-					<p className='validation-error' aria-live='polite'>
-						Please enter a valid email address
-					</p>
-				) : null}
+							<label htmlFor='email'>Email:</label>
+							<div className='input-container'>
+								<input
+									id='email'
+									type='email'
+									name='email'
+									placeholder=''
+									onChange={handleChange}
+									required
+									aria-label='Enter your email address'
+								/>
+							</div>
+							{formSubmitted && !emailValid ? (
+								<p className='validation-error' aria-live='polite'>
+									Please enter a valid email address
+								</p>
+							) : null}
 
-				<label htmlFor='password'>Password:</label>
-				<div className='input-container'>
-					<input
-						id='password'
-						type={passwordVisible ? 'text' : 'password'}
-						name='password'
-						placeholder=''
-						onChange={handleChange}
-						required
-						aria-label='Enter your password'
-					/>
-					{formData.password ? (
-						passwordVisible ? 
-						<Visibility
-							className='visible'
-							role='button'
-							tabIndex='0'
-							aria-label='Toggle password visibility'
-							onClick={() => {
-								setPasswordVisible((prev) => !prev);
-							}}
-							sx={{
-								fontSize: '1.75rem',
-								color: '#777777',
-								outline: 'none',
-							}}
-						/>
-						:
-						<VisibilityOff 
-							className='visible'
-							role='button'
-							tabIndex='0'
-							aria-label='Toggle password visibility'
-							onClick={() => {
-								setPasswordVisible((prev) => !prev);
-							}}
-							sx={{
-								fontSize: '1.75rem',
-								color: '#777777',
-								outline: 'none',
-							}}
-						/>
-					) : null}
-				</div>
-				{formSubmitted && !passwordValid ? (
-					<p className='validation-error' aria-live='polite'>
-						Password must be at least 8 characters, include 1 uppercase letter,
-						1 number, and 1 special character.
-					</p>
-				) : null}
+							<label htmlFor='password'>Password:</label>
+							<div className='input-container'>
+								<input
+									id='password'
+									type={passwordVisible ? 'text' : 'password'}
+									name='password'
+									placeholder=''
+									onChange={handleChange}
+									required
+									aria-label='Enter your password'
+								/>
+								{formData.password ? (
+									passwordVisible ? 
+									<Visibility
+										className='visible'
+										role='button'
+										tabIndex='0'
+										aria-label='Toggle password visibility'
+										onClick={() => {
+											setPasswordVisible((prev) => !prev);
+										}}
+										sx={{
+											fontSize: '1.75rem',
+											color: '#777777',
+											outline: 'none',
+										}}
+									/>
+									:
+									<VisibilityOff 
+										className='visible'
+										role='button'
+										tabIndex='0'
+										aria-label='Toggle password visibility'
+										onClick={() => {
+											setPasswordVisible((prev) => !prev);
+										}}
+										sx={{
+											fontSize: '1.75rem',
+											color: '#777777',
+											outline: 'none',
+										}}
+									/>
+								) : null}
+							</div>
+							{formSubmitted && !passwordValid ? (
+								<p className='validation-error' aria-live='polite'>
+									Password must be at least 8 characters, include 1 uppercase letter,
+									1 number, and 1 special character.
+								</p>
+							) : null}
 
-				<label htmlFor='confirm'>Confirm Password:</label>
-				<div className='input-container'>
-					<input
-						id='confirm'
-						type='password'
-						name='confirm'
-						placeholder=''
-						onChange={handleChange}
-						required
-						aria-label='Confirm your password'
-					/>
+							<label htmlFor='confirm'>Confirm Password:</label>
+							<div className='input-container'>
+								<input
+									id='confirm'
+									type='password'
+									name='confirm'
+									placeholder=''
+									onChange={handleChange}
+									required
+									aria-label='Confirm your password'
+								/>
 
-					{passwordMatch !== null && formData.confirm ? (
-						passwordMatch ? (
-							<Check
-								className='validatePw'
-								role='img'
-								aria-label='Passwords match'
-								sx={{ color: 'rgb(0, 200, 0)', fontSize: '2rem' }}
-							/>
-						) : (
-							<Close
-								className='validatePw'
-								role='img'
-								aria-label='Passwords do not match'
-								sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
-							/>
-						)
-					) : null}
-				</div>
+								{passwordMatch !== null && formData.confirm ? (
+									passwordMatch ? (
+										<Check
+											className='validatePw'
+											role='img'
+											aria-label='Passwords match'
+											sx={{ color: 'rgb(0, 200, 0)', fontSize: '2rem' }}
+										/>
+									) : (
+										<Close
+											className='validatePw'
+											role='img'
+											aria-label='Passwords do not match'
+											sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
+										/>
+									)
+								) : null}
+							</div>
 
-				<button
-					type='button'
-					role='button'
-					aria-label='Submit registration form'
-					onClick={handleSubmit}
-					disabled={!formComplete}
-					style={{
-						backgroundColor: formComplete ? null : 'rgba(0, 120, 120, .5)',
-						cursor: formComplete ? 'pointer' : null,
-					}}
-				>
-					Register
-				</button>
-				{registrationError && (
-					<p aria-live='polite' role='alert'>
-						{registrationError}
-					</p>
-				)}
-				<span>
-					Already have an account?
-					<br />
-					<Link
-						className='link'
-						to='/login'
-						role='link'
-						aria-label='Go to login page'
-					>
-						Login
-					</Link>
-				</span>
-			</form>
+							<button
+								type='button'
+								role='button'
+								aria-label='Submit registration form'
+								onClick={handleSubmit}
+								disabled={!formComplete}
+								style={{
+									backgroundColor: formComplete ? null : 'rgba(0, 120, 120, .5)',
+									cursor: formComplete ? 'pointer' : null,
+								}}
+							>
+								Register
+							</button>
+							{registrationError && (
+								<p aria-live='polite' role='alert'>
+									{registrationError}
+								</p>
+							)}
+							<span>
+								Already have an account?
+								<br />
+								<Link
+									className='link'
+									to='/login'
+									role='link'
+									aria-label='Go to login page'
+								>
+									Login
+								</Link>
+							</span>
+						</form>
+					) : (
+						<form>
+							<h2>Thank you for registering with Can't Delete It. You must really hate traditional social media! We like that!</h2>
+							<h2>Please check your email for a link to verify your account. If it doesn't show up after a few minutes, check your spam or junk folders.</h2>
+							<h2>Happy posting!</h2>
+						</form>
+					)}
+				</>
+			) : (
+				<div>loading</div>
+			)}
 		</div>
 	);
 };

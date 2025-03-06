@@ -66,14 +66,14 @@ const getUserById = async (id) => {
 };
 
 // Generate recovery token
-const generateRecoveryToken = async (id, length = 32) => {
+const generateToken = async (id, tokenName, length = 32) => {
 	const recoveryToken = crypto
 		.randomBytes(length)
 		.toString('hex')
 		.slice(0, length);
 
 	try {
-		await tokenModel.createRecoveryToken(id, recoveryToken);
+		await tokenModel.createRecoveryToken(id, tokenName, recoveryToken);
 		return recoveryToken;
 	} catch (err) {
 		console.log('There was an error: ', err.message);
@@ -81,9 +81,9 @@ const generateRecoveryToken = async (id, length = 32) => {
 };
 
 // Get recovery token Data
-const getRecoveryTokenData = async (token) => {
+const getTokenData = async (token) => {
 	try {
-		const recoveryTokenData = await tokenModel.getRecoveryTokenData(token);
+		const recoveryTokenData = await tokenModel.getTokenData(token);
 		return recoveryTokenData;
 	} catch (err) {
 		console.log('There was an error: ', err.message);
@@ -104,14 +104,25 @@ const updatePassword = async (password, token) => {
 	}
 }
 
+// Update verified
+const updateVerified = async (user_id, token) => {
+	try {
+		await userModel.updateVerified(user_id);
+		await tokenModel.updateTokenUsed(token);
+	} catch (err) {
+		console.log('There was an error. ', err.message);
+	}
+}
+
 module.exports = {
 	authenticateUser,
 	checkIfUserExists,
 	createUser,
 	deleteUser,
-	generateRecoveryToken,
-	getRecoveryTokenData,
+	generateToken,
+	getTokenData,
 	getUserByEmail,
 	getUserById,
 	updatePassword,
+	updateVerified,
 };

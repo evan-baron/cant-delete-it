@@ -50,4 +50,32 @@ const sendPasswordResetEmail = async (user, resetToken) => {
 	}
 };
 
-module.exports = { sendPasswordResetEmail };
+const sendVerificationEmail = async (user, verificationToken) => {
+	const { first_name, email } = user;
+
+	//UPDATE BELOW WHEN YOU ADD THAT PART IN
+	const verifyLink = `https://localhost:5173/verify?token=${verificationToken}`;
+
+	const htmlContent = getTemplate('emailVerification', {
+		firstName: first_name,
+		verifyLink,
+		token: verificationToken,
+		supportEmail: 'CantDeleteItTeam@gmail.com'
+	})
+
+	const mailOptions = {
+		from: process.env.EMAIL,
+		to: email,
+		subject: 'Email Verification',
+		html: htmlContent
+	}
+
+	try {
+		await transporter.sendMail(mailOptions);
+		console.log('Verification email sent successfully');
+	} catch (err) {
+		console.error('Error sending email: ', err);
+	}
+};
+
+module.exports = { sendPasswordResetEmail, sendVerificationEmail };

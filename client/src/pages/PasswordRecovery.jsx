@@ -32,6 +32,7 @@ const PasswordRecovery = () => {
 				setEmailSent(true);
 				const data = await axiosInstance.post('/recover-password', {
 					email: formData.email,
+					tokenName: 'email_recovery',
 				});
 
 				if (data) {

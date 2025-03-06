@@ -33,7 +33,7 @@ const PasswordReset = () => {
 
 	//Email Recovery Token Validation
 	useEffect(() => {
-		const validateRecoveryToken = async () => {
+		const validateToken = async () => {
 			if (!token) {
 				console.log('No token found. Redirecting to home.');
 				navigate('/');
@@ -58,7 +58,7 @@ const PasswordReset = () => {
 				}
 			}
 		};
-		validateRecoveryToken();
+		validateToken();
 	}, [token]);
 
 	// Countdown Timer
