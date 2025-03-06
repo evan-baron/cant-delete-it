@@ -19,7 +19,7 @@ const Navbar = ({ user, setUser }) => {
 		<div className='navbar'>
 			<div className='nav-container'>
 				<Link to='/' className='logo'>
-					Home
+					Can't Delete It
 				</Link>
 				<div className='links'>
 					{user ? (

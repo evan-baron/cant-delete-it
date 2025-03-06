@@ -4,15 +4,15 @@ import '../style.scss';
 import axiosInstance from '../utils/axios';
 
 // Pages
-import Home from '../pages/Home';
-import Register from '../pages/Register';
-import Login from '../pages/Login';
-import PasswordRecovery from '../pages/PasswordRecovery';
-import PasswordReset from '../pages/PasswordReset';
+import Home from '../pages/Home.jsx';
+import Register from '../pages/Register.jsx';
+import Login from '../pages/Login.jsx';
+import PasswordRecovery from '../pages/PasswordRecovery.jsx';
+import PasswordReset from '../pages/PasswordReset.jsx';
 import Verify from '../pages/Verify';
 
 // Components
-import Navbar from '../components/Navbar';
+import Navbar from '../components/Navbar.jsx';
 
 const App = () => {
 	const [user, setUser] = useState(null);
