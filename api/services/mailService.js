@@ -32,7 +32,7 @@ const sendPasswordResetEmail = async (user, resetToken) => {
 	const htmlContent = getTemplate('passwordReset', {
 		resetLink,
 		token: resetToken,
-		supportEmail: 'cantdeleteteam@gmail.com'
+		supportEmail: 'CantDeleteItTeam@gmail.com'
 	})
 
 	const mailOptions = {
