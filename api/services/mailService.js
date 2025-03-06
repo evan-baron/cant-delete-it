@@ -32,7 +32,7 @@ const sendPasswordResetEmail = async (user, resetToken) => {
 	const htmlContent = getTemplate('passwordReset', {
 		resetLink,
 		token: resetToken,
-		supportEmail: 'marblrrecoveryteam@gmail.com'
+		supportEmail: 'cantdeleteteam@gmail.com'
 	})
 
 	const mailOptions = {
