@@ -71,7 +71,7 @@ const Home = ({ loading, user }) => {
 			)}`,
 		});
 
-		// setDemoFormData('');
+		setDemoFormData('');
 	};
 
 	// useEffect(() => {
@@ -144,6 +144,7 @@ const Home = ({ loading, user }) => {
 												maxlength='69'
 												placeholder='Why did the chicken cross the road?'
 												onChange={demoChange}
+												value={demoFormData}
 												onKeyDown={(e) => {
 													const keyNames = ['Enter', 'Backspace', 'Delete', 'ArrowLeft'];
 													if (keyNames.includes(e.key)) {
