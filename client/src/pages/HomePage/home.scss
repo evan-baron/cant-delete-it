@@ -2,6 +2,8 @@ $masterBackground: #e5e5e5;
 $darkGray: #252525;
 $mediumGray: #373737;
 $lightGray: #525252;
+$lighterGray: #aaaaaa;
+$lightestGray: #eeeeee;
 
 .home {
 	display: flex;
@@ -148,8 +150,9 @@ $lightGray: #525252;
 							position: relative;
 							display: flex;
 							flex-direction: column;
+							gap: .25rem;
 							width: 100%;
-							border: 1px solid red;
+							// border: 1px solid red;
 							z-index: 2 !important;
 
 							.input {
@@ -158,12 +161,16 @@ $lightGray: #525252;
 								width: 100%;
 
 								textarea {
-									min-height: 1.5rem;
+									height: 2.5rem;
+									align-content: center;
 									max-height: 4.5rem;
 									overflow-y: scroll;
 									width: 100%;
 									font-size: 1.25rem;
+									padding-left: 1rem;
+									padding-right: 1rem;
 									border: none;
+									border-radius: 1.25rem;
 									outline: none;
 									color: $darkGray;
 									background-color: $masterBackground;
@@ -181,15 +188,35 @@ $lightGray: #525252;
 								}
 							}
 							
-							.post-decorations {
+							.input-decorations {
 								display: flex;
 								align-items: center;
 								justify-content: space-between;
 								width: 100%;
 
+								.characters-remaining {
+									align-self: flex-start;
+									color: $lightGray;
+									font-size: .875rem;
+									padding-left: 1rem;
+								}
+
 								button {
+									outline: none;
+									border: none;
+									border-radius: 1.25rem;
+									color: white;
+									font-size: 1.25rem;
+									background-color: $lightGray;
+									height: 2.5rem;
+									width: 6rem;
 									position: relative;
 									right: 2rem;
+									cursor: pointer;
+								}
+
+								button:active {
+									background-color: $lighterGray;
 								}
 							}
 						}
@@ -198,9 +225,79 @@ $lightGray: #525252;
 							position: relative;
 							display: flex;
 							flex-direction: column;
+							gap: .5rem;
 							width: 100%;
-							border: 1px solid red;
 							z-index: 2 !important;
+
+							.user {
+								padding-left: .5rem;
+								color: $lightestGray;
+							}
+
+							.post-content {
+								display: flex;
+								min-height: 2rem;
+								width: 100%;
+								align-items: center;
+								padding: .5rem;
+								color: $lightestGray;
+								white-space: normal;
+								word-wrap: break-word;
+								word-break: break-word;
+								background-color: $mediumGray;
+								border-radius: .25rem;
+							}
+
+							.post-decorations {
+								display: flex;
+								width: 100%;
+								align-items: center;
+								justify-content: space-between;
+								padding: 0 .5rem;
+
+								.timestamp {
+									align-self: start;
+									color: $lightGray;
+									font-size: .75rem;
+								}
+
+								.post-buttons {
+									display: flex;
+									align-items: center;
+									gap: .5rem;
+									height: 2rem;
+	
+									.score-box {
+										display: flex;
+										align-items: center;
+										justify-content: space-evenly;
+										height: 2rem;
+										border: 2px solid $lightGray;
+										border-radius: 1rem;
+
+										.symbol {
+											display: flex;
+											align-items: center;
+											justify-content: center;
+											width: 2rem;
+											cursor: pointer;
+										}
+	
+										.post-buttons-divider {
+											height: 1.5rem;
+											border: 1px solid $lightGray;
+										}
+	
+										.post-score {
+											display: flex;
+											align-items: center;
+											justify-content: center;
+											min-width: 2rem;
+											max-width: 4rem;
+										}
+									}
+								}
+							}
 						}
 
 						.style-blob-2 {
