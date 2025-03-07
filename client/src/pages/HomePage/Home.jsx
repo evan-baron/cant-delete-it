@@ -146,8 +146,12 @@ const Home = ({ loading, user }) => {
 												onChange={demoChange}
 												value={demoFormData}
 												onKeyDown={(e) => {
-													const keyNames = ['Enter', 'Backspace', 'Delete', 'ArrowLeft'];
+													const keyNames = ['Backspace', 'Delete', 'ArrowLeft'];
 													if (keyNames.includes(e.key)) {
+														e.preventDefault();
+													}
+													if (e.key === 'Enter') {
+														demoSubmit();
 														e.preventDefault();
 													}
 												}}
