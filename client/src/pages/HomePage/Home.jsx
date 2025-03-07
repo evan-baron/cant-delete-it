@@ -4,6 +4,7 @@ import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
 import { Check, Close } from '@mui/icons-material';
 import './home.scss';
+import words_dictionary from '../../utils/words_dictionary.json';
 
 const Home = ({ loading, user }) => {
 	const [verified, setVerified] = useState(null);
@@ -21,6 +22,7 @@ const Home = ({ loading, user }) => {
 	  approve: 0,
 	  disapprove: 0,
 	});
+	const [spans, setSpans] = useState(null);
 	
 	const prevApprove = useRef(approve);
 	const prevDisapprove = useRef(disapprove);
@@ -47,25 +49,29 @@ const Home = ({ loading, user }) => {
 	  }
 	}, [disapprove]);
 
+	const spellCheckWord = (word) => {
+		const match = word.match(/^(\W+)?([a-zA-Z0-9]+(?:['’][a-zA-Z0-9]+)*)(\W+)?$/);
+		const searchWord = match?.[2]?.toLowerCase();
+		const result = words_dictionary[searchWord] ? true : false;
+		return result;
+	}
+
 	const demoChange = (e) => {
 		setDemoFormData(e.target.value);
 	};
 
 	const demoSubmit = () => {
+
 		setDemoPostData({
 			visible: true,
 			userName: 'Glizzy Kittles',
-			content: demoFormData,
+			content: demoFormData.split(' '),
 			timestamp: `${dayjs().format('MMMM DD, YYYY')}, at ${dayjs().format(
 				'h:mm A'
 			)}`,
 		});
 
-		setDemoFormData('');
-
-		setTimeout(() => {
-			console.log(demoFormData);
-		}, 0);
+		// setDemoFormData('');
 	};
 
 	// useEffect(() => {
@@ -119,6 +125,12 @@ const Home = ({ loading, user }) => {
 											last keystroke.
 										</p>
 									</li>
+									<li>
+										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
+										<p>
+											Our spell-check <span className='misspelled'>doesn't</span> work. Get used to it.
+										</p>
+									</li>
 								</ul>
 							</section>
 							<section className='demo'>
@@ -132,7 +144,17 @@ const Home = ({ loading, user }) => {
 												maxlength='69'
 												placeholder='Why did the chicken cross the road?'
 												onChange={demoChange}
-												value={demoFormData}
+												onKeyDown={(e) => {
+													const keyNames = ['Enter', 'Backspace', 'Delete', 'ArrowLeft'];
+													if (keyNames.includes(e.key)) {
+														e.preventDefault();
+													}
+												}}
+												onMouseDown={(e) => {
+													e.target.focus();
+													e.preventDefault();
+													return;
+												}}
 											/>
 											<div className='timer'>30</div>
 										</section>
@@ -151,7 +173,22 @@ const Home = ({ loading, user }) => {
 									{demoPostData.visible && 
 										<section className='posted-content'>
 											<h3 className='user'>{demoPostData.userName}</h3>
-											<p className='post-content'>{demoPostData.content}</p>
+											<p className='post-content'>{demoPostData.content.map((word, index) => {
+												if (index === demoPostData.content.length - 1) {
+													if (spellCheckWord(word)) {
+														return <span key={index}>{word}</span>
+													} else {
+														return <span className='misspelled' key={index}>{word}</span>
+													}
+												} else {
+													if (spellCheckWord(word)) {
+														return <><span key={index}>{word}</span><span>&nbsp;</span></>
+													} else {
+														return <><span className='misspelled' key={index}>{word}</span><span>&nbsp;</span></>
+													}
+												}
+											})}</p>
+											{/* <p className='post-content'>{demoPostData.content}</p> */}
 											<div className='post-decorations'>
 												<p className='timestamp'>{demoPostData.timestamp}</p>
 												<div className='post-buttons'>

@@ -13,6 +13,10 @@ $lightestGray: #eeeeee;
 	width: 100%;
 	background-color: $masterBackground;
 
+	.misspelled {
+		text-decoration: underline wavy red;
+	}
+
 	.home-container {
 		display: flex;
 		justify-content: center;
@@ -110,7 +114,6 @@ $lightestGray: #eeeeee;
 						gap: 0.75rem;
 						width: 100%;
 						font-size: clamp(1rem, 3vh, 1.5rem);
-						height: 3rem;
 
 						p {
 							width: 100%;
@@ -245,10 +248,6 @@ $lightestGray: #eeeeee;
 								word-break: break-word;
 								background-color: $mediumGray;
 								border-radius: 0.25rem;
-
-								.misspelled {
-									text-decoration: underline wavy red;
-								}
 							}
 
 							.post-decorations {
