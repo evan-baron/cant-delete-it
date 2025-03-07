@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import axiosInstance from '../../utils/axios';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
@@ -18,9 +18,34 @@ const Home = ({ loading, user }) => {
 	const [approve, setApprove] = useState(false);
 	const [disapprove, setDisapprove] = useState(false);
 	const [postScore, setPostScore] = useState({
-		approve: 0,
-		disapprove: 0,
+	  approve: 0,
+	  disapprove: 0,
 	});
+	
+	const prevApprove = useRef(approve);
+	const prevDisapprove = useRef(disapprove);
+	
+	useEffect(() => {
+	  // Only update score if the value has actually changed from a user interaction
+	  if (prevApprove.current !== approve) {
+		setPostScore((prev) => ({
+		  ...prev,
+		  approve: approve ? prev.approve + 1 : prev.approve - 1,
+		}));
+		prevApprove.current = approve;
+	  }
+	}, [approve]);
+	
+	useEffect(() => {
+	  // Only update score if the value has actually changed from a user interaction
+	  if (prevDisapprove.current !== disapprove) {
+		setPostScore((prev) => ({
+		  ...prev,
+		  disapprove: disapprove ? prev.disapprove + 1 : prev.disapprove - 1,
+		}));
+		prevDisapprove.current = disapprove;
+	  }
+	}, [disapprove]);
 
 	const demoChange = (e) => {
 		setDemoFormData(e.target.value);
@@ -112,7 +137,10 @@ const Home = ({ loading, user }) => {
 											<div className='timer'>30</div>
 										</section>
 										<div className='input-decorations'>
-											<p className='characters-remaining'>{69 - demoFormData.length} (normally 420 character limit)</p>
+											<p className='characters-remaining'>
+												{69 - demoFormData.length} (normally 420 character
+												limit)
+											</p>
 											<button type='button' onClick={demoSubmit}>
 												Post
 											</button>
@@ -120,43 +148,50 @@ const Home = ({ loading, user }) => {
 									</form>
 
 									{/* SECTION BELOW WILL EVENTUALLY BE A POST COMPONENT */}
-									<section className='posted-content'>
-										<h3 className='user'>{demoPostData.userName}</h3>
-										<p className='post-content'>{demoPostData.content}</p>
-										<div className='post-decorations'>
-											<p className='timestamp'>{demoPostData.timestamp}</p>
-											<div className='post-buttons'>
-												<div className='score-box'>
-													<Check
-														className='symbol'
-														sx={{
-															color: approve ? 'rgb(0, 200, 0)' : '#525252',
-															fontSize: '1.5rem',
-															transform: 'translateY(-1px)',
-														}}
-														onClick={() => {
-															setApprove((prev) => !prev);
-															setDisapprove(false);
-														}}
-													/>
-													<div className='post-buttons-divider'></div>
-													<div className='post-score'>0</div>
-												</div>
-												<div className='score-box'>
-													<Close
-														className='symbol'
-														sx={{ color: disapprove ? 'rgb(255, 0, 0)' : '#525252', fontSize: '1.5rem' }}
-														onClick={() => {
-															setDisapprove((prev) => !prev);
-															setApprove(false);
-														}}
-													/>
-													<div className='post-buttons-divider'></div>
-													<div className='post-score'>0</div>
+									{demoPostData.visible && 
+										<section className='posted-content'>
+											<h3 className='user'>{demoPostData.userName}</h3>
+											<p className='post-content'>{demoPostData.content}</p>
+											<div className='post-decorations'>
+												<p className='timestamp'>{demoPostData.timestamp}</p>
+												<div className='post-buttons'>
+													<div className='score-box'>
+														<Check
+															className='symbol'
+															sx={{
+																color: approve ? 'rgb(0, 200, 0)' : '#525252',
+																fontSize: '1.5rem',
+																transform: 'translateY(-1px)',
+															}}
+															onClick={() => {
+																setApprove((prev) => !prev);
+																setDisapprove(false);
+															}}
+														/>
+														<div className='post-buttons-divider'></div>
+														<div className='post-score'>{postScore.approve}</div>
+													</div>
+													<div className='score-box'>
+														<Close
+															className='symbol'
+															sx={{
+																color: disapprove ? 'rgb(255, 0, 0)' : '#525252',
+																fontSize: '1.5rem',
+															}}
+															onClick={() => {
+																setDisapprove((prev) => !prev);
+																setApprove(false);
+															}}
+														/>
+														<div className='post-buttons-divider'></div>
+														<div className='post-score'>
+															{postScore.disapprove}
+														</div>
+													</div>
 												</div>
 											</div>
-										</div>
-									</section>
+										</section>
+									}
 									<div className='style-blob-2'></div>
 								</div>
 							</section>
