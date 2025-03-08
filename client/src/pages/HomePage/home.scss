@@ -1,4 +1,5 @@
 $masterBackground: #e5e5e5;
+$darkerGray: #121212;
 $darkGray: #252525;
 $mediumGray: #373737;
 $lightGray: #525252;
@@ -150,8 +151,9 @@ $lightestGray: #eeeeee;
 						width: 100%;
 						padding: 1rem;
 						background-color: $darkGray;
-						border: 2px solid $lightGray;
-						border-radius: 0.25rem;
+						border: 2px solid $mediumGray;
+						border-radius: 0.5rem;
+						box-shadow: .25rem .25rem .5rem rgba(0, 0, 0, .25);
 						overflow: hidden;
 
 						.write-post {
