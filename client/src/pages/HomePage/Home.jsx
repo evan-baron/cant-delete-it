@@ -56,6 +56,24 @@ const Home = ({ loading, user }) => {
 		return result;
 	}
 
+	const handleKeyDown = (e) => {
+		const keyNames = ['Backspace', 'ContextMenu', 'Control', 'Delete', 'ArrowUp', 'ArrowDown', 'ArrowLeft'];
+
+		const isValidKey = /^[a-zA-Z0-9\-=\[\]\\;',./`~!@#$%^&*()_+{}|:"<>?]$|^Shift$/.test(e.key);
+
+		if (isValidKey) {
+			console.log('test');
+		}
+
+		if (keyNames.includes(e.key) || (e.ctrlKey && e.key === 'a') || (e.ctrlKey && e.key === 'z')) {
+			e.preventDefault();
+		}
+		if (e.key === 'Enter') {
+			demoSubmit();
+			e.preventDefault();
+		}
+	}
+
 	const demoChange = (e) => {
 		setDemoFormData(e.target.value);
 	};
@@ -152,23 +170,7 @@ const Home = ({ loading, user }) => {
 												placeholder='Why did the chicken cross the road?'
 												onChange={demoChange}
 												value={demoFormData}
-												onKeyDown={(e) => {
-													const keyNames = ['Backspace', 'ContextMenu', 'Control', 'Delete', 'ArrowUp', 'ArrowDown', 'ArrowLeft'];
-
-													const isValidKey = /^[a-zA-Z0-9\-=\[\]\\;',./`~!@#$%^&*()_+{}|:"<>?]$|^Shift$/.test(e.key);
-
-													if (isValidKey) {
-														console.log('test');
-													}
-
-													if (keyNames.includes(e.key) || (e.ctrlKey && e.key === 'a') || (e.ctrlKey && e.key === 'z')) {
-														e.preventDefault();
-													}
-													if (e.key === 'Enter') {
-														demoSubmit();
-														e.preventDefault();
-													}
-												}}
+												onKeyDown={handleKeyDown}
 												onContextMenu={(e) => {
 													e.preventDefault();
 												}}

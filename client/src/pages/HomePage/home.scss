@@ -244,7 +244,7 @@ $lightestGray: #eeeeee;
 							}
 
 							.post-content {
-								display: flex;
+								display: block;
 								min-height: 2rem;
 								width: 100%;
 								align-items: center;
@@ -255,6 +255,11 @@ $lightestGray: #eeeeee;
 								word-break: break-word;
 								background-color: $mediumGray;
 								border-radius: 0.25rem;
+
+								span {
+									display: inline-block;
+									max-width: 100%;
+								}
 							}
 
 							.post-decorations {
