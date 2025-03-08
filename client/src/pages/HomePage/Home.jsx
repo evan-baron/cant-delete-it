@@ -22,7 +22,7 @@ const Home = ({ loading, user }) => {
 	  approve: 0,
 	  disapprove: 0,
 	});
-	const [spans, setSpans] = useState(null);
+	const [timeLeft, setTimeLeft] = useState(30);
 	
 	const prevApprove = useRef(approve);
 	const prevDisapprove = useRef(disapprove);
@@ -126,9 +126,16 @@ const Home = ({ loading, user }) => {
 										</p>
 									</li>
 									<li>
-										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
+										<Close
+											sx={{
+												color: 'rgb(255, 0, 0)',
+												fontSize: '2rem',
+											}}
+										/>
 										<p>
-											Our spell-check <span className='misspelled'>doesn't</span> work. Get used to it.
+											Our spell-check{' '}
+											<span className='misspelled'>doesn't</span> work. Get used
+											to it.
 										</p>
 									</li>
 								</ul>
@@ -146,14 +153,24 @@ const Home = ({ loading, user }) => {
 												onChange={demoChange}
 												value={demoFormData}
 												onKeyDown={(e) => {
-													const keyNames = ['Backspace', 'Delete', 'ArrowLeft'];
-													if (keyNames.includes(e.key)) {
+													const keyNames = ['Backspace', 'ContextMenu', 'Control', 'Delete', 'ArrowUp', 'ArrowDown', 'ArrowLeft'];
+
+													const isValidKey = /^[a-zA-Z0-9\-=\[\]\\;',./`~!@#$%^&*()_+{}|:"<>?]$|^Shift$/.test(e.key);
+
+													if (isValidKey) {
+														console.log('test');
+													}
+
+													if (keyNames.includes(e.key) || (e.ctrlKey && e.key === 'a') || (e.ctrlKey && e.key === 'z')) {
 														e.preventDefault();
 													}
 													if (e.key === 'Enter') {
 														demoSubmit();
 														e.preventDefault();
 													}
+												}}
+												onContextMenu={(e) => {
+													e.preventDefault();
 												}}
 												onMouseDown={(e) => {
 													e.target.focus();
@@ -175,24 +192,42 @@ const Home = ({ loading, user }) => {
 									</form>
 
 									{/* SECTION BELOW WILL EVENTUALLY BE A POST COMPONENT */}
-									{demoPostData.visible && 
+									{demoPostData.visible && (
 										<section className='posted-content'>
 											<h3 className='user'>{demoPostData.userName}</h3>
-											<p className='post-content'>{demoPostData.content.map((word, index) => {
-												if (index === demoPostData.content.length - 1) {
-													if (spellCheckWord(word)) {
-														return <span key={index}>{word}</span>
+											<p className='post-content'>
+												{demoPostData.content.map((word, index) => {
+													if (index === demoPostData.content.length - 1) {
+														if (spellCheckWord(word)) {
+															return <span key={index}>{word}</span>;
+														} else {
+															return (
+																<span className='misspelled' key={index}>
+																	{word}
+																</span>
+															);
+														}
 													} else {
-														return <span className='misspelled' key={index}>{word}</span>
+														if (spellCheckWord(word)) {
+															return (
+																<>
+																	<span key={index}>{word}</span>
+																	<span>&nbsp;</span>
+																</>
+															);
+														} else {
+															return (
+																<>
+																	<span className='misspelled' key={index}>
+																		{word}
+																	</span>
+																	<span>&nbsp;</span>
+																</>
+															);
+														}
 													}
-												} else {
-													if (spellCheckWord(word)) {
-														return <><span key={index}>{word}</span><span>&nbsp;</span></>
-													} else {
-														return <><span className='misspelled' key={index}>{word}</span><span>&nbsp;</span></>
-													}
-												}
-											})}</p>
+												})}
+											</p>
 											{/* <p className='post-content'>{demoPostData.content}</p> */}
 											<div className='post-decorations'>
 												<p className='timestamp'>{demoPostData.timestamp}</p>
@@ -211,13 +246,17 @@ const Home = ({ loading, user }) => {
 															}}
 														/>
 														<div className='post-buttons-divider'></div>
-														<div className='post-score'>{postScore.approve}</div>
+														<div className='post-score'>
+															{postScore.approve}
+														</div>
 													</div>
 													<div className='score-box'>
 														<Close
 															className='symbol'
 															sx={{
-																color: disapprove ? 'rgb(255, 0, 0)' : '#525252',
+																color: disapprove
+																	? 'rgb(255, 0, 0)'
+																	: '#525252',
 																fontSize: '1.5rem',
 															}}
 															onClick={() => {
@@ -233,7 +272,7 @@ const Home = ({ loading, user }) => {
 												</div>
 											</div>
 										</section>
-									}
+									)}
 									<div className='style-blob-2'></div>
 								</div>
 							</section>
