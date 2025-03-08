@@ -233,83 +233,103 @@ $lightestGray: #eeeeee;
 						}
 
 						.posted-content {
-							position: relative;
 							display: flex;
-							flex-direction: column;
-							gap: 0.5rem;
 							width: 100%;
+							gap: 1rem;
 							z-index: 2 !important;
 
-							.user {
-								padding-left: 0.5rem;
-								color: $lightestGray;
-							}
+							.profile-picture {
+								height: 3.5rem;
+								aspect-ratio: 1;
+								border-radius: 50%;
 
-							.post-content {
-								display: block;
-								min-height: 2rem;
-								width: 100%;
-								align-items: center;
-								padding: 0.5rem;
-								color: $lightestGray;
-								white-space: normal;
-								word-wrap: break-word;
-								word-break: break-word;
-								background-color: $mediumGray;
-								border-radius: 0.25rem;
-
-								span {
-									display: inline-block;
-									max-width: 100%;
+								img {
+									height: 100%;
+									aspect-ratio: 1;
+									object-fit: cover;
+									border-radius: 50%;
 								}
 							}
 
-							.post-decorations {
+							.posted-content-container {
+								position: relative;
 								display: flex;
+								flex-direction: column;
+								gap: 0.5rem;
 								width: 100%;
-								align-items: center;
-								justify-content: space-between;
-								padding: 0 0.5rem;
-
-								.timestamp {
-									align-self: start;
-									color: $lightGray;
-									font-size: 0.75rem;
+								z-index: 2 !important;
+	
+								.user {
+									padding-left: 0.5rem;
+									color: $lightestGray;
 								}
-
-								.post-buttons {
-									display: flex;
+	
+								.post-content {
+									display: block;
+									min-height: 2rem;
+									width: 100%;
 									align-items: center;
-									gap: 0.5rem;
-									height: 2rem;
-
-									.score-box {
+									padding: 0.5rem;
+									color: $lightestGray;
+									white-space: normal;
+									word-wrap: break-word;
+									word-break: break-word;
+									background-color: $mediumGray;
+									border-radius: 0.25rem;
+	
+									span {
+										display: inline-block;
+										max-width: 100%;
+									}
+								}
+	
+								.post-decorations {
+									display: flex;
+									width: 100%;
+									align-items: center;
+									justify-content: space-between;
+									padding: 0 0.5rem;
+	
+									.timestamp {
+										align-self: start;
+										color: $lightGray;
+										font-size: 0.75rem;
+									}
+	
+									.post-buttons {
 										display: flex;
 										align-items: center;
-										justify-content: space-evenly;
+										gap: 0.5rem;
 										height: 2rem;
-										border: 2px solid $lightGray;
-										border-radius: 1rem;
-
-										.symbol {
+	
+										.score-box {
 											display: flex;
 											align-items: center;
-											justify-content: center;
-											width: 2rem;
-											cursor: pointer;
-										}
-
-										.post-buttons-divider {
-											height: 1.5rem;
-											border: 1px solid $lightGray;
-										}
-
-										.post-score {
-											display: flex;
-											align-items: center;
-											justify-content: center;
-											min-width: 2rem;
-											max-width: 4rem;
+											justify-content: space-evenly;
+											height: 2rem;
+											border: 2px solid $lightGray;
+											border-radius: 1rem;
+	
+											.symbol {
+												display: flex;
+												align-items: center;
+												justify-content: center;
+												width: 2rem;
+												cursor: pointer;
+											}
+	
+											.post-buttons-divider {
+												height: 1.5rem;
+												border: 1px solid $lightGray;
+											}
+	
+											.post-score {
+												display: flex;
+												align-items: center;
+												justify-content: center;
+												min-width: 2rem;
+												max-width: 4rem;
+											}
 										}
 									}
 								}

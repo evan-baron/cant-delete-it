@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Check, Close } from '@mui/icons-material';
 import './home.scss';
 import words_dictionary from '../../utils/words_dictionary.json';
+import { profilePictures } from '../../assets/site/demoProfilePic';
 
 const Home = ({ loading, user }) => {
 	const [verified, setVerified] = useState(null);
@@ -22,6 +23,7 @@ const Home = ({ loading, user }) => {
 	  approve: 0,
 	  disapprove: 0,
 	});
+	const [profilePic, setProfilePic] = useState(null);
 	const [timeLeft, setTimeLeft] = useState(30);
 	const [countdownStarted, setCountdownStarted] = useState(false);
 	
@@ -108,6 +110,7 @@ const Home = ({ loading, user }) => {
 	};
 
 	const demoSubmit = () => {
+		setProfilePic(profilePictures[Math.floor(Math.random() * 8)].img);
 
 		setDemoPostData({
 			visible: true,
@@ -236,78 +239,83 @@ const Home = ({ loading, user }) => {
 									{/* SECTION BELOW WILL EVENTUALLY BE A POST COMPONENT */}
 									{demoPostData.visible && (
 										<section className='posted-content'>
-											<h3 className='user'>{demoPostData.userName}</h3>
-											<p className='post-content'>
-												{demoPostData.content.map((word, index) => {
-													if (index === demoPostData.content.length - 1) {
-														if (spellCheckWord(word)) {
-															return <span key={index}>{word}</span>;
-														} else {
-															return (
-																<span className='misspelled' key={index}>
-																	{word}
-																</span>
-															);
-														}
-													} else {
-														if (spellCheckWord(word)) {
-															return (
-																<>
-																	<span key={index}>{word}</span>
-																	<span>&nbsp;</span>
-																</>
-															);
-														} else {
-															return (
-																<>
+											<div className="profile-picture">
+												<img src={profilePic} alt="Profile" />
+											</div>
+											<div className="posted-content-container">
+												<h3 className='user'>{demoPostData.userName}</h3>
+												<p className='post-content'>
+													{demoPostData.content.map((word, index) => {
+														if (index === demoPostData.content.length - 1) {
+															if (spellCheckWord(word)) {
+																return <span key={index}>{word}</span>;
+															} else {
+																return (
 																	<span className='misspelled' key={index}>
 																		{word}
 																	</span>
-																	<span>&nbsp;</span>
-																</>
-															);
+																);
+															}
+														} else {
+															if (spellCheckWord(word)) {
+																return (
+																	<>
+																		<span key={index}>{word}</span>
+																		<span>&nbsp;</span>
+																	</>
+																);
+															} else {
+																return (
+																	<>
+																		<span className='misspelled' key={index}>
+																			{word}
+																		</span>
+																		<span>&nbsp;</span>
+																	</>
+																);
+															}
 														}
-													}
-												})}
-											</p>
-											<div className='post-decorations'>
-												<p className='timestamp'>{demoPostData.timestamp}</p>
-												<div className='post-buttons'>
-													<div className='score-box'>
-														<Check
-															className='symbol'
-															sx={{
-																color: approve ? 'rgb(0, 200, 0)' : '#525252',
-																fontSize: '1.5rem',
-																transform: 'translateY(-1px)',
-															}}
-															onClick={() => {
-																setApprove((prev) => !prev);
-																setDisapprove(false);
-															}}
-														/>
-														<div className='post-buttons-divider'></div>
-														<div className='post-score'>
-															{postScore.approve}
+													})}
+												</p>
+												<div className='post-decorations'>
+													<p className='timestamp'>{demoPostData.timestamp}</p>
+													<div className='post-buttons'>
+														<div className='score-box'>
+															<Check
+																className='symbol'
+																sx={{
+																	color: approve ? 'rgb(0, 200, 0)' : '#525252',
+																	fontSize: '1.5rem',
+																	transform: 'translateY(-1px)',
+																}}
+																onClick={() => {
+																	setApprove((prev) => !prev);
+																	setDisapprove(false);
+																}}
+															/>
+															<div className='post-buttons-divider'></div>
+															<div className='post-score'>
+																{postScore.approve}
+															</div>
 														</div>
-													</div>
-													<div className='score-box'>
-														<Close
-															className='symbol'
-															sx={{
-																color: disapprove
-																	? 'rgb(255, 0, 0)'
-																	: '#525252',
-																fontSize: '1.5rem',
-															}}
-															onClick={() => {
-																setDisapprove((prev) => !prev);
-																setApprove(false);
-															}}
-														/>
-														<div className='post-buttons-divider'></div>
-														<div className='post-score'>
-															{postScore.disapprove}
+														<div className='score-box'>
+															<Close
+																className='symbol'
+																sx={{
+																	color: disapprove
+																		? 'rgb(255, 0, 0)'
+																		: '#525252',
+																	fontSize: '1.5rem',
+																}}
+																onClick={() => {
+																	setDisapprove((prev) => !prev);
+																	setApprove(false);
+																}}
+															/>
+															<div className='post-buttons-divider'></div>
+															<div className='post-score'>
+																{postScore.disapprove}
+															</div>
 														</div>
 													</div>
 												</div>
