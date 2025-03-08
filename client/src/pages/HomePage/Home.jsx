@@ -197,7 +197,7 @@ const Home = ({ loading, user }) => {
 											<textarea
 												type='text'
 												maxLength='69'
-												placeholder='Why did the chicken cross the road?'
+												placeholder='Signing up is a really bad idea...'
 												onChange={demoChange}
 												value={demoFormData}
 												onKeyDown={handleKeyDown}
