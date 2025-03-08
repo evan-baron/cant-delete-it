@@ -119,6 +119,8 @@ const Home = ({ loading, user }) => {
 		});
 
 		setDemoFormData('');
+		setCountdownStarted(false);
+		setTimeLeft(3000);
 	};
 
 	// useEffect(() => {
