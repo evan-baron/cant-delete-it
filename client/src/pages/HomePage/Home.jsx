@@ -79,16 +79,21 @@ const Home = ({ loading, user }) => {
 	const handleKeyDown = (e) => {
 		const keyNames = ['Backspace', 'ContextMenu', 'Control', 'Delete', 'ArrowUp', 'ArrowDown', 'ArrowLeft'];
 
-		const isValidKey = /^[a-zA-Z0-9\-=\[\]\\;',./`~!@#$%^&*()_+{}|:"<>?]$|^Shift$/.test(e.key);
+		const isValidKey = /^[a-zA-Z0-9\-=\[\]\\;',./`~!@#$%^&*()_+{}|:"<>? ]$|^Shift$/.test(e.key);
 
 		if (isValidKey) {
 			console.log('countdown started/reset');
 			setTimeLeft(3000);
 			setCountdownStarted(true);
 		}
-		if (e.key === 'Backspace') {
+		if (e.key === 'Backspace' && countdownStarted) {
 			e.preventDefault();
-			setTimeLeft((prev) => prev - 1000);
+			setTimeLeft((prev) => {
+				if (timeLeft > 0) {
+					return prev - 1000;
+				}
+				return prev;
+			});
 		}
 		if (keyNames.includes(e.key) || (e.ctrlKey && e.key === 'a') || (e.ctrlKey && e.key === 'z')) {
 			e.preventDefault();
@@ -196,6 +201,15 @@ const Home = ({ loading, user }) => {
 												onChange={demoChange}
 												value={demoFormData}
 												onKeyDown={handleKeyDown}
+												onKeyUp={(e) => {
+													if (e.key === 'Backspace') {
+														if (timeLeft <= 0) {
+															setTimeLeft(3000);
+														} else {
+															return;
+														}
+													}
+												}}
 												onContextMenu={(e) => {
 													e.preventDefault();
 												}}
