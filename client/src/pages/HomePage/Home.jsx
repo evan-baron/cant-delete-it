@@ -270,7 +270,6 @@ const Home = ({ loading, user }) => {
 													}
 												})}
 											</p>
-											{/* <p className='post-content'>{demoPostData.content}</p> */}
 											<div className='post-decorations'>
 												<p className='timestamp'>{demoPostData.timestamp}</p>
 												<div className='post-buttons'>
