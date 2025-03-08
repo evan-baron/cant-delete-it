@@ -23,6 +23,26 @@ const Home = ({ loading, user }) => {
 	  disapprove: 0,
 	});
 	const [timeLeft, setTimeLeft] = useState(30);
+	const [countdownStarted, setCountdownStarted] = useState(false);
+	
+	useEffect(() => {
+		if (countdownStarted) {
+		  const timer = setTimeout(() => {
+			setTimeLeft((prev) => {
+			  if (prev > 0) {
+				return prev - 1; // Decrement the time
+			  } else {
+				setCountdownStarted(false);
+				demoSubmit();
+				setTimeLeft(3000); // Reset after countdown ends
+				return prev;
+			  }
+			});
+		  }, 10);
+	  
+		  return () => clearTimeout(timer); // Cleanup on component unmount
+		}
+	  }, [timeLeft, countdownStarted]);
 	
 	const prevApprove = useRef(approve);
 	const prevDisapprove = useRef(disapprove);
@@ -62,9 +82,14 @@ const Home = ({ loading, user }) => {
 		const isValidKey = /^[a-zA-Z0-9\-=\[\]\\;',./`~!@#$%^&*()_+{}|:"<>?]$|^Shift$/.test(e.key);
 
 		if (isValidKey) {
-			console.log('test');
+			console.log('countdown started/reset');
+			setTimeLeft(3000);
+			setCountdownStarted(true);
 		}
-
+		if (e.key === 'Backspace') {
+			e.preventDefault();
+			setTimeLeft((prev) => prev - 1000);
+		}
 		if (keyNames.includes(e.key) || (e.ctrlKey && e.key === 'a') || (e.ctrlKey && e.key === 'z')) {
 			e.preventDefault();
 		}
@@ -180,7 +205,7 @@ const Home = ({ loading, user }) => {
 													return;
 												}}
 											/>
-											<div className='timer'>30</div>
+											<div className='timer' style={{color: timeLeft < 1000 && 'red'}}>{timeLeft > 1000 ? Math.round(timeLeft / 100) : (timeLeft / 100).toFixed(2)}</div>
 										</section>
 										<div className='input-decorations'>
 											<p className='characters-remaining'>
