@@ -82,7 +82,6 @@ const Home = ({ loading, user }) => {
 		const isValidKey = /^[a-zA-Z0-9\-=\[\]\\;',./`~!@#$%^&*()_+{}|:"<>? ]$|^Shift$/.test(e.key);
 
 		if (isValidKey) {
-			console.log('countdown started/reset');
 			setTimeLeft(3000);
 			setCountdownStarted(true);
 		}
