@@ -71,6 +71,7 @@ $lightestGray: #eeeeee;
 						width: 100%;
 						font-size: clamp(3rem, 12vh, 6rem);
 						text-transform: lowercase;
+						text-shadow: 2px 2px .25rem #111111;
 					}
 
 					.pitch {
@@ -80,6 +81,7 @@ $lightestGray: #eeeeee;
 						width: 100%;
 						font-size: clamp(1.5rem, 4vh, 2rem);
 						text-transform: uppercase;
+						text-shadow: 2px 2px .25rem #111111;
 					}
 				}
 
@@ -93,12 +95,14 @@ $lightestGray: #eeeeee;
 
 					h2 {
 						font-size: clamp(1.5rem, 6vh, 3rem);
+						text-shadow: 2px 2px .25rem #111111;
 					}
 
 					.divider {
 						width: 100%;
 						margin-bottom: 1rem;
 						border: 1px solid white;
+						box-shadow: 2px 2px .25rem #111111;
 					}
 
 					ul {
@@ -114,6 +118,7 @@ $lightestGray: #eeeeee;
 						gap: 0.75rem;
 						width: 100%;
 						font-size: clamp(1rem, 3vh, 1.5rem);
+						text-shadow: 2px 2px .25rem #111111;
 
 						p {
 							width: 100%;
@@ -134,6 +139,7 @@ $lightestGray: #eeeeee;
 
 					h2 {
 						font-size: clamp(1.5rem, 6vh, 3rem);
+						text-shadow: 2px 2px .25rem #111111;
 					}
 
 					.demo-container {
@@ -160,6 +166,7 @@ $lightestGray: #eeeeee;
 							.input {
 								display: flex;
 								align-items: center;
+								gap: 1rem;
 								width: 100%;
 
 								textarea {
@@ -213,7 +220,7 @@ $lightestGray: #eeeeee;
 									height: 2.5rem;
 									width: 6rem;
 									position: relative;
-									right: 2rem;
+									right: 3rem;
 									cursor: pointer;
 								}
 

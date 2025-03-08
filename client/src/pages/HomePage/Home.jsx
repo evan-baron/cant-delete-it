@@ -141,7 +141,7 @@ const Home = ({ loading, user }) => {
 										<section className='input'>
 											<textarea
 												type='text'
-												maxlength='69'
+												maxLength='69'
 												placeholder='Why did the chicken cross the road?'
 												onChange={demoChange}
 												value={demoFormData}
