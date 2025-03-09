@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import axiosInstance from '../../utils/axios';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
@@ -75,10 +75,20 @@ const Home = ({ loading, user }) => {
 		const match = word.match(
 			/^(\W+)?([a-zA-Z0-9]+(?:['’][a-zA-Z0-9]+)*)(\W+)?$/
 		);
-		const searchWord = match?.[2]?.toLowerCase();
-		const result = words_dictionary[searchWord] ? true : false;
-		return result;
+
+		if (!match || !match[2]) return false; // Return false if match or searchWord is undefined
+
+		const searchWord = match[2].toLowerCase();
+
+		return words_dictionary[searchWord] ? true : false;
 	};
+
+	const checkedWords = useMemo(() => {
+		return (demoPostData?.content || []).map((word) => ({
+			word,
+			isCorrect: spellCheckWord(word),
+		}));
+	}, [demoPostData.content]);
 
 	const handleKeyDown = (e) => {
 		const keyNames = [
@@ -115,8 +125,10 @@ const Home = ({ loading, user }) => {
 			e.preventDefault();
 		}
 		if (e.key === 'Enter') {
-			demoSubmit();
 			e.preventDefault();
+			if (demoFormData.length > 0) {
+				demoSubmit();
+			}
 		}
 	};
 
@@ -267,16 +279,12 @@ const Home = ({ loading, user }) => {
 											<div className='posted-content-container'>
 												<h3 className='user'>{demoPostData.userName}</h3>
 												<p className='post-content'>
-													{demoPostData.content.map((word, index) => (
+													{checkedWords.map(({ word, isCorrect }, index) => (
 														<React.Fragment key={index}>
-															<span
-																className={
-																	spellCheckWord(word) ? '' : 'misspelled'
-																}
-															>
+															<span className={isCorrect ? '' : 'misspelled'}>
 																{word}
 															</span>
-															{index !== demoPostData.content.length - 1 && (
+															{index !== checkedWords.length - 1 && (
 																<span>&nbsp;</span>
 															)}
 														</React.Fragment>
