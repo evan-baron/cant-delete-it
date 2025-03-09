@@ -254,9 +254,10 @@ const Home = ({ loading, user }) => {
 												className='timer'
 												style={{ color: timeLeft < 1000 && 'red' }}
 											>
-												{timeLeft > 1000
+												{countdownStarted && (timeLeft > 1000
 													? Math.round(timeLeft / 100)
-													: (timeLeft / 100).toFixed(2)}
+													: (timeLeft / 100).toFixed(2))
+												}
 											</div>
 										</section>
 										<div className='input-decorations'>
