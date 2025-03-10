@@ -38,6 +38,7 @@ const Signup = ({ loading, user }) => {
 		);
 	}, [
 		formData.password,
+		formData.confirm,
 		formData.email,
 		passwordMatch,
 	]);
@@ -67,59 +68,59 @@ const Signup = ({ loading, user }) => {
 	};
 
 	const handleSubmit = async () => {
-		// setFormSubmitted(true);
+		setFormSubmitted(true);
 
-		// if (!emailValid || !passwordValid) {
-		// 	setFormComplete(false);
-		// 	return;
-		// } else {
-		// 	// Redirects to home
-		// 	// navigate('/login');
-		// 	try {
-		// 		setLoadingScreen(true);
-		// 		const response = await axiosInstance.post('/register', {
-		// 			firstname: formData.firstname.trim(),
-		// 			lastname: formData.lastname.trim(),
-		// 			email: formData.email.trim(),
-		// 			password: formData.password.trim(),
-		// 		});
-		// 		console.log('Registration complete!');
-		// 		console.log(response.data);
+		if (!emailValid || !passwordValid) {
+			setFormComplete(false);
+			return;
+		} else {
+			// Redirects to home
+			// navigate('/login');
+			// try {
+			// 	setLoadingScreen(true);
+			// 	const response = await axiosInstance.post('/register', {
+			// 		firstname: formData.firstname.trim(),
+			// 		lastname: formData.lastname.trim(),
+			// 		email: formData.email.trim(),
+			// 		password: formData.password.trim(),
+			// 	});
+			// 	console.log('Registration complete!');
+			// 	console.log(response.data);
 				
-		// 		await axiosInstance.post('/verify-email', {
-		// 			email: formData.email,
-		// 			tokenName: 'email_verification',
-		// 		});
-		// 		setLoadingScreen(false);
+			// 	await axiosInstance.post('/verify-email', {
+			// 		email: formData.email,
+			// 		tokenName: 'email_verification',
+			// 	});
+			// 	setLoadingScreen(false);
 
-		// 		// Changes page to registration complete
-		// 		setRegistrationComplete(true);
+			// 	// Changes page to registration complete
+			// 	setRegistrationComplete(true);
 
-		// 		// Reset the form and related states
-		// 		setFormData({
-		// 			firstname: '',
-		// 			lastname: '',
-		// 			email: '',
-		// 			password: '',
-		// 			confirm: '',
-		// 		});
+			// 	// Reset the form and related states
+			// 	setFormData({
+			// 		firstname: '',
+			// 		lastname: '',
+			// 		email: '',
+			// 		password: '',
+			// 		confirm: '',
+			// 	});
 
-		// 		// Reset other relevant states
-		// 		setPasswordMatch(null);
-		// 		setPasswordVisible(false);
-		// 		setFormComplete(false);
-		// 		setEmailValid(null);
-		// 		setPasswordValid(null);
-		// 		setFormSubmitted(false);
+			// 	// Reset other relevant states
+			// 	setPasswordMatch(null);
+			// 	setPasswordVisible(false);
+			// 	setFormComplete(false);
+			// 	setEmailValid(null);
+			// 	setPasswordValid(null);
+			// 	setFormSubmitted(false);
 
-		// 	} catch (error) {
-		// 		console.error('Registration error: ', error.response?.data);
-		// 		setRegistrationError(
-		// 			error.response ? error.response.data.message : 'An error occurred'
-		// 		);
-		// 		setFormComplete(false);
-		// 	}
-		// }
+			// } catch (error) {
+			// 	console.error('Registration error: ', error.response?.data);
+			// 	setRegistrationError(
+			// 		error.response ? error.response.data.message : 'An error occurred'
+			// 	);
+			// 	setFormComplete(false);
+			// }
+		}
 	};
 
 	// DEMO LOGIC
@@ -602,7 +603,7 @@ const Signup = ({ loading, user }) => {
 								style={{
 									backgroundColor: formComplete
 										? null
-										: '#525252',
+										: 'rgba(82, 82, 82, .5)',
 									cursor: formComplete ? 'pointer' : null,
 								}}
 							>
