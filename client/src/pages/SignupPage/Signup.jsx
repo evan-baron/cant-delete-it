@@ -2,15 +2,127 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import axiosInstance from '../../utils/axios';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
-import { Check, Close } from '@mui/icons-material';
+import { Check, Close, Visibility, VisibilityOff } from '@mui/icons-material';
 import './signup.scss';
 import words_dictionary from '../../utils/words_dictionary.json';
 import { profilePictures } from '../../assets/site/demoProfilePic';
 import signature from '../../assets/site/signature_transparent.png';
 
 const Signup = ({ loading, user }) => {
+
+	//SIGNUP LOGIC
 	const [verified, setVerified] = useState(null);
+	const [formData, setFormData] = useState({
+		email: '',
+		password: '',
+		confirm: '',
+	});
+	const [passwordMatch, setPasswordMatch] = useState(null);
+	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [formComplete, setFormComplete] = useState(false);
+	const [emailValid, setEmailValid] = useState(null);
+	const [passwordValid, setPasswordValid] = useState(null);
+	const [formSubmitted, setFormSubmitted] = useState(null);
+	const [registrationError, setRegistrationError] = useState(null);
+	const [registrationComplete, setRegistrationComplete] = useState(false);
+	const [loadingScreen, setLoadingScreen] = useState(false);
+
+	useEffect(() => {
+		const passwordsMatch =
+			formData.password !== '' && formData.password === formData.confirm;
+		setPasswordMatch(passwordsMatch);
+
+		setFormComplete(
+			formData.email &&
+			passwordMatch
+		);
+	}, [
+		formData.password,
+		formData.email,
+		passwordMatch,
+	]);
+
+	// Regex for email validation
+	const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+
+	// Regex for password validation
+	const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+	
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormData((prev) => ({
+			...prev,
+			[name]: value,
+		}));
+
+		if (name === 'email') {
+			setEmailValid(emailRegex.test(value));
+		}
+
+		if (name === 'password') {
+			setPasswordValid(passwordRegex.test(value));
+		}
+		setFormSubmitted(false);
+		setRegistrationError(null);
+	};
+
+	const handleSubmit = async () => {
+		// setFormSubmitted(true);
+
+		// if (!emailValid || !passwordValid) {
+		// 	setFormComplete(false);
+		// 	return;
+		// } else {
+		// 	// Redirects to home
+		// 	// navigate('/login');
+		// 	try {
+		// 		setLoadingScreen(true);
+		// 		const response = await axiosInstance.post('/register', {
+		// 			firstname: formData.firstname.trim(),
+		// 			lastname: formData.lastname.trim(),
+		// 			email: formData.email.trim(),
+		// 			password: formData.password.trim(),
+		// 		});
+		// 		console.log('Registration complete!');
+		// 		console.log(response.data);
+				
+		// 		await axiosInstance.post('/verify-email', {
+		// 			email: formData.email,
+		// 			tokenName: 'email_verification',
+		// 		});
+		// 		setLoadingScreen(false);
+
+		// 		// Changes page to registration complete
+		// 		setRegistrationComplete(true);
+
+		// 		// Reset the form and related states
+		// 		setFormData({
+		// 			firstname: '',
+		// 			lastname: '',
+		// 			email: '',
+		// 			password: '',
+		// 			confirm: '',
+		// 		});
+
+		// 		// Reset other relevant states
+		// 		setPasswordMatch(null);
+		// 		setPasswordVisible(false);
+		// 		setFormComplete(false);
+		// 		setEmailValid(null);
+		// 		setPasswordValid(null);
+		// 		setFormSubmitted(false);
+
+		// 	} catch (error) {
+		// 		console.error('Registration error: ', error.response?.data);
+		// 		setRegistrationError(
+		// 			error.response ? error.response.data.message : 'An error occurred'
+		// 		);
+		// 		setFormComplete(false);
+		// 	}
+		// }
+	};
+
+	// DEMO LOGIC
 	const [demoFormData, setDemoFormData] = useState('');
 	const [demoPostData, setDemoPostData] = useState({
 		visible: false,
@@ -349,25 +461,23 @@ const Signup = ({ loading, user }) => {
 					<div className='content'>
 						<section className='message-container'>
 							<h2 className='message-title'>A message from the founder:</h2>
-							<section className="message-contents">
+							<section className='message-contents'>
 								<p>
-									<span className='opening'>Welcome!</span>
+									<span className='opening'>Welcome!</span> <span style={{color: '#696969'}}>...and for your sanity, I sincerely hope goodbye!</span>
 									<br />
 									<br />
-									...and for your sanity, I sincerely hope goodbye!
+									<span style={{color: 'red', fontStyle: 'italic', fontWeight: 'bold'}}>I hate social media.</span> Or at
+									least I hate what social media has become... I believe people
+									spend far too much time on their thoughts, editing everything
+									to be perfect and "just right" so that their audience or
+									followers won't know the better.
 									<br />
 									<br />
-									<span className='italic'>I hate social media.</span> Or at least
-									I hate what social media has become... I believe people spend
-									far too much time on their thoughts, editing everything to be
-									perfect and "just right" so that their audience or followers won't
-									know the better.
-									<br />
-									<br />That's why I've created this monstrosity... a complete rebellion
-									from modern day best practices. Say goodbye to your ability to
-									edit, update, and delete. If you chose to sign up to this god
-									forsaken platform, I hope you hate using it just as much as I
-									do.
+									That's why I've created this monstrosity... a complete
+									rebellion from modern day best practices. Say goodbye to your
+									ability to edit, update, and delete. If you chose to sign up
+									to this god forsaken platform, I hope you hate using it just
+									as much as I do.
 									<br />
 									<br />
 									Happy <span className='misspelled'>typoing</span>,
@@ -382,7 +492,139 @@ const Signup = ({ loading, user }) => {
 						</section>
 						<form className='signup-form'>
 							<h3>Sign Up</h3>
-							
+							<label htmlFor='email'>Email:</label>
+							<div className='input-container'>
+								<input
+									id='email'
+									type='email'
+									name='email'
+									placeholder=''
+									onChange={handleChange}
+									required
+									aria-label='Enter your email address'
+								/>
+							</div>
+							{formSubmitted && !emailValid ? (
+								<p className='validation-error' aria-live='polite'>
+									Please enter a valid email address
+								</p>
+							) : null}
+
+							<label htmlFor='password'>Password:</label>
+							<div className='input-container'>
+								<input
+									id='password'
+									type={passwordVisible ? 'text' : 'password'}
+									name='password'
+									placeholder=''
+									onChange={handleChange}
+									required
+									aria-label='Enter your password'
+								/>
+								{formData.password ? (
+									passwordVisible ? (
+										<Visibility
+											className='visible'
+											role='button'
+											tabIndex='0'
+											aria-label='Toggle password visibility'
+											onClick={() => {
+												setPasswordVisible((prev) => !prev);
+											}}
+											sx={{
+												fontSize: '1.75rem',
+												color: '#777777',
+												outline: 'none',
+											}}
+										/>
+									) : (
+										<VisibilityOff
+											className='visible'
+											role='button'
+											tabIndex='0'
+											aria-label='Toggle password visibility'
+											onClick={() => {
+												setPasswordVisible((prev) => !prev);
+											}}
+											sx={{
+												fontSize: '1.75rem',
+												color: '#777777',
+												outline: 'none',
+											}}
+										/>
+									)
+								) : null}
+							</div>
+							{formSubmitted && !passwordValid ? (
+								<p className='validation-error' aria-live='polite'>
+									Password must be at least 8 characters, include 1 uppercase
+									letter, 1 number, and 1 special character.
+								</p>
+							) : null}
+
+							<label htmlFor='confirm'>Confirm Password:</label>
+							<div className='input-container'>
+								<input
+									id='confirm'
+									type='password'
+									name='confirm'
+									placeholder=''
+									onChange={handleChange}
+									required
+									aria-label='Confirm your password'
+								/>
+
+								{passwordMatch !== null && formData.confirm ? (
+									passwordMatch ? (
+										<Check
+											className='validatePw'
+											role='img'
+											aria-label='Passwords match'
+											sx={{ color: 'rgb(0, 200, 0)', fontSize: '2rem' }}
+										/>
+									) : (
+										<Close
+											className='validatePw'
+											role='img'
+											aria-label='Passwords do not match'
+											sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
+										/>
+									)
+								) : null}
+							</div>
+
+							<button
+								type='button'
+								role='button'
+								aria-label='Submit registration form'
+								onClick={handleSubmit}
+								disabled={!formComplete}
+								style={{
+									backgroundColor: formComplete
+										? null
+										: '#525252',
+									cursor: formComplete ? 'pointer' : null,
+								}}
+							>
+								Register
+							</button>
+							{registrationError && (
+								<p aria-live='polite' role='alert'>
+									{registrationError}
+								</p>
+							)}
+							<span>
+								Already have an account?
+								<br />
+								<Link
+									className='link'
+									to='/login'
+									role='link'
+									aria-label='Go to login page'
+								>
+									Login
+								</Link>
+							</span>
 						</form>
 					</div>
 				</section>
