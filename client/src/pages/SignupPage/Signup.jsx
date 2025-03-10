@@ -6,6 +6,7 @@ import { Check, Close } from '@mui/icons-material';
 import './signup.scss';
 import words_dictionary from '../../utils/words_dictionary.json';
 import { profilePictures } from '../../assets/site/demoProfilePic';
+import signature from '../../assets/site/signature_transparent.png';
 
 const Signup = ({ loading, user }) => {
 	const [verified, setVerified] = useState(null);
@@ -254,10 +255,10 @@ const Signup = ({ loading, user }) => {
 												className='timer'
 												style={{ color: timeLeft < 1000 && 'red' }}
 											>
-												{countdownStarted && (timeLeft > 1000
-													? Math.round(timeLeft / 100)
-													: (timeLeft / 100).toFixed(2))
-												}
+												{countdownStarted &&
+													(timeLeft > 1000
+														? Math.round(timeLeft / 100)
+														: (timeLeft / 100).toFixed(2))}
 											</div>
 										</section>
 										<div className='input-decorations'>
@@ -344,7 +345,47 @@ const Signup = ({ loading, user }) => {
 					</div>
 					<div className='style-blob-1'></div>
 				</section>
-				<section className='right-side'></section>
+				<section className='right-side'>
+					<div className='content'>
+						<section className='message-container'>
+							<h2 className='message-title'>A message from the founder:</h2>
+							<section className="message-contents">
+								<p>
+									<span className='opening'>Welcome!</span>
+									<br />
+									<br />
+									...and for your sanity, I sincerely hope goodbye!
+									<br />
+									<br />
+									<span className='italic'>I hate social media.</span> Or at least
+									I hate what social media has become... I believe people spend
+									far too much time on their thoughts, editing everything to be
+									perfect and "just right" so that their audience or followers won't
+									know the better.
+									<br />
+									<br />That's why I've created this monstrosity... a complete rebellion
+									from modern day best practices. Say goodbye to your ability to
+									edit, update, and delete. If you chose to sign up to this god
+									forsaken platform, I hope you hate using it just as much as I
+									do.
+									<br />
+									<br />
+									Happy <span className='misspelled'>typoing</span>,
+								</p>
+								<img className='signature' src={signature} />
+								<p>
+									Evan Baron
+									<br />
+									Chief Typo Officer
+								</p>
+							</section>
+						</section>
+						<form className='signup-form'>
+							<h3>Sign Up</h3>
+							
+						</form>
+					</div>
+				</section>
 			</div>
 		</div>
 	);

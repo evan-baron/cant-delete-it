@@ -66,9 +66,9 @@ const App = () => {
 				<BrowserRouter>
 					{/* <Navbar user={user} setUser={setUser} /> */}
 					<Routes>
-						<Route path='/signup' element={<Signup loading={loading} user={user} />} />
-						{/* <Route path='/register' element={user ? <Navigate to='/' /> : <Register />} />
-						<Route path='/login' element={user ? <Navigate to='/' /> : <Login setUser={setUser} />} />
+						<Route path='/' element={user ? <Home to='/' /> : <Signup to='/signup' />} />
+						<Route path='/signup' element={user ? <Home to='/' /> : <Signup to='/signup' />} />
+						{/* <Route path='/login' element={user ? <Navigate to='/' /> : <Login setUser={setUser} />} />
 						<Route path='/recovery' element={user ? <Navigate to='/' /> : <PasswordRecovery />} />
 						<Route path='/reset-password' element={user ? <Navigate to='/' /> : <PasswordReset />} />
 						<Route path='/verify' element={user ? <Navigate to='/' /> : <Verify />} /> */}
