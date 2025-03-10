@@ -3,11 +3,11 @@ import axiosInstance from '../../utils/axios';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
 import { Check, Close } from '@mui/icons-material';
-import './home.scss';
+import './signup.scss';
 import words_dictionary from '../../utils/words_dictionary.json';
 import { profilePictures } from '../../assets/site/demoProfilePic';
 
-const Home = ({ loading, user }) => {
+const Signup = ({ loading, user }) => {
 	const [verified, setVerified] = useState(null);
 	const [formComplete, setFormComplete] = useState(false);
 	const [demoFormData, setDemoFormData] = useState('');
@@ -170,8 +170,8 @@ const Home = ({ loading, user }) => {
 	// };
 
 	return (
-		<div className='home'>
-			<div className='home-container'>
+		<div className='signup'>
+			<div className='signup-container'>
 				<section className='left-side'>
 					<div className='content'>
 						<div className='content-wrapper'>
@@ -350,4 +350,4 @@ const Home = ({ loading, user }) => {
 	);
 };
 
-export default Home;
+export default Signup;
