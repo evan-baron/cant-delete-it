@@ -29,18 +29,24 @@ const checkIfUserExists = async (email) => {
 };
 
 // Create a new user
-const createUser = async (email, password) => {
+const createUser = async (first, last, email, password) => {
 	const hashedPassword = await bcrypt.hash(password, 10);
 
 	const result = await userModel.createUser(
+		first,
+		last,
 		email,
 		hashedPassword
 	);
 
+	const newUser = await userModel.findUserById(result.insertId);
+
 	return {
-		id: result.id,
-		email: result.email,
-		created_at: result.created_at,
+		id: newUser.id,
+		first_name: newUser.first_name,
+		last_name: newUser.last_name,
+		email: newUser.email,
+		created_at: newUser.created_at,
 	};
 };
 

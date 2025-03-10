@@ -17,14 +17,14 @@ const login = async (email, password, checked) => {
 	}
 }
 
-const register = async (email, password) => {
+const register = async (first, last, email, password) => {
     // Find the user by email
     const user = await userService.getUserByEmail(email);
     if (user) {
         throw new Error('An account with this email already exists.');
     } else {
 		try {
-			const newUser = await userService.createUser(email, password);
+			const newUser = await userService.createUser(first, last, email, password);
 			return { user: newUser }
 		} catch (err) {
 			throw new Error('Error registering user: ' + err.message);

@@ -85,6 +85,29 @@ router.get('/authenticateVerifyToken', async (req, res) => {
 	}
 });
 
+router.post('/check-email', async (req, res) => {
+	const { email } = req.body;
+
+	try {
+		const user = await userService.getUserByEmail(email);
+
+		console.log(user);
+
+		if (!user) {
+            return res.status(200).json({ available: true });
+        }
+
+		return res.status(404).json({ 
+			available: false,
+			message: 'Email already in use' 
+		});
+
+	} catch (err) {
+		console.log('There was an error: ', err.message)
+		return res.status(500).json({ message: 'Error checking email' });
+	}
+});
+
 router.post('/login', async (req, res) => {
 	const { email, password, checked } = req.body;
 
@@ -150,10 +173,10 @@ router.post('/recover-password', async (req, res) => {
 });
 
 router.post('/register-account', async (req, res) => {
-	const { email, password } = req.body;
+	const { first, last, email, password } = req.body;
 
 	try {
-		const { user } = await authService.register(email, password);
+		const { user } = await authService.register(first, last, email, password);
 
 		res.status(201).json({
 			message: 'User registered successfully!',

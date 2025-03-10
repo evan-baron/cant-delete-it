@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import axiosInstance from '../../utils/axios';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
-import { Check, Close, Visibility, VisibilityOff } from '@mui/icons-material';
+import { Check, Close, East, Visibility, VisibilityOff, West } from '@mui/icons-material';
 import './signup.scss';
 import words_dictionary from '../../utils/words_dictionary.json';
 import { profilePictures } from '../../assets/site/demoProfilePic';
@@ -13,6 +13,8 @@ const Signup = ({ loading, user }) => {
 	//SIGNUP LOGIC
 	const [verified, setVerified] = useState(null);
 	const [formData, setFormData] = useState({
+		first: '',
+		last: '',
 		email: '',
 		password: '',
 		confirm: '',
@@ -21,11 +23,19 @@ const Signup = ({ loading, user }) => {
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [formComplete, setFormComplete] = useState(false);
 	const [emailValid, setEmailValid] = useState(null);
+	const [nameEmailComplete, setNameEmailComplete] = useState(false);
+	const [nameEmailSubmitted, setNameEmailSubmitted] = useState(false);
+	const [animating, setAnimating] = useState(false);
 	const [passwordValid, setPasswordValid] = useState(null);
 	const [formSubmitted, setFormSubmitted] = useState(null);
 	const [registrationError, setRegistrationError] = useState(null);
 	const [registrationComplete, setRegistrationComplete] = useState(false);
 	const [loadingScreen, setLoadingScreen] = useState(false);
+
+	useEffect(() => {
+		const formCompleted = formData.first && formData.last && formData.email;
+		setNameEmailComplete(formCompleted);
+	}, [formData.first, formData.last, formData.email]);
 
 	useEffect(() => {
 		const passwordsMatch =
@@ -67,6 +77,37 @@ const Signup = ({ loading, user }) => {
 		setRegistrationError(null);
 	};
 
+	const handleNext = async () => {
+		const { email } = formData;
+
+		if (!nameEmailSubmitted) {
+			try {
+				const response = await axiosInstance.post('/check-email', {
+					email: email.trim()
+				});
+	
+				const { available } = response.data;
+	
+				console.log(available);
+	
+				if (available) {
+					setNameEmailSubmitted(prev => !prev);
+					console.log('Email ok to use');
+				} else {
+					console.log('Email already in use');
+				}
+			} catch (error) {
+				console.error('Registration error: ', error.response?.data);
+				setRegistrationError(
+					error.response ? error.response.data.message : 'An error occurred'
+				);
+				setNameEmailComplete(false);
+			}
+		} else {
+			setNameEmailSubmitted(prev => !prev);
+		}
+	}
+
 	const handleSubmit = async () => {
 		setFormSubmitted(true);
 
@@ -79,6 +120,8 @@ const Signup = ({ loading, user }) => {
 			try {
 				setLoadingScreen(true);
 				const response = await axiosInstance.post('/register-account', {
+					first: formData.first.trim(),
+					last: formData.last.trim(),
 					email: formData.email.trim(),
 					password: formData.password.trim(),
 				});
@@ -463,14 +506,25 @@ const Signup = ({ loading, user }) => {
 							<h2 className='message-title'>A message from the founder:</h2>
 							<section className='message-contents'>
 								<p>
-									<span className='opening'>Welcome!</span> <span style={{color: '#696969', fontSize: '1.25rem'}}>...and for your sanity, I sincerely hope goodbye!</span>
+									<span className='opening'>Welcome!</span>{' '}
+									<span style={{ color: '#696969', fontSize: '1.25rem' }}>
+										...and for your sanity, I sincerely hope goodbye!
+									</span>
 									<br />
 									<br />
-									<span style={{color: 'red', fontStyle: 'italic', fontWeight: 'bold'}}>I hate social media.</span> Or at
-									least I hate what social media has become... I believe people
-									spend far too much time on their thoughts, editing everything
-									to be perfect and "just right" so that their audience or
-									followers won't know the better.
+									<span
+										style={{
+											color: 'red',
+											fontStyle: 'italic',
+											fontWeight: 'bold',
+										}}
+									>
+										I hate social media.
+									</span>{' '}
+									Or at least I hate what social media has become... I believe
+									people spend far too much time on their thoughts, editing
+									everything to be perfect and "just right" so that their
+									audience or followers won't know the better.
 									<br />
 									<br />
 									That's why I've created this monstrosity... a complete
@@ -492,122 +546,196 @@ const Signup = ({ loading, user }) => {
 						</section>
 						<form className='signup-form'>
 							<h3>Sign Up</h3>
-							<label htmlFor='email'>Email:</label>
-							<div className='input-container'>
-								<input
-									id='email'
-									type='email'
-									name='email'
-									placeholder=''
-									onChange={handleChange}
-									required
-									aria-label='Enter your email address'
-								/>
-							</div>
-							{formSubmitted && !emailValid ? (
-								<p className='validation-error' aria-live='polite'>
-									Please enter a valid email address
-								</p>
-							) : null}
 
-							<label htmlFor='password'>Password:</label>
-							<div className='input-container'>
-								<input
-									id='password'
-									type={passwordVisible ? 'text' : 'password'}
-									name='password'
-									placeholder=''
-									onChange={handleChange}
-									required
-									aria-label='Enter your password'
-								/>
-								{formData.password ? (
-									passwordVisible ? (
-										<Visibility
-											className='visible'
-											role='button'
-											tabIndex='0'
-											aria-label='Toggle password visibility'
-											onClick={() => {
-												setPasswordVisible((prev) => !prev);
-											}}
-											sx={{
-												fontSize: '1.75rem',
-												color: '#777777',
-												outline: 'none',
-											}}
+							{!nameEmailSubmitted ? (
+								<section className='name-email'>
+									<div className='registrant-name'>
+										<div className='name-box'>
+											<label htmlFor='email'>First Name:</label>
+											<div className='input-container'>
+												<input
+													id='first'
+													type='text'
+													name='first'
+													placeholder=''
+													value={formData.first || ''}
+													onChange={handleChange}
+													required
+													aria-label='First Name'
+												/>
+											</div>
+										</div>
+										<div className='name-box'>
+											<label htmlFor='email'>Last Name:</label>
+											<div className='input-container'>
+												<input
+													id='last'
+													type='text'
+													name='last'
+													placeholder=''
+													value={formData.last || ''}
+													onChange={handleChange}
+													required
+													aria-label='Last Name'
+												/>
+											</div>
+										</div>
+									</div>
+									<label htmlFor='email'>Email:</label>
+									<div className='input-container'>
+										<input
+											id='email'
+											type='email'
+											name='email'
+											placeholder=''
+											onChange={handleChange}
+											value={formData.email || ''}
+											required
+											aria-label='Enter your email address'
 										/>
-									) : (
-										<VisibilityOff
-											className='visible'
-											role='button'
-											tabIndex='0'
-											aria-label='Toggle password visibility'
-											onClick={() => {
-												setPasswordVisible((prev) => !prev);
-											}}
-											sx={{
-												fontSize: '1.75rem',
-												color: '#777777',
-												outline: 'none',
-											}}
+									</div>
+									{formSubmitted && !emailValid ? (
+										<p className='validation-error' aria-live='polite'>
+											Please enter a valid email address
+										</p>
+									) : null}
+								</section>
+							) : (
+								<section className='password-section'>
+									<label htmlFor='password'>Password:</label>
+									<div className='input-container'>
+										<input
+											id='password'
+											type={passwordVisible ? 'text' : 'password'}
+											name='password'
+											placeholder=''
+											onChange={handleChange}
+											required
+											aria-label='Enter your password'
 										/>
-									)
-								) : null}
-							</div>
-							{formSubmitted && !passwordValid ? (
-								<p className='validation-error' aria-live='polite'>
-									Password must be at least 8 characters, include 1 uppercase
-									letter, 1 number, and 1 special character.
-								</p>
-							) : null}
+										{formData.password ? (
+											passwordVisible ? (
+												<Visibility
+													className='visible'
+													role='button'
+													tabIndex='0'
+													aria-label='Toggle password visibility'
+													onClick={() => {
+														setPasswordVisible((prev) => !prev);
+													}}
+													sx={{
+														fontSize: '1.75rem',
+														color: '#777777',
+														outline: 'none',
+													}}
+												/>
+											) : (
+												<VisibilityOff
+													className='visible'
+													role='button'
+													tabIndex='0'
+													aria-label='Toggle password visibility'
+													onClick={() => {
+														setPasswordVisible((prev) => !prev);
+													}}
+													sx={{
+														fontSize: '1.75rem',
+														color: '#777777',
+														outline: 'none',
+													}}
+												/>
+											)
+										) : null}
+									</div>
+									{formSubmitted && !passwordValid ? (
+										<p className='validation-error' aria-live='polite'>
+											Password must be at least 8 characters, include 1
+											uppercase letter, 1 number, and 1 special character.
+										</p>
+									) : null}
 
-							<label htmlFor='confirm'>Confirm Password:</label>
-							<div className='input-container'>
-								<input
-									id='confirm'
-									type='password'
-									name='confirm'
-									placeholder=''
-									onChange={handleChange}
-									required
-									aria-label='Confirm your password'
-								/>
-
-								{passwordMatch !== null && formData.confirm ? (
-									passwordMatch ? (
-										<Check
-											className='validatePw'
-											role='img'
-											aria-label='Passwords match'
-											sx={{ color: 'rgb(0, 200, 0)', fontSize: '2rem' }}
+									<label htmlFor='confirm'>Confirm Password:</label>
+									<div className='input-container'>
+										<input
+											id='confirm'
+											type='password'
+											name='confirm'
+											placeholder=''
+											onChange={handleChange}
+											required
+											aria-label='Confirm your password'
 										/>
-									) : (
-										<Close
-											className='validatePw'
-											role='img'
-											aria-label='Passwords do not match'
-											sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
-										/>
-									)
-								) : null}
-							</div>
 
-							<button
-								type='button'
-								role='button'
-								aria-label='Submit registration form'
-								onClick={handleSubmit}
-								disabled={!formComplete}
-								style={{
-									backgroundColor: formComplete
-										? null
-										: 'rgba(82, 82, 82, .5)',
-									cursor: formComplete ? 'pointer' : null,
-								}}
-							>
-								Create Account
-							</button>
+										{passwordMatch !== null && formData.confirm ? (
+											passwordMatch ? (
+												<Check
+													className='validatePw'
+													role='img'
+													aria-label='Passwords match'
+													sx={{ color: 'rgb(0, 200, 0)', fontSize: '2rem' }}
+												/>
+											) : (
+												<Close
+													className='validatePw'
+													role='img'
+													aria-label='Passwords do not match'
+													sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
+												/>
+											)
+										) : null}
+									</div>
+								</section>
+							)}
+							
+							{!nameEmailSubmitted ? (
+								<button
+									type='button'
+									role='button'
+									aria-label='Confirm names and email'
+									onClick={handleNext}
+									disabled={!nameEmailComplete}
+									style={{
+										backgroundColor: nameEmailComplete ? null : 'rgba(82, 82, 82, .5)',
+										cursor: nameEmailComplete ? 'pointer' : null,
+									}}
+								>
+									Next
+									<East />
+								</button>
+							) : (
+								<div className='back-submit'>
+									<button
+										className='back'
+										type='button'
+										role='button'
+										aria-label='Confirm names and email'
+										onClick={handleNext}
+										disabled={!nameEmailComplete}
+										style={{
+											backgroundColor: nameEmailComplete ? null : 'rgba(82, 82, 82, .5)',
+											cursor: nameEmailComplete ? 'pointer' : null,
+										}}
+									>
+										<West />
+										Back
+									</button>
+									<button
+										className='submit'
+										type='button'
+										role='button'
+										aria-label='Submit registration form'
+										onClick={handleSubmit}
+										disabled={!formComplete}
+										style={{
+											backgroundColor: formComplete ? null : 'rgba(82, 82, 82, .5)',
+											cursor: formComplete ? 'pointer' : null,
+										}}
+									>
+										Create Account
+									</button>
+								</div>
+							)}
+
 							{registrationError && (
 								<p aria-live='polite' role='alert'>
 									{registrationError}

@@ -3,10 +3,10 @@ const pool = require('../config/db');
 
 const User = {
 	// Create a new user
-	async createUser(email, passwordHash) {
+	async createUser(first, last, email, passwordHash) {
 		const [result] = await pool.execute(
-			'INSERT INTO users (email, password) VALUES (?, ?)',
-			[email, passwordHash]
+			'INSERT INTO users (first_name, last_name, email, password) VALUES (?, ?, ?, ?)',
+			[first, last, email, passwordHash]
 		);
 		return result;
 	},
@@ -23,7 +23,7 @@ const User = {
 	// Get a user by email
 	async findUserByEmail(email) {
 		const [rows] = await pool.execute(
-			'SELECT id, email, created_at, email_verified, account_verified FROM users WHERE email = ?',
+			'SELECT id, first_name, last_name, email, created_at, email_verified, account_verified FROM users WHERE email = ?',
 			[email]
 		);
 		return rows[0]; // Return the first matching user (or null if none)
