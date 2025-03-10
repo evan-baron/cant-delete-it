@@ -7,6 +7,7 @@ import './signup.scss';
 import words_dictionary from '../../utils/words_dictionary.json';
 import { profilePictures } from '../../assets/site/demoProfilePic';
 import signature from '../../assets/site/signature_transparent.png';
+import crossout from '../../assets/site/crossout.png';
 
 const Signup = ({ loading, user }) => {
 
@@ -545,7 +546,10 @@ const Signup = ({ loading, user }) => {
 							</section>
 						</section>
 						<form className='signup-form'>
-							<h3>Sign Up</h3>
+							<h3>Don't Sign Up
+								<img className='crossout-up' src={crossout} />
+								<img className='crossout-down' src={crossout} />
+							</h3>
 
 							{!nameEmailSubmitted ? (
 								<section className='name-email'>
@@ -686,7 +690,7 @@ const Signup = ({ loading, user }) => {
 									</div>
 								</section>
 							)}
-							
+
 							{!nameEmailSubmitted ? (
 								<button
 									type='button'
@@ -695,7 +699,9 @@ const Signup = ({ loading, user }) => {
 									onClick={handleNext}
 									disabled={!nameEmailComplete}
 									style={{
-										backgroundColor: nameEmailComplete ? null : 'rgba(82, 82, 82, .5)',
+										backgroundColor: nameEmailComplete
+											? null
+											: 'rgba(82, 82, 82, .5)',
 										cursor: nameEmailComplete ? 'pointer' : null,
 									}}
 								>
@@ -712,7 +718,9 @@ const Signup = ({ loading, user }) => {
 										onClick={handleNext}
 										disabled={!nameEmailComplete}
 										style={{
-											backgroundColor: nameEmailComplete ? null : 'rgba(82, 82, 82, .5)',
+											backgroundColor: nameEmailComplete
+												? null
+												: 'rgba(82, 82, 82, .5)',
 											cursor: nameEmailComplete ? 'pointer' : null,
 										}}
 									>
@@ -727,7 +735,9 @@ const Signup = ({ loading, user }) => {
 										onClick={handleSubmit}
 										disabled={!formComplete}
 										style={{
-											backgroundColor: formComplete ? null : 'rgba(82, 82, 82, .5)',
+											backgroundColor: formComplete
+												? null
+												: 'rgba(82, 82, 82, .5)',
 											cursor: formComplete ? 'pointer' : null,
 										}}
 									>
