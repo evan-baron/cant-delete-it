@@ -463,7 +463,7 @@ const Signup = ({ loading, user }) => {
 							<h2 className='message-title'>A message from the founder:</h2>
 							<section className='message-contents'>
 								<p>
-									<span className='opening'>Welcome!</span> <span style={{color: '#696969'}}>...and for your sanity, I sincerely hope goodbye!</span>
+									<span className='opening'>Welcome!</span> <span style={{color: '#696969', fontSize: '1.25rem'}}>...and for your sanity, I sincerely hope goodbye!</span>
 									<br />
 									<br />
 									<span style={{color: 'red', fontStyle: 'italic', fontWeight: 'bold'}}>I hate social media.</span> Or at
