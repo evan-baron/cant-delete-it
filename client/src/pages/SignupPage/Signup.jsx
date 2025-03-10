@@ -76,50 +76,48 @@ const Signup = ({ loading, user }) => {
 		} else {
 			// Redirects to home
 			// navigate('/login');
-			// try {
-			// 	setLoadingScreen(true);
-			// 	const response = await axiosInstance.post('/register', {
-			// 		firstname: formData.firstname.trim(),
-			// 		lastname: formData.lastname.trim(),
-			// 		email: formData.email.trim(),
-			// 		password: formData.password.trim(),
-			// 	});
-			// 	console.log('Registration complete!');
-			// 	console.log(response.data);
+			try {
+				setLoadingScreen(true);
+				const response = await axiosInstance.post('/register-account', {
+					email: formData.email.trim(),
+					password: formData.password.trim(),
+				});
+				console.log('Registration complete!');
+				console.log(response.data);
 				
-			// 	await axiosInstance.post('/verify-email', {
-			// 		email: formData.email,
-			// 		tokenName: 'email_verification',
-			// 	});
-			// 	setLoadingScreen(false);
+				await axiosInstance.post('/verify-email', {
+					email: formData.email,
+					tokenName: 'email_verification',
+				});
+				setLoadingScreen(false);
 
-			// 	// Changes page to registration complete
-			// 	setRegistrationComplete(true);
+				// // Changes page to registration complete
+				// setRegistrationComplete(true);
 
-			// 	// Reset the form and related states
-			// 	setFormData({
-			// 		firstname: '',
-			// 		lastname: '',
-			// 		email: '',
-			// 		password: '',
-			// 		confirm: '',
-			// 	});
+				// // Reset the form and related states
+				// setFormData({
+				// 	firstname: '',
+				// 	lastname: '',
+				// 	email: '',
+				// 	password: '',
+				// 	confirm: '',
+				// });
 
-			// 	// Reset other relevant states
-			// 	setPasswordMatch(null);
-			// 	setPasswordVisible(false);
-			// 	setFormComplete(false);
-			// 	setEmailValid(null);
-			// 	setPasswordValid(null);
-			// 	setFormSubmitted(false);
+				// // Reset other relevant states
+				// setPasswordMatch(null);
+				// setPasswordVisible(false);
+				// setFormComplete(false);
+				// setEmailValid(null);
+				// setPasswordValid(null);
+				// setFormSubmitted(false);
 
-			// } catch (error) {
-			// 	console.error('Registration error: ', error.response?.data);
-			// 	setRegistrationError(
-			// 		error.response ? error.response.data.message : 'An error occurred'
-			// 	);
-			// 	setFormComplete(false);
-			// }
+			} catch (error) {
+				console.error('Registration error: ', error.response?.data);
+				setRegistrationError(
+					error.response ? error.response.data.message : 'An error occurred'
+				);
+				setFormComplete(false);
+			}
 		}
 	};
 
@@ -273,9 +271,10 @@ const Signup = ({ loading, user }) => {
 
 	// const handleSubmit = async () => {
 	// 	setFormComplete(true);
+	// 	console.log(formData.email);
 	// 	try {
 	// 		await axiosInstance.post('/verify-email', {
-	// 			email: user.email,
+	// 			email: formData.email,
 	// 			tokenName: 'email_verification',
 	// 		});
 	// 	} catch (error) {
@@ -607,7 +606,7 @@ const Signup = ({ loading, user }) => {
 									cursor: formComplete ? 'pointer' : null,
 								}}
 							>
-								Register
+								Create Account
 							</button>
 							{registrationError && (
 								<p aria-live='polite' role='alert'>

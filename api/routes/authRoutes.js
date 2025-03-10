@@ -149,11 +149,11 @@ router.post('/recover-password', async (req, res) => {
 	}
 });
 
-router.post('/register', async (req, res) => {
-	const { firstname, lastname, email, password } = req.body;
+router.post('/register-account', async (req, res) => {
+	const { email, password } = req.body;
 
 	try {
-		const { user } = await authService.register(firstname, lastname, email, password);
+		const { user } = await authService.register(email, password);
 
 		res.status(201).json({
 			message: 'User registered successfully!',

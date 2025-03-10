@@ -51,13 +51,12 @@ const sendPasswordResetEmail = async (user, resetToken) => {
 };
 
 const sendVerificationEmail = async (user, verificationToken) => {
-	const { first_name, email } = user;
+	const { email } = user;
 
 	//UPDATE BELOW WHEN YOU ADD THAT PART IN
 	const verifyLink = `https://localhost:5173/verify?token=${verificationToken}`;
 
 	const htmlContent = getTemplate('emailVerification', {
-		firstName: first_name,
 		verifyLink,
 		token: verificationToken,
 		supportEmail: 'CantDeleteItTeam@gmail.com'

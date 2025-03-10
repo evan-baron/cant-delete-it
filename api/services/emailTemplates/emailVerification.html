@@ -43,7 +43,7 @@
 			.reset-button {
 				display: inline-block;
 				padding: 15px 25px;
-				background-color: #007bff;
+				background-color: #525252;
 				color: white !important;
 				text-decoration: none;
 				border-radius: 5px;
@@ -51,7 +51,10 @@
 				text-align: center;
 			}
 			.reset-button:hover {
-				background-color: #0056b3;
+				background-color: rgb(82, 82, 82);
+			}
+			a {
+				color: red !important;
 			}
 			@media only screen and (max-width: 600px) {
 				.email-container {
@@ -63,12 +66,12 @@
 	<body>
 		<div class="email-container">
 			<div class="email-header">
-				<h1>Verify Your Email</h1>
+				<h1>Please Verify Your Email</h1>
 			</div>
 			<div class="email-body">
-				<p>Hello {{firstName}},</p>
+				<p>Hello,</p>
 				<p>
-					Thank you for signing up! To complete your registration, please verify
+					We don't know why you did, but it looks like you've chosen to sign up to Cant Delete It! To complete your registration, please verify
 					your email address by clicking the button below:
 				</p>
 				<!-- Table for centering the button -->
