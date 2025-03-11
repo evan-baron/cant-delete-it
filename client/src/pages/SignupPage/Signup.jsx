@@ -269,10 +269,12 @@ const Signup = ({ loading, user }) => {
 	};
 
 	const checkedWords = useMemo(() => {
-		return (demoPostData?.content || []).map((word) => ({
-			word,
-			isCorrect: spellCheckWord(word),
-		}));
+		return (demoPostData?.content || [])
+			.filter(word => word.trim().length > 0) // Removes more than one spaces back to back
+			.map((word) => ({
+				word,
+				isCorrect: spellCheckWord(word),
+			}));
 	}, [demoPostData.content]);
 
 	const handleKeyDown = (e) => {
@@ -291,7 +293,7 @@ const Signup = ({ loading, user }) => {
 
 		if (isValidKey) {
 			setTimeLeft(3000);
-			setCountdownStarted(true);
+			demoFormData.length > 0 && setCountdownStarted(true);
 		}
 		if (e.key === 'Backspace' && countdownStarted) {
 			e.preventDefault();
