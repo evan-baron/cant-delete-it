@@ -12,7 +12,6 @@ import crossout from '../../assets/site/crossout.png';
 const Signup = ({ loading, user }) => {
 
 	//SIGNUP LOGIC
-	const [verified, setVerified] = useState(null);
 	const [signup, setSignup] = useState(false);
 	const [formData, setFormData] = useState({
 		first: '',
@@ -45,13 +44,15 @@ const Signup = ({ loading, user }) => {
 
 		setFormComplete(
 			formData.email &&
-			passwordMatch
+			passwordMatch &&
+			passwordValid
 		);
 	}, [
 		formData.password,
 		formData.confirm,
 		formData.email,
 		passwordMatch,
+		passwordValid
 	]);
 
 	// Regex for email validation
@@ -72,7 +73,12 @@ const Signup = ({ loading, user }) => {
 		}
 
 		if (name === 'password') {
-			setPasswordValid(passwordRegex.test(value));
+			setPasswordValid(prev => {
+				if (passwordRegex.test(value) && value.length > 7) {
+					return !prev
+				} else {
+					return prev;
+				}});
 		}
 		setFormSubmitted(false);
 		setRegistrationError(null);
@@ -135,25 +141,25 @@ const Signup = ({ loading, user }) => {
 				});
 				setLoadingScreen(false);
 
-				// // Changes page to registration complete
-				// setRegistrationComplete(true);
+				// Changes page to registration complete
+				setRegistrationComplete(true);
 
-				// // Reset the form and related states
-				// setFormData({
-				// 	firstname: '',
-				// 	lastname: '',
-				// 	email: '',
-				// 	password: '',
-				// 	confirm: '',
-				// });
+				// Reset the form and related states
+				setFormData({
+					firstname: '',
+					lastname: '',
+					email: '',
+					password: '',
+					confirm: '',
+				});
 
-				// // Reset other relevant states
-				// setPasswordMatch(null);
-				// setPasswordVisible(false);
-				// setFormComplete(false);
-				// setEmailValid(null);
-				// setPasswordValid(null);
-				// setFormSubmitted(false);
+				// Reset other relevant states
+				setPasswordMatch(null);
+				setPasswordVisible(false);
+				setFormComplete(false);
+				setEmailValid(null);
+				setPasswordValid(null);
+				setFormSubmitted(false);
 
 			} catch (error) {
 				console.error('Registration error: ', error.response?.data);
@@ -188,17 +194,17 @@ const Signup = ({ loading, user }) => {
 			const timer = setTimeout(() => {
 				setTimeLeft((prev) => {
 					if (prev > 0) {
-						return prev - 1; // Decrement the time
+						return prev - 1;
 					} else {
 						setCountdownStarted(false);
 						demoSubmit();
-						setTimeLeft(3000); // Reset after countdown ends
+						setTimeLeft(3000);
 						return prev;
 					}
 				});
 			}, 10);
 
-			return () => clearTimeout(timer); // Cleanup on component unmount
+			return () => clearTimeout(timer);
 		}
 	}, [timeLeft, countdownStarted]);
 
@@ -206,7 +212,6 @@ const Signup = ({ loading, user }) => {
 	const prevDisapprove = useRef(disapprove);
 
 	useEffect(() => {
-		// Only update score if the value has actually changed from a user interaction
 		if (prevApprove.current !== approve) {
 			setPostScore((prev) => ({
 				...prev,
@@ -217,7 +222,6 @@ const Signup = ({ loading, user }) => {
 	}, [approve]);
 
 	useEffect(() => {
-		// Only update score if the value has actually changed from a user interaction
 		if (prevDisapprove.current !== disapprove) {
 			setPostScore((prev) => ({
 				...prev,
@@ -232,7 +236,7 @@ const Signup = ({ loading, user }) => {
 			/^(\W+)?([a-zA-Z0-9]+(?:['’][a-zA-Z0-9]+)*)(\W+)?$/
 		);
 
-		if (!match || !match[2]) return false; // Return false if match or searchWord is undefined
+		if (!match || !match[2]) return false;
 
 		const searchWord = match[2].toLowerCase();
 
@@ -308,23 +312,6 @@ const Signup = ({ loading, user }) => {
 		setCountdownStarted(false);
 		setTimeLeft(3000);
 	};
-
-	// useEffect(() => {
-	// 	user && setVerified(user.verified);
-	// }, [user]);
-
-	// const handleSubmit = async () => {
-	// 	setFormComplete(true);
-	// 	console.log(formData.email);
-	// 	try {
-	// 		await axiosInstance.post('/verify-email', {
-	// 			email: formData.email,
-	// 			tokenName: 'email_verification',
-	// 		});
-	// 	} catch (error) {
-	// 		console.error('There was an error: ', error);
-	// 	}
-	// };
 
 	return (
 		<div className='signup'>
