@@ -2,7 +2,7 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import axiosInstance from '../../utils/axios';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
-import { Check, Close, East, Visibility, VisibilityOff, West } from '@mui/icons-material';
+import { Check, Close, East, Mail, Visibility, VisibilityOff, West } from '@mui/icons-material';
 import './signup.scss';
 import words_dictionary from '../../utils/words_dictionary.json';
 import { profilePictures } from '../../assets/site/demoProfilePic';
@@ -497,7 +497,10 @@ const Signup = ({ loading, user }) => {
 								</div>
 							</section>
 						</div>
-						<div className='contact'>Contact Us</div>
+						<div className='contact'>
+							<Mail sx={{fontSize: '2.5rem', filter: 'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .5))'}}/>
+							<p>Get in touch!</p>
+						</div>
 					</div>
 					<div className='style-blob-1'></div>
 				</section>

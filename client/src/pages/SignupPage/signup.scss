@@ -38,6 +38,7 @@ $lightestGray: #eeeeee;
 			box-shadow: 0 0 1rem black;
 
 			.content {
+				position: relative;
 				display: flex;
 				flex-direction: column;
 				align-items: center;
@@ -353,13 +354,25 @@ $lightestGray: #eeeeee;
 						}
 					}
 				}
-			}
 
-			.contact {
-				display: flex;
-				flex-direction: column;
-				align-items: center;
-				width: 100%;
+				.contact {
+					position: absolute;
+					bottom: 1rem;
+					left: 1rem;
+					display: flex;
+					align-items: center;
+					gap: .5rem;
+					height: auto;
+					font-size: 1.25rem;
+					text-shadow: .5rem .5rem .25rem black;
+					transition: .25s ease-out, left 0.25s ease-out;
+				}
+
+				.contact:hover {
+					transform: scale(1.1, 1.1);
+					left: 1.5rem;
+					cursor: pointer;
+				}
 			}
 
 			.style-blob-1 {
