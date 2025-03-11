@@ -18,8 +18,10 @@ import FounderMessage from './FounderMessage';
 import Signup from '../SignupPage/Signup';
 
 const Home = () => {
+	// HOME LOGIC
+
 	// RIGHT SIDE / COMPONENTS LOGIC
-	const [signup, setSignup] = useState(false);
+	const [component, setComponent] = useState('founder');
 
 	// LEFT SIDE / DEMO LOGIC
 	const [demoFormData, setDemoFormData] = useState('');
@@ -350,7 +352,7 @@ const Home = () => {
 									<button
 										className='signup-button'
 										type='button'
-										onClick={() => setSignup(true)}
+										onClick={() => setComponent('signup')}
 									>
 										Sign up
 									</button>
@@ -384,19 +386,19 @@ const Home = () => {
 				</section>
 
 				<section className='right-side'>
-					{!signup && <FounderMessage />}
-					{signup && <Signup />}
+					{component === 'founder' && <FounderMessage />}
+					{component === 'signup' && <Signup />}
 					<a
 						className='sign-up-link'
-						onClick={() => setSignup((prev) => !prev)}
+						onClick={() => {component === 'founder' ? setComponent('signup') : setComponent('founder')}}
 					>
 						<West
-							className={`arrow west-arrow ${signup ? 'visible' : 'hidden'}`}
+							className={`arrow west-arrow ${component === 'signup' ? 'visible' : 'hidden'}`}
 							sx={{ color: '#252525' }}
 						/>
-						<span className='direction'>{signup ? 'Back' : 'Sign up'}</span>
+						<span className='direction'>{component === 'signup' ? 'Back' : 'Sign up'}</span>
 						<East
-							className={`arrow east-arrow ${signup ? 'hidden' : 'visible'}`}
+							className={`arrow east-arrow ${component === 'signup' ? 'hidden' : 'visible'}`}
 							sx={{ color: '#252525' }}
 						/>
 					</a>
