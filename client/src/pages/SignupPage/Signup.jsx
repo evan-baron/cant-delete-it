@@ -170,6 +170,13 @@ const Signup = ({ loading, user }) => {
 					confirm: '',
 				});
 
+				setPasswordReqs({
+					length: false,
+					uppercase: false,
+					number: false,
+					character: false
+				});
+
 				// Reset other relevant states
 				setPasswordMatch(null);
 				setPasswordVisible(false);
@@ -177,6 +184,7 @@ const Signup = ({ loading, user }) => {
 				setEmailValid(null);
 				setPasswordValid(null);
 				setFormSubmitted(false);
+				setNameEmailSubmitted(false);
 
 			} catch (error) {
 				console.error('Registration error: ', error.response?.data);
@@ -703,7 +711,6 @@ const Signup = ({ loading, user }) => {
 											role='button'
 											aria-label='Confirm names and email'
 											onClick={handleNext}
-											disabled={!nameEmailComplete}
 											style={{
 												backgroundColor: nameEmailComplete
 													? null
