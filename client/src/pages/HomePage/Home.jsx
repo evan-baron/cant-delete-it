@@ -4,15 +4,24 @@ import { Link } from 'react-router-dom';
 import {
 	Check,
 	Close,
+	East,
 	Login,
 	Mail,
+	West
 } from '@mui/icons-material';
 import './home.scss';
 import words_dictionary from '../../utils/words_dictionary.json';
 import { profilePictures } from '../../assets/site/demoProfilePic';
 
+// Components
+import FounderMessage from './FounderMessage';
+import Signup from '../SignupPage/Signup';
+
 const Home = () => {
-	// DEMO LOGIC
+	// RIGHT SIDE / COMPONENTS LOGIC
+	const [signup, setSignup] = useState(false);
+
+	// LEFT SIDE / DEMO LOGIC
 	const [demoFormData, setDemoFormData] = useState('');
 	const [demoPostData, setDemoPostData] = useState({
 		visible: false,
@@ -374,8 +383,23 @@ const Home = () => {
 					<div className='style-blob-1'></div>
 				</section>
 
-				<section className="right-side">
-
+				<section className='right-side'>
+					{!signup && <FounderMessage />}
+					{signup && <Signup />}
+					<a
+						className='sign-up-link'
+						onClick={() => setSignup((prev) => !prev)}
+					>
+						<West
+							className={`arrow west-arrow ${signup ? 'visible' : 'hidden'}`}
+							sx={{ color: '#252525' }}
+						/>
+						<span className='direction'>{signup ? 'Back' : 'Sign up'}</span>
+						<East
+							className={`arrow east-arrow ${signup ? 'hidden' : 'visible'}`}
+							sx={{ color: '#252525' }}
+						/>
+					</a>
 				</section>
 			</div>
 		</div>

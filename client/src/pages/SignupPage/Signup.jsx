@@ -1,26 +1,19 @@
-import React, { useState, useEffect, useMemo, useRef } from 'react';
+import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../utils/axios';
-import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
 import {
 	Check,
 	Close,
 	East,
-	Login,
-	Mail,
 	Visibility,
 	VisibilityOff,
 	West,
 } from '@mui/icons-material';
 import './signup.scss';
-import words_dictionary from '../../utils/words_dictionary.json';
-import { profilePictures } from '../../assets/site/demoProfilePic';
-import signature from '../../assets/site/signature_transparent.png';
 import crossout from '../../assets/site/crossout.png';
 
-const Signup = ({ loading, user }) => {
+const Signup = () => {
 	//SIGNUP LOGIC
-	const [signup, setSignup] = useState(false);
 	const [formData, setFormData] = useState({
 		first: '',
 		last: '',
@@ -196,702 +189,287 @@ const Signup = ({ loading, user }) => {
 		}
 	};
 
-	// DEMO LOGIC
-	const [demoFormData, setDemoFormData] = useState('');
-	const [demoPostData, setDemoPostData] = useState({
-		visible: false,
-		userName: '',
-		content: [],
-		timestamp: '',
-	});
-	const [approve, setApprove] = useState(false);
-	const [disapprove, setDisapprove] = useState(false);
-	const [postScore, setPostScore] = useState({
-		approve: 0,
-		disapprove: 0,
-	});
-	const [profilePic, setProfilePic] = useState(null);
-	const [timeLeft, setTimeLeft] = useState(3000);
-	const [countdownStarted, setCountdownStarted] = useState(false);
-
-	useEffect(() => {
-		if (countdownStarted) {
-			const timer = setTimeout(() => {
-				setTimeLeft((prev) => {
-					if (prev > 0) {
-						return prev - 1;
-					} else {
-						setCountdownStarted(false);
-						demoSubmit();
-						setTimeLeft(3000);
-						return prev;
-					}
-				});
-			}, 10);
-
-			return () => clearTimeout(timer);
-		}
-	}, [timeLeft, countdownStarted]);
-
-	const prevApprove = useRef(approve);
-	const prevDisapprove = useRef(disapprove);
-
-	useEffect(() => {
-		if (prevApprove.current !== approve) {
-			setPostScore((prev) => ({
-				...prev,
-				approve: approve ? prev.approve + 1 : prev.approve - 1,
-			}));
-			prevApprove.current = approve;
-		}
-	}, [approve]);
-
-	useEffect(() => {
-		if (prevDisapprove.current !== disapprove) {
-			setPostScore((prev) => ({
-				...prev,
-				disapprove: disapprove ? prev.disapprove + 1 : prev.disapprove - 1,
-			}));
-			prevDisapprove.current = disapprove;
-		}
-	}, [disapprove]);
-
-	const spellCheckWord = (word) => {
-		const match = word.match(
-			/^(\W+)?([a-zA-Z0-9]+(?:['’][a-zA-Z0-9]+)*)(\W+)?$/
-		);
-
-		if (!match || !match[2]) return false;
-
-		const searchWord = match[2].toLowerCase();
-
-		return words_dictionary[searchWord] ? true : false;
-	};
-
-	const checkedWords = useMemo(() => {
-		return (demoPostData?.content || [])
-			.filter((word) => word.trim().length > 0) // Removes more than one spaces back to back
-			.map((word) => ({
-				word,
-				isCorrect: spellCheckWord(word),
-			}));
-	}, [demoPostData.content]);
-
-	const handleKeyDown = (e) => {
-		const keyNames = [
-			'Backspace',
-			'ContextMenu',
-			'Control',
-			'Delete',
-			'ArrowUp',
-			'ArrowDown',
-			'ArrowLeft',
-		];
-
-		const isValidKey =
-			/^[a-zA-Z0-9\-=\[\]\\;',./`~!@#$%^&*()_+{}|:"<>? ]$|^Shift$/.test(e.key);
-
-		if (isValidKey) {
-			setTimeLeft(3000);
-			demoFormData.length > 0 && setCountdownStarted(true);
-		}
-		if (e.key === 'Backspace' && countdownStarted) {
-			e.preventDefault();
-			setTimeLeft((prev) => {
-				if (timeLeft > 0) {
-					return prev - 1000;
-				}
-				return prev;
-			});
-		}
-		if (
-			keyNames.includes(e.key) ||
-			(e.ctrlKey && e.key === 'a') ||
-			(e.ctrlKey && e.key === 'z') ||
-			(e.ctrlKey && e.key === 'v')
-		) {
-			e.preventDefault();
-		}
-		if (e.key === 'Enter') {
-			e.preventDefault();
-			if (demoFormData.length > 0) {
-				demoSubmit();
-			}
-		}
-	};
-
-	const demoChange = (e) => {
-		e.target.value !== ' ' && setDemoFormData(e.target.value); // Prevents spaces and empty data from being processed as a 'word'
-	};
-
-	const demoSubmit = () => {
-		if (!demoFormData) {
-			return;
-		} else {
-			setProfilePic(profilePictures[Math.floor(Math.random() * 8)].img);
-			setDemoPostData({
-				visible: true,
-				userName: 'Glizzy Kittles',
-				content: demoFormData.split(' '),
-				timestamp: `${dayjs().format('MMMM DD, YYYY')}, at ${dayjs().format(
-					'h:mm A'
-				)}`,
-			});
-		}
-
-		setDemoFormData('');
-		setCountdownStarted(false);
-		setTimeLeft(3000);
-	};
-
 	return (
-		<div className='signup'>
-			<div className='signup-container'>
-				<section className='left-side'>
-					<div className='content'>
-						<div className='content-wrapper'>
-							<section className='hero'>
-								<h1 className='title'>
-									Cant<span>&nbsp;</span>
-									<span style={{ color: 'red' }}>Delete</span>
-									<span>&nbsp;</span>It.
-								</h1>
-								<h2 className='pitch'>The world's worst social media site</h2>
-							</section>
-							<section className='rules'>
-								<h2>The Rules:</h2>
-								<div className='divider'></div>
-								<ul>
-									<li>
-										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
-										<p>
-											Your content will automatically post 30 seconds after your
-											last keystroke.
-										</p>
-									</li>
-									<li>
-										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
-										<p>
-											You can't delete. <span className='bold'>Anything.</span>{' '}
-											Pressing backspace removes 10 seconds from the timer.
-										</p>
-									</li>
-									<li>
-										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
-										<p>
-											You can't edit either. That includes no clicking back on
-											previously typed words.
-										</p>
-									</li>
-									<li>
-										<Close
+		<div className='content'>
+			<form className='signup-form'>
+				<h3>
+					Don't Sign Up
+					<img className='crossout-up' src={crossout} />
+					<img className='crossout-down' src={crossout} />
+				</h3>
+
+				{!nameEmailSubmitted ? (
+					<section className='name-email'>
+						<div className='registrant-name'>
+							<div className='name-box'>
+								<label htmlFor='email'>First Name:</label>
+								<div className='input-container'>
+									<input
+										id='first'
+										type='text'
+										name='first'
+										placeholder=''
+										value={formData.first || ''}
+										onChange={handleChange}
+										required
+										aria-label='First Name'
+									/>
+								</div>
+							</div>
+							<div className='name-box'>
+								<label htmlFor='email'>Last Name:</label>
+								<div className='input-container'>
+									<input
+										id='last'
+										type='text'
+										name='last'
+										placeholder=''
+										value={formData.last || ''}
+										onChange={handleChange}
+										required
+										aria-label='Last Name'
+									/>
+								</div>
+							</div>
+						</div>
+						<div className='registrant-email'>
+							<label htmlFor='email'>Email:</label>
+							<div className='input-container'>
+								<input
+									id='email'
+									type='email'
+									name='email'
+									placeholder=''
+									onChange={handleChange}
+									value={formData.email || ''}
+									required
+									aria-label='Enter your email address'
+								/>
+							</div>
+							{formSubmitted && !emailValid ? (
+								<p className='validation-error' aria-live='polite'>
+									Please enter a valid email address
+								</p>
+							) : null}
+						</div>
+					</section>
+				) : (
+					<section className='password-section'>
+						<div className='enter-password'>
+							<label htmlFor='password'>Password:</label>
+							<div className='input-container'>
+								<input
+									id='password'
+									type={passwordVisible ? 'text' : 'password'}
+									name='password'
+									placeholder=''
+									value={formData.password || ''}
+									onChange={handleChange}
+									required
+									aria-label='Enter your password'
+								/>
+								{formData.password ? (
+									passwordVisible ? (
+										<Visibility
+											className='visible'
+											role='button'
+											tabIndex='0'
+											aria-label='Toggle password visibility'
+											onClick={() => {
+												setPasswordVisible((prev) => !prev);
+											}}
 											sx={{
-												color: 'rgb(255, 0, 0)',
-												fontSize: '2rem',
+												fontSize: '1.75rem',
+												color: '#777777',
+												outline: 'none',
 											}}
 										/>
-										<p>
-											Our spell-check{' '}
-											<span className='misspelled'>doesn't</span> work. Get used
-											to it.
-										</p>
-									</li>
-								</ul>
-							</section>
-							<section className='demo'>
-								<h2>Try It Out:</h2>
-								<div className="demo-container">
-									<div className='demo-content'>
-										{/* FORM BELOW WILL EVENTUALLY BE A WRITE COMPONENT */}
-										<form className='write-post'>
-											<section className='input'>
-												<textarea
-													type='text'
-													maxLength='69'
-													placeholder='Signing up is a really bad idea...'
-													onChange={demoChange}
-													value={demoFormData}
-													onKeyDown={handleKeyDown}
-													onKeyUp={(e) => {
-														if (e.key === 'Backspace') {
-															if (timeLeft <= 0) {
-																setTimeLeft(3000);
-															} else {
-																return;
-															}
-														}
-													}}
-													onContextMenu={(e) => {
-														e.preventDefault();
-													}}
-													onMouseDown={(e) => {
-														e.target.focus();
-														e.preventDefault();
-														return;
-													}}
-												/>
-												<div
-													className='timer'
-													style={{ color: timeLeft < 1000 && 'red' }}
-												>
-													{countdownStarted &&
-														(timeLeft > 1000
-															? Math.round(timeLeft / 100)
-															: (timeLeft / 100).toFixed(2))}
-												</div>
-											</section>
-											<div className='input-decorations'>
-												<p className='characters-remaining'>
-													{69 - demoFormData.length} (normally 420 character
-													limit)
-												</p>
-												<button type='button' onClick={demoSubmit}>
-													Post
-												</button>
-											</div>
-										</form>
+									) : (
+										<VisibilityOff
+											className='visible'
+											role='button'
+											tabIndex='0'
+											aria-label='Toggle password visibility'
+											onClick={() => {
+												setPasswordVisible((prev) => !prev);
+											}}
+											sx={{
+												fontSize: '1.75rem',
+												color: '#777777',
+												outline: 'none',
+											}}
+										/>
+									)
+								) : null}
+							</div>
+						</div>
+						<div className='confirm-password'>
+							<label htmlFor='confirm'>Confirm Password:</label>
+							<div className='input-container'>
+								<input
+									id='confirm'
+									type='password'
+									name='confirm'
+									value={formData.confirm || ''}
+									placeholder=''
+									onChange={handleChange}
+									required
+									aria-label='Confirm your password'
+								/>
 
-										{/* SECTION BELOW WILL EVENTUALLY BE A POST COMPONENT */}
-										{demoPostData.visible && (
-											<section className='posted-content'>
-												<div className='profile-picture'>
-													<img src={profilePic} alt='Profile' />
-												</div>
-												<div className='posted-content-container'>
-													<h3 className='user'>{demoPostData.userName}</h3>
-													<p className='post-content'>
-														{checkedWords.map(({ word, isCorrect }, index) => (
-															<React.Fragment key={index}>
-																<span className={isCorrect ? '' : 'misspelled'}>
-																	{word}
-																</span>
-																{index !== checkedWords.length - 1 && (
-																	<span>&nbsp;</span>
-																)}
-															</React.Fragment>
-														))}
-													</p>
-													<div className='post-decorations'>
-														<p className='timestamp'>{demoPostData.timestamp}</p>
-														<div className='post-buttons'>
-															<div className='score-box'>
-																<Check
-																	className='symbol'
-																	sx={{
-																		color: approve ? 'rgb(0, 200, 0)' : '#525252',
-																		fontSize: '1.5rem',
-																		transform: 'translateY(-1px)',
-																	}}
-																	onClick={() => {
-																		setApprove((prev) => !prev);
-																		setDisapprove(false);
-																	}}
-																/>
-																<div className='post-buttons-divider'></div>
-																<div className='post-score'>
-																	{postScore.approve}
-																</div>
-															</div>
-															<div className='score-box'>
-																<Close
-																	className='symbol'
-																	sx={{
-																		color: disapprove
-																			? 'rgb(255, 0, 0)'
-																			: '#525252',
-																		fontSize: '1.5rem',
-																	}}
-																	onClick={() => {
-																		setDisapprove((prev) => !prev);
-																		setApprove(false);
-																	}}
-																/>
-																<div className='post-buttons-divider'></div>
-																<div className='post-score'>
-																	{postScore.disapprove}
-																</div>
-															</div>
-														</div>
-													</div>
-												</div>
-											</section>
-										)}
-										<div className='style-blob-2'></div>
-									</div>
-									<button className='signup-button' type='button' onClick={() => setSignup(true)}>
-										Sign up
-									</button>
+								{passwordMatch !== null && formData.confirm ? (
+									passwordMatch ? (
+										<Check
+											className='validatePw'
+											role='img'
+											aria-label='Passwords match'
+											sx={{ color: 'rgb(0, 200, 0)', fontSize: '2rem' }}
+										/>
+									) : (
+										<Close
+											className='validatePw'
+											role='img'
+											aria-label='Passwords do not match'
+											sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
+										/>
+									)
+								) : null}
+							</div>
+							<div className='password-requirements'>
+								<p className='requirements-description'>
+									Your password must contain:
+								</p>
+								<div className='requirement'>
+									{passwordReqs.length && (
+										<Check
+											sx={{
+												fontSize: 'small',
+												color: 'rgb(0, 200, 0)',
+											}}
+										/>
+									)}
+									<p>8 characters</p>
 								</div>
-							</section>
-						</div>
-						<div className='floating-links'>
-							<div className='floating-link'>
-								<Login
-									sx={{
-										fontSize: '2.5rem',
-										filter:
-											'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
-									}}
-								/>
-								<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
-							</div>
-							<div className='floating-link'>
-								<Mail
-									sx={{
-										fontSize: '2.5rem',
-										filter:
-											'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
-									}}
-								/>
-								<p>Get in touch!</p>
-							</div>
-						</div>
-					</div>
-					<div className='style-blob-1'></div>
-				</section>
-				<section className='right-side'>
-					<div className='content'>
-						{signup ? (
-							<form className='signup-form'>
-								<h3>
-									Don't Sign Up
-									<img className='crossout-up' src={crossout} />
-									<img className='crossout-down' src={crossout} />
-								</h3>
-
-								{!nameEmailSubmitted ? (
-									<section className='name-email'>
-										<div className='registrant-name'>
-											<div className='name-box'>
-												<label htmlFor='email'>First Name:</label>
-												<div className='input-container'>
-													<input
-														id='first'
-														type='text'
-														name='first'
-														placeholder=''
-														value={formData.first || ''}
-														onChange={handleChange}
-														required
-														aria-label='First Name'
-													/>
-												</div>
-											</div>
-											<div className='name-box'>
-												<label htmlFor='email'>Last Name:</label>
-												<div className='input-container'>
-													<input
-														id='last'
-														type='text'
-														name='last'
-														placeholder=''
-														value={formData.last || ''}
-														onChange={handleChange}
-														required
-														aria-label='Last Name'
-													/>
-												</div>
-											</div>
-										</div>
-										<div className='registrant-email'>
-											<label htmlFor='email'>Email:</label>
-											<div className='input-container'>
-												<input
-													id='email'
-													type='email'
-													name='email'
-													placeholder=''
-													onChange={handleChange}
-													value={formData.email || ''}
-													required
-													aria-label='Enter your email address'
-												/>
-											</div>
-											{formSubmitted && !emailValid ? (
-												<p className='validation-error' aria-live='polite'>
-													Please enter a valid email address
-												</p>
-											) : null}
-										</div>
-									</section>
-								) : (
-									<section className='password-section'>
-										<div className='enter-password'>
-											<label htmlFor='password'>Password:</label>
-											<div className='input-container'>
-												<input
-													id='password'
-													type={passwordVisible ? 'text' : 'password'}
-													name='password'
-													placeholder=''
-													value={formData.password || ''}
-													onChange={handleChange}
-													required
-													aria-label='Enter your password'
-												/>
-												{formData.password ? (
-													passwordVisible ? (
-														<Visibility
-															className='visible'
-															role='button'
-															tabIndex='0'
-															aria-label='Toggle password visibility'
-															onClick={() => {
-																setPasswordVisible((prev) => !prev);
-															}}
-															sx={{
-																fontSize: '1.75rem',
-																color: '#777777',
-																outline: 'none',
-															}}
-														/>
-													) : (
-														<VisibilityOff
-															className='visible'
-															role='button'
-															tabIndex='0'
-															aria-label='Toggle password visibility'
-															onClick={() => {
-																setPasswordVisible((prev) => !prev);
-															}}
-															sx={{
-																fontSize: '1.75rem',
-																color: '#777777',
-																outline: 'none',
-															}}
-														/>
-													)
-												) : null}
-											</div>
-										</div>
-										<div className='confirm-password'>
-											<label htmlFor='confirm'>Confirm Password:</label>
-											<div className='input-container'>
-												<input
-													id='confirm'
-													type='password'
-													name='confirm'
-													value={formData.confirm || ''}
-													placeholder=''
-													onChange={handleChange}
-													required
-													aria-label='Confirm your password'
-												/>
-
-												{passwordMatch !== null && formData.confirm ? (
-													passwordMatch ? (
-														<Check
-															className='validatePw'
-															role='img'
-															aria-label='Passwords match'
-															sx={{ color: 'rgb(0, 200, 0)', fontSize: '2rem' }}
-														/>
-													) : (
-														<Close
-															className='validatePw'
-															role='img'
-															aria-label='Passwords do not match'
-															sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
-														/>
-													)
-												) : null}
-											</div>
-											<div className='password-requirements'>
-												<p className='requirements-description'>
-													Your password must contain:
-												</p>
-												<div className='requirement'>
-													{passwordReqs.length && (
-														<Check
-															sx={{
-																fontSize: 'small',
-																color: 'rgb(0, 200, 0)',
-															}}
-														/>
-													)}
-													<p>8 characters</p>
-												</div>
-												<div className='requirement'>
-													{passwordReqs.uppercase && (
-														<Check
-															sx={{
-																fontSize: 'small',
-																color: 'rgb(0, 200, 0)',
-															}}
-														/>
-													)}
-													<p>1 uppercase</p>
-												</div>
-												<div className='requirement'>
-													{passwordReqs.number && (
-														<Check
-															sx={{
-																fontSize: 'small',
-																color: 'rgb(0, 200, 0)',
-															}}
-														/>
-													)}
-													<p>1 number</p>
-												</div>
-												<div className='requirement'>
-													{passwordReqs.character && (
-														<Check
-															sx={{
-																fontSize: 'small',
-																color: 'rgb(0, 200, 0)',
-															}}
-														/>
-													)}
-													<p>
-														1 special character<span>&nbsp;</span>
-														<span
-															style={{
-																color: 'rgba(0, 0, 0, .5)',
-																fontSize: '.675rem',
-															}}
-														>
-															(e.g. $, !, @, %, &)
-														</span>
-													</p>
-												</div>
-											</div>
-										</div>
-									</section>
-								)}
-
-								{!nameEmailSubmitted ? (
-									<button
-										type='button'
-										role='button'
-										aria-label='Confirm names and email'
-										onClick={handleNext}
-										disabled={!nameEmailComplete}
-										style={{
-											backgroundColor: nameEmailComplete
-												? null
-												: 'rgba(82, 82, 82, .5)',
-											cursor: nameEmailComplete ? 'pointer' : null,
-										}}
-									>
-										Next
-										<East />
-									</button>
-								) : (
-									<div className='back-submit'>
-										<button
-											className='back'
-											type='button'
-											role='button'
-											aria-label='Confirm names and email'
-											onClick={handleNext}
-											style={{
-												backgroundColor: nameEmailComplete
-													? null
-													: 'rgba(82, 82, 82, .5)',
-												cursor: nameEmailComplete ? 'pointer' : null,
+								<div className='requirement'>
+									{passwordReqs.uppercase && (
+										<Check
+											sx={{
+												fontSize: 'small',
+												color: 'rgb(0, 200, 0)',
 											}}
-										>
-											<West />
-											Back
-										</button>
-										<button
-											className='submit'
-											type='button'
-											role='button'
-											aria-label='Submit registration form'
-											onClick={handleSubmit}
-											disabled={!formComplete}
-											style={{
-												backgroundColor: formComplete
-													? null
-													: 'rgba(82, 82, 82, .5)',
-												cursor: formComplete ? 'pointer' : null,
+										/>
+									)}
+									<p>1 uppercase</p>
+								</div>
+								<div className='requirement'>
+									{passwordReqs.number && (
+										<Check
+											sx={{
+												fontSize: 'small',
+												color: 'rgb(0, 200, 0)',
 											}}
-										>
-											Create Account
-										</button>
-									</div>
-								)}
-
-								{registrationError && (
-									<p aria-live='polite' role='alert' className='alert'>
-										{registrationError}
-									</p>
-								)}
-								<span>
-									Already have an account?
-									<br />
-									<Link
-										className='link'
-										to='/login'
-										role='link'
-										aria-label='Go to login page'
-									>
-										Login
-									</Link>
-								</span>
-							</form>
-						) : (
-							<section className='message-container'>
-								<h2 className='message-title'>A message from the founder:</h2>
-								<section className='message-contents'>
+										/>
+									)}
+									<p>1 number</p>
+								</div>
+								<div className='requirement'>
+									{passwordReqs.character && (
+										<Check
+											sx={{
+												fontSize: 'small',
+												color: 'rgb(0, 200, 0)',
+											}}
+										/>
+									)}
 									<p>
-										<span className='opening'>Welcome!</span>{' '}
-										<span style={{ color: '#696969', fontSize: '1.25rem' }}>
-											...and for your sanity, I sincerely hope goodbye!
-										</span>
-										<br />
-										<br />
+										1 special character<span>&nbsp;</span>
 										<span
 											style={{
-												color: 'red',
-												fontStyle: 'italic',
-												fontWeight: 'bold',
+												color: 'rgba(0, 0, 0, .5)',
+												fontSize: '.675rem',
 											}}
 										>
-											I hate social media.
-										</span>{' '}
-										Or at least I hate what social media has become... I believe
-										people spend far too much time on their thoughts, editing
-										everything to be perfect and "just right" so that their
-										audience or followers won't know the better.
-										<br />
-										<br />
-										That's why I've created this monstrosity... a complete
-										rebellion from modern day best practices. Say goodbye to
-										your ability to edit, update, and delete. If you chose to
-										sign up to this god forsaken platform, I hope you hate using
-										it just as much as I do.
-										<br />
-										<br />
-										Happy <span className='misspelled'>typoing</span>,
+											(e.g. $, !, @, %, &)
+										</span>
 									</p>
-									<img className='signature' src={signature} />
-									<p>
-										Evan Baron
-										<br />
-										Chief Typo Officer
-									</p>
-								</section>
-							</section>
-						)}
-						<a
-							className='sign-up-link'
-							onClick={() => setSignup((prev) => !prev)}
+								</div>
+							</div>
+						</div>
+					</section>
+				)}
+
+				{!nameEmailSubmitted ? (
+					<button
+						type='button'
+						role='button'
+						aria-label='Confirm names and email'
+						onClick={handleNext}
+						disabled={!nameEmailComplete}
+						style={{
+							backgroundColor: nameEmailComplete
+								? null
+								: 'rgba(82, 82, 82, .5)',
+							cursor: nameEmailComplete ? 'pointer' : null,
+						}}
+					>
+						Next
+						<East />
+					</button>
+				) : (
+					<div className='back-submit'>
+						<button
+							className='back'
+							type='button'
+							role='button'
+							aria-label='Confirm names and email'
+							onClick={handleNext}
+							style={{
+								backgroundColor: nameEmailComplete
+									? null
+									: 'rgba(82, 82, 82, .5)',
+								cursor: nameEmailComplete ? 'pointer' : null,
+							}}
 						>
-							<West
-								className={`arrow west-arrow ${signup ? 'visible' : 'hidden'}`}
-								sx={{ color: '#252525' }}
-							/>
-							<span className='direction'>{signup ? 'Back' : 'Sign up'}</span>
-							<East
-								className={`arrow east-arrow ${signup ? 'hidden' : 'visible'}`}
-								sx={{ color: '#252525' }}
-							/>
-						</a>
+							<West />
+							Back
+						</button>
+						<button
+							className='submit'
+							type='button'
+							role='button'
+							aria-label='Submit registration form'
+							onClick={handleSubmit}
+							disabled={!formComplete}
+							style={{
+								backgroundColor: formComplete
+									? null
+									: 'rgba(82, 82, 82, .5)',
+								cursor: formComplete ? 'pointer' : null,
+							}}
+						>
+							Create Account
+						</button>
 					</div>
-				</section>
-			</div>
+				)}
+
+				{registrationError && (
+					<p aria-live='polite' role='alert' className='alert'>
+						{registrationError}
+					</p>
+				)}
+				<span>
+					Already have an account?
+					<br />
+					<Link
+						className='link'
+						to='/login'
+						role='link'
+						aria-label='Go to login page'
+					>
+						Login
+					</Link>
+				</span>
+			</form>
 		</div>
 	);
 };

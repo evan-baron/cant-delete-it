@@ -70,7 +70,7 @@ const App = () => {
 						{/* <Route path='/' element={user ? <Home to='/' /> : <Signup to='/signup' />} /> */}
 						<Route path='/' element={<Home to='/' />} />
 						{/* <Route path='/signup' element={user ? <Home to='/' /> : <Signup to='/signup' />} /> */}
-						<Route path='/signup' element={user ? <Home to='/' /> : <Signup to='/signup' />} />
+						{/* <Route path='/signup' element={user ? <Home to='/' /> : <Signup to='/signup' />} /> */}
 						{/* <Route path='/login' element={user ? <Navigate to='/' /> : <Login setUser={setUser} />} />
 						<Route path='/recovery' element={user ? <Navigate to='/' /> : <PasswordRecovery />} />
 						<Route path='/reset-password' element={user ? <Navigate to='/' /> : <PasswordReset />} />
