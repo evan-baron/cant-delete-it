@@ -768,10 +768,17 @@ const Signup = ({ loading, user }) => {
 								</section>
 							</section>
 						)}
-						<a className='sign-up-link' onClick={() => setSignup(prev => !prev)}>
-							{signup && <West className='west-arrow'/>}
-							{signup ? 'Back' : 'Sign up'}
-							{!signup && <East className='east-arrow'/>}
+						<a
+							className='sign-up-link'
+							onClick={() => setSignup((prev) => !prev)}
+						>
+							<West
+								className={`arrow west-arrow ${signup ? 'visible' : 'hidden'}`}
+							/>
+							<span className='direction'>{signup ? 'Back' : 'Sign up'}</span>
+							<East
+								className={`arrow east-arrow ${signup ? 'hidden' : 'visible'}`}
+							/>
 						</a>
 					</div>
 				</section>
