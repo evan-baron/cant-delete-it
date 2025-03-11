@@ -514,17 +514,16 @@ $lightestGray: #eeeeee;
 						.registrant-name {
 							display: flex;
 							gap: 1rem;
+						}
 
-							.name-box {
-								display: flex;
-								flex-direction: column;
-								gap: 1rem;
-							}
+						.registrant-email, .enter-password, .confirm-password, .name-box {
+							display: flex;
+							flex-direction: column;
+							gap: .25rem;
 						}
 
 						label {
 							font-size: 1.125rem;
-							margin-bottom: -0.5rem;
 							color: $darkGray;
 						}
 	
@@ -607,9 +606,26 @@ $lightestGray: #eeeeee;
 						}
 					}
 
-					p {
+					.alert {
 						color: red;
 						text-align: center;
+					}
+
+					.password-requirements {
+						display: flex;
+						flex-direction: column;
+						align-items: start;
+						gap: .125rem;
+						width: 100%;
+						font-size: .75rem;
+
+						.requirement {
+							display: flex;
+							align-items: center;
+							gap: .125rem;
+							height: .75rem;
+							padding-left: 1rem;
+						}
 					}
 
 					.validation-error {

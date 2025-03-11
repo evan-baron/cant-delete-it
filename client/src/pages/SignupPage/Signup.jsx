@@ -27,6 +27,12 @@ const Signup = ({ loading, user }) => {
 	const [nameEmailComplete, setNameEmailComplete] = useState(false);
 	const [nameEmailSubmitted, setNameEmailSubmitted] = useState(false);
 	const [passwordValid, setPasswordValid] = useState(null);
+	const [passwordReqs, setPasswordReqs] = useState({
+		length: false,
+		uppercase: false,
+		number: false,
+		character: false
+	});
 	const [formSubmitted, setFormSubmitted] = useState(null);
 	const [registrationError, setRegistrationError] = useState(null);
 	const [registrationComplete, setRegistrationComplete] = useState(false);
@@ -58,8 +64,8 @@ const Signup = ({ loading, user }) => {
 	// Regex for email validation
 	const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
 
-	// Regex for password validation
-	const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
+	// // Regex for password validation
+	// const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
 	
 	const handleChange = (e) => {
 		const { name, value } = e.target;
@@ -73,13 +79,24 @@ const Signup = ({ loading, user }) => {
 		}
 
 		if (name === 'password') {
-			setPasswordValid(prev => {
-				if (passwordRegex.test(value) && value.length > 7) {
-					return !prev
-				} else {
-					return prev;
-				}});
+			// Check individual password requirements
+			const lengthValid = value.length >= 8;
+			const uppercaseValid = /[A-Z]/.test(value); // Checks for uppercase
+			const numberValid = /\d/.test(value); // Checks for at least one number
+			const specialCharValid = /[@$!%*?&]/.test(value); // Checks for special characters
+	
+			// Update password requirements state
+			setPasswordReqs({
+				length: lengthValid,
+				uppercase: uppercaseValid,
+				number: numberValid,
+				character: specialCharValid,
+			});
+	
+			// Update overall password validity
+			setPasswordValid(lengthValid && numberValid && specialCharValid);
 		}
+		
 		setFormSubmitted(false);
 		setRegistrationError(null);
 	};
@@ -535,108 +552,128 @@ const Signup = ({ loading, user }) => {
 												</div>
 											</div>
 										</div>
-										<label htmlFor='email'>Email:</label>
-										<div className='input-container'>
-											<input
-												id='email'
-												type='email'
-												name='email'
-												placeholder=''
-												onChange={handleChange}
-												value={formData.email || ''}
-												required
-												aria-label='Enter your email address'
-											/>
+										<div className="registrant-email">
+											<label htmlFor='email'>Email:</label>
+											<div className='input-container'>
+												<input
+													id='email'
+													type='email'
+													name='email'
+													placeholder=''
+													onChange={handleChange}
+													value={formData.email || ''}
+													required
+													aria-label='Enter your email address'
+												/>
+											</div>
+											{formSubmitted && !emailValid ? (
+												<p className='validation-error' aria-live='polite'>
+													Please enter a valid email address
+												</p>
+											) : null}
 										</div>
-										{formSubmitted && !emailValid ? (
-											<p className='validation-error' aria-live='polite'>
-												Please enter a valid email address
-											</p>
-										) : null}
 									</section>
 								) : (
 									<section className='password-section'>
-										<label htmlFor='password'>Password:</label>
-										<div className='input-container'>
-											<input
-												id='password'
-												type={passwordVisible ? 'text' : 'password'}
-												name='password'
-												placeholder=''
-												onChange={handleChange}
-												required
-												aria-label='Enter your password'
-											/>
-											{formData.password ? (
-												passwordVisible ? (
-													<Visibility
-														className='visible'
-														role='button'
-														tabIndex='0'
-														aria-label='Toggle password visibility'
-														onClick={() => {
-															setPasswordVisible((prev) => !prev);
-														}}
-														sx={{
-															fontSize: '1.75rem',
-															color: '#777777',
-															outline: 'none',
-														}}
-													/>
-												) : (
-													<VisibilityOff
-														className='visible'
-														role='button'
-														tabIndex='0'
-														aria-label='Toggle password visibility'
-														onClick={() => {
-															setPasswordVisible((prev) => !prev);
-														}}
-														sx={{
-															fontSize: '1.75rem',
-															color: '#777777',
-															outline: 'none',
-														}}
-													/>
-												)
-											) : null}
+										<div className="enter-password">
+											<label htmlFor='password'>Password:</label>
+											<div className='input-container'>
+												<input
+													id='password'
+													type={passwordVisible ? 'text' : 'password'}
+													name='password'
+													placeholder=''
+													value={formData.password || ''}
+													onChange={handleChange}
+													required
+													aria-label='Enter your password'
+												/>
+												{formData.password ? (
+													passwordVisible ? (
+														<Visibility
+															className='visible'
+															role='button'
+															tabIndex='0'
+															aria-label='Toggle password visibility'
+															onClick={() => {
+																setPasswordVisible((prev) => !prev);
+															}}
+															sx={{
+																fontSize: '1.75rem',
+																color: '#777777',
+																outline: 'none',
+															}}
+														/>
+													) : (
+														<VisibilityOff
+															className='visible'
+															role='button'
+															tabIndex='0'
+															aria-label='Toggle password visibility'
+															onClick={() => {
+																setPasswordVisible((prev) => !prev);
+															}}
+															sx={{
+																fontSize: '1.75rem',
+																color: '#777777',
+																outline: 'none',
+															}}
+														/>
+													)
+												) : null}
+											</div>
 										</div>
-										{formSubmitted && !passwordValid ? (
-											<p className='validation-error' aria-live='polite'>
-												Password must be at least 8 characters, include 1
-												uppercase letter, 1 number, and 1 special character.
-											</p>
-										) : null}
+										<div className="confirm-password">
+											<label htmlFor='confirm'>Confirm Password:</label>
+											<div className='input-container'>
+												<input
+													id='confirm'
+													type='password'
+													name='confirm'
+													value={formData.confirm || ''}
+													placeholder=''
+													onChange={handleChange}
+													required
+													aria-label='Confirm your password'
+													/>
 
-										<label htmlFor='confirm'>Confirm Password:</label>
-										<div className='input-container'>
-											<input
-												id='confirm'
-												type='password'
-												name='confirm'
-												placeholder=''
-												onChange={handleChange}
-												required
-												aria-label='Confirm your password'
-											/>
-
-											{passwordMatch !== null && formData.confirm ? (
-												passwordMatch ? (
-													<Check
+												{passwordMatch !== null && formData.confirm ? (
+													passwordMatch ? (
+														<Check
 														className='validatePw'
 														role='img'
 														aria-label='Passwords match'
 														sx={{ color: 'rgb(0, 200, 0)', fontSize: '2rem' }}
-													/>
-												) : (
-													<Close
+														/>
+													) : (
+														<Close
 														className='validatePw'
 														role='img'
 														aria-label='Passwords do not match'
 														sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
-													/>
-												)
-											) : null}
+														/>
+													)
+												) : null}
+											</div>
+											<div className="password-requirements">
+												<p className="requirements-description">Your password must contain:</p>
+												<div className="requirement">
+													{passwordReqs.length && <Check sx={{fontSize: 'small', color: 'rgb(0, 200, 0)'}}/>}
+													<p>8 characters</p>
+												</div>
+												<div className="requirement">
+													{passwordReqs.uppercase && <Check sx={{fontSize: 'small', color: 'rgb(0, 200, 0)'}}/>}
+													<p>1 uppercase</p>
+												</div>
+												<div className="requirement">
+													{passwordReqs.number && <Check sx={{fontSize: 'small', color: 'rgb(0, 200, 0)'}}/>}
+													<p>1 number</p>
+												</div>
+												<div className="requirement">
+													{passwordReqs.character && <Check sx={{fontSize: 'small', color: 'rgb(0, 200, 0)'}}/>}
+													<p>1 special character<span>&nbsp;</span><span style={{color: 'rgba(0, 0, 0, .5)', fontSize: '.675rem'}}>(e.g. $, !, @, %, &)</span></p>
+												</div>
+											</div>
 										</div>
 									</section>
 								)}
@@ -697,7 +734,7 @@ const Signup = ({ loading, user }) => {
 								)}
 
 								{registrationError && (
-									<p aria-live='polite' role='alert'>
+									<p aria-live='polite' role='alert' className='alert'>
 										{registrationError}
 									</p>
 								)}
