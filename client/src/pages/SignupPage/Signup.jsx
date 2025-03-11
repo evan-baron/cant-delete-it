@@ -6,6 +6,7 @@ import {
 	Check,
 	Close,
 	East,
+	Login,
 	Mail,
 	Visibility,
 	VisibilityOff,
@@ -18,7 +19,6 @@ import signature from '../../assets/site/signature_transparent.png';
 import crossout from '../../assets/site/crossout.png';
 
 const Signup = ({ loading, user }) => {
-	
 	//SIGNUP LOGIC
 	const [signup, setSignup] = useState(false);
 	const [formData, setFormData] = useState({
@@ -518,14 +518,27 @@ const Signup = ({ loading, user }) => {
 								</div>
 							</section>
 						</div>
-						<div className='contact'>
-							<Mail
-								sx={{
-									fontSize: '2.5rem',
-									filter: 'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
-								}}
-							/>
-							<p>Get in touch!</p>
+						<div className='floating-links'>
+							<div className='floating-link'>
+								<Login
+									sx={{
+										fontSize: '2.5rem',
+										filter:
+											'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
+									}}
+								/>
+								<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
+							</div>
+							<div className='floating-link'>
+								<Mail
+									sx={{
+										fontSize: '2.5rem',
+										filter:
+											'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
+									}}
+								/>
+								<p>Get in touch!</p>
+							</div>
 						</div>
 					</div>
 					<div className='style-blob-1'></div>

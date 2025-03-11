@@ -355,25 +355,34 @@ $lightestGray: #eeeeee;
 					}
 				}
 
-				.contact {
+				.floating-links {
 					position: absolute;
-					bottom: 1rem;
-					left: 1rem;
+					bottom: 0;
+					left: 0;
 					display: flex;
-					align-items: center;
-					gap: .5rem;
-					height: auto;
-					font-size: 1.25rem;
-					text-shadow: .5rem .5rem .25rem rgba(0, 0, 0, .5);
-					transition: .25s ease-out, left 0.25s ease-out;
-					will-change: transform;
-					text-rendering: geometricPrecision;
-				}
+					flex-direction: column;
+					align-self: flex-start;
 
-				.contact:hover {
-					transform: scale(1.1, 1.1);
-					left: 1.5rem;
-					cursor: pointer;
+					.floating-link {
+						position: relative;
+						bottom: 1rem;
+						left: 1rem;
+						display: flex;
+						align-items: center;
+						gap: .5rem;
+						height: auto;
+						font-size: 1.25rem;
+						text-shadow: .5rem .5rem .25rem rgba(0, 0, 0, .5);
+						transition: .25s ease-out, left 0.25s ease-out;
+						will-change: transform;
+						text-rendering: geometricPrecision;
+					}
+	
+					.floating-link:hover {
+						transform: scale(1.1, 1.1);
+						left: 1.5rem;
+						cursor: pointer;
+					}
 				}
 			}
 
