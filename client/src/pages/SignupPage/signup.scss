@@ -446,7 +446,7 @@ $lightestGray: #eeeeee;
 					.message-contents {
 						display: flex;
 						flex-direction: column;
-						gap: 1rem;
+						// gap: 1rem;
 						// margin-left: 1rem;
 						padding: 1rem;
 						transform: translateX(1rem);
@@ -466,6 +466,8 @@ $lightestGray: #eeeeee;
 	
 						.signature {
 							align-self: flex-start;
+							margin-top: 1rem;
+							margin-bottom: .5rem;
 							height: 3rem;
 						}
 					}
