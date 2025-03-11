@@ -322,16 +322,20 @@ const Signup = ({ loading, user }) => {
 	};
 
 	const demoSubmit = () => {
-		setProfilePic(profilePictures[Math.floor(Math.random() * 8)].img);
-
-		setDemoPostData({
-			visible: true,
-			userName: 'Glizzy Kittles',
-			content: demoFormData.split(' '),
-			timestamp: `${dayjs().format('MMMM DD, YYYY')}, at ${dayjs().format(
-				'h:mm A'
-			)}`,
-		});
+		
+		if (!demoFormData) {
+			return;
+		} else {
+			setProfilePic(profilePictures[Math.floor(Math.random() * 8)].img);
+			setDemoPostData({
+				visible: true,
+				userName: 'Glizzy Kittles',
+				content: demoFormData.split(' '),
+				timestamp: `${dayjs().format('MMMM DD, YYYY')}, at ${dayjs().format(
+					'h:mm A'
+				)}`,
+			});
+		}
 
 		setDemoFormData('');
 		setCountdownStarted(false);
