@@ -351,7 +351,7 @@ const Signup = ({ loading, user }) => {
 										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
 										<p>
 											You can't edit either. That includes no clicking back
-											inside previously typed words.
+											on previously typed words.
 										</p>
 									</li>
 									<li>
