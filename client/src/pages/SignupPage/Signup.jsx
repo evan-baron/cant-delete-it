@@ -307,7 +307,8 @@ const Signup = ({ loading, user }) => {
 		if (
 			keyNames.includes(e.key) ||
 			(e.ctrlKey && e.key === 'a') ||
-			(e.ctrlKey && e.key === 'z')
+			(e.ctrlKey && e.key === 'z') ||
+			(e.ctrlKey && e.key === 'v')
 		) {
 			e.preventDefault();
 		}
@@ -399,122 +400,127 @@ const Signup = ({ loading, user }) => {
 							</section>
 							<section className='demo'>
 								<h2>Try It Out:</h2>
-								<div className='demo-container'>
-									{/* FORM BELOW WILL EVENTUALLY BE A WRITE COMPONENT */}
-									<form className='write-post'>
-										<section className='input'>
-											<textarea
-												type='text'
-												maxLength='69'
-												placeholder='Signing up is a really bad idea...'
-												onChange={demoChange}
-												value={demoFormData}
-												onKeyDown={handleKeyDown}
-												onKeyUp={(e) => {
-													if (e.key === 'Backspace') {
-														if (timeLeft <= 0) {
-															setTimeLeft(3000);
-														} else {
-															return;
+								<div className="demo-container">
+									<div className='demo-content'>
+										{/* FORM BELOW WILL EVENTUALLY BE A WRITE COMPONENT */}
+										<form className='write-post'>
+											<section className='input'>
+												<textarea
+													type='text'
+													maxLength='69'
+													placeholder='Signing up is a really bad idea...'
+													onChange={demoChange}
+													value={demoFormData}
+													onKeyDown={handleKeyDown}
+													onKeyUp={(e) => {
+														if (e.key === 'Backspace') {
+															if (timeLeft <= 0) {
+																setTimeLeft(3000);
+															} else {
+																return;
+															}
 														}
-													}
-												}}
-												onContextMenu={(e) => {
-													e.preventDefault();
-												}}
-												onMouseDown={(e) => {
-													e.target.focus();
-													e.preventDefault();
-													return;
-												}}
-											/>
-											<div
-												className='timer'
-												style={{ color: timeLeft < 1000 && 'red' }}
-											>
-												{countdownStarted &&
-													(timeLeft > 1000
-														? Math.round(timeLeft / 100)
-														: (timeLeft / 100).toFixed(2))}
-											</div>
-										</section>
-										<div className='input-decorations'>
-											<p className='characters-remaining'>
-												{69 - demoFormData.length} (normally 420 character
-												limit)
-											</p>
-											<button type='button' onClick={demoSubmit}>
-												Post
-											</button>
-										</div>
-									</form>
-
-									{/* SECTION BELOW WILL EVENTUALLY BE A POST COMPONENT */}
-									{demoPostData.visible && (
-										<section className='posted-content'>
-											<div className='profile-picture'>
-												<img src={profilePic} alt='Profile' />
-											</div>
-											<div className='posted-content-container'>
-												<h3 className='user'>{demoPostData.userName}</h3>
-												<p className='post-content'>
-													{checkedWords.map(({ word, isCorrect }, index) => (
-														<React.Fragment key={index}>
-															<span className={isCorrect ? '' : 'misspelled'}>
-																{word}
-															</span>
-															{index !== checkedWords.length - 1 && (
-																<span>&nbsp;</span>
-															)}
-														</React.Fragment>
-													))}
+													}}
+													onContextMenu={(e) => {
+														e.preventDefault();
+													}}
+													onMouseDown={(e) => {
+														e.target.focus();
+														e.preventDefault();
+														return;
+													}}
+												/>
+												<div
+													className='timer'
+													style={{ color: timeLeft < 1000 && 'red' }}
+												>
+													{countdownStarted &&
+														(timeLeft > 1000
+															? Math.round(timeLeft / 100)
+															: (timeLeft / 100).toFixed(2))}
+												</div>
+											</section>
+											<div className='input-decorations'>
+												<p className='characters-remaining'>
+													{69 - demoFormData.length} (normally 420 character
+													limit)
 												</p>
-												<div className='post-decorations'>
-													<p className='timestamp'>{demoPostData.timestamp}</p>
-													<div className='post-buttons'>
-														<div className='score-box'>
-															<Check
-																className='symbol'
-																sx={{
-																	color: approve ? 'rgb(0, 200, 0)' : '#525252',
-																	fontSize: '1.5rem',
-																	transform: 'translateY(-1px)',
-																}}
-																onClick={() => {
-																	setApprove((prev) => !prev);
-																	setDisapprove(false);
-																}}
-															/>
-															<div className='post-buttons-divider'></div>
-															<div className='post-score'>
-																{postScore.approve}
+												<button type='button' onClick={demoSubmit}>
+													Post
+												</button>
+											</div>
+										</form>
+
+										{/* SECTION BELOW WILL EVENTUALLY BE A POST COMPONENT */}
+										{demoPostData.visible && (
+											<section className='posted-content'>
+												<div className='profile-picture'>
+													<img src={profilePic} alt='Profile' />
+												</div>
+												<div className='posted-content-container'>
+													<h3 className='user'>{demoPostData.userName}</h3>
+													<p className='post-content'>
+														{checkedWords.map(({ word, isCorrect }, index) => (
+															<React.Fragment key={index}>
+																<span className={isCorrect ? '' : 'misspelled'}>
+																	{word}
+																</span>
+																{index !== checkedWords.length - 1 && (
+																	<span>&nbsp;</span>
+																)}
+															</React.Fragment>
+														))}
+													</p>
+													<div className='post-decorations'>
+														<p className='timestamp'>{demoPostData.timestamp}</p>
+														<div className='post-buttons'>
+															<div className='score-box'>
+																<Check
+																	className='symbol'
+																	sx={{
+																		color: approve ? 'rgb(0, 200, 0)' : '#525252',
+																		fontSize: '1.5rem',
+																		transform: 'translateY(-1px)',
+																	}}
+																	onClick={() => {
+																		setApprove((prev) => !prev);
+																		setDisapprove(false);
+																	}}
+																/>
+																<div className='post-buttons-divider'></div>
+																<div className='post-score'>
+																	{postScore.approve}
+																</div>
 															</div>
-														</div>
-														<div className='score-box'>
-															<Close
-																className='symbol'
-																sx={{
-																	color: disapprove
-																		? 'rgb(255, 0, 0)'
-																		: '#525252',
-																	fontSize: '1.5rem',
-																}}
-																onClick={() => {
-																	setDisapprove((prev) => !prev);
-																	setApprove(false);
-																}}
-															/>
-															<div className='post-buttons-divider'></div>
-															<div className='post-score'>
-																{postScore.disapprove}
+															<div className='score-box'>
+																<Close
+																	className='symbol'
+																	sx={{
+																		color: disapprove
+																			? 'rgb(255, 0, 0)'
+																			: '#525252',
+																		fontSize: '1.5rem',
+																	}}
+																	onClick={() => {
+																		setDisapprove((prev) => !prev);
+																		setApprove(false);
+																	}}
+																/>
+																<div className='post-buttons-divider'></div>
+																<div className='post-score'>
+																	{postScore.disapprove}
+																</div>
 															</div>
 														</div>
 													</div>
 												</div>
-											</div>
-										</section>
-									)}
-									<div className='style-blob-2'></div>
+											</section>
+										)}
+										<div className='style-blob-2'></div>
+									</div>
+									<button className='signup-button' type='button' onClick={() => setSignup(true)}>
+										Sign up
+									</button>
 								</div>
 							</section>
 						</div>
