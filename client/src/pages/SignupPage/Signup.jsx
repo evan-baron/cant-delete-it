@@ -333,7 +333,7 @@ const Signup = ({ loading, user }) => {
 					<div className='content'>
 						<div className='content-wrapper'>
 							<section className='hero'>
-								<h1 className='title'>Cant Delete It.</h1>
+								<h1 className='title'>Cant<span>&nbsp;</span><span style={{color: 'red'}}>Delete</span><span>&nbsp;</span>It.</h1>
 								<h2 className='pitch'>The world's worst social media site</h2>
 							</section>
 							<section className='rules'>
