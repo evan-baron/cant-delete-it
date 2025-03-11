@@ -318,7 +318,7 @@ const Signup = ({ loading, user }) => {
 	};
 
 	const demoChange = (e) => {
-		e.target.value !== ' ' && setDemoFormData(e.target.value);
+		e.target.value !== ' ' && setDemoFormData(e.target.value); // Prevents spaces and empty data from being processed as a 'word'
 	};
 
 	const demoSubmit = () => {
