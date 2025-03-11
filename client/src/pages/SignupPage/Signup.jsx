@@ -801,10 +801,12 @@ const Signup = ({ loading, user }) => {
 						>
 							<West
 								className={`arrow west-arrow ${signup ? 'visible' : 'hidden'}`}
+								sx={{color: '#252525'}}
 							/>
 							<span className='direction'>{signup ? 'Back' : 'Sign up'}</span>
 							<East
 								className={`arrow east-arrow ${signup ? 'hidden' : 'visible'}`}
+								sx={{color: '#252525'}}
 							/>
 						</a>
 					</div>
