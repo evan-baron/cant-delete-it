@@ -201,7 +201,7 @@ const Signup = ({ loading, user }) => {
 	const [demoPostData, setDemoPostData] = useState({
 		visible: false,
 		userName: '',
-		content: '',
+		content: [],
 		timestamp: '',
 	});
 	const [approve, setApprove] = useState(false);
@@ -318,11 +318,10 @@ const Signup = ({ loading, user }) => {
 	};
 
 	const demoChange = (e) => {
-		setDemoFormData(e.target.value);
+		e.target.value !== ' ' && setDemoFormData(e.target.value);
 	};
 
 	const demoSubmit = () => {
-		
 		if (!demoFormData) {
 			return;
 		} else {
