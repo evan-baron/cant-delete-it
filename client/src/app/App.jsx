@@ -5,6 +5,7 @@ import axiosInstance from '../utils/axios';
 
 // Pages
 import Signup from '../pages/SignupPage/Signup.jsx';
+import Home from '../pages/HomePage/Home.jsx';
 // import Register from '../pages/Register.jsx';
 // import Login from '../pages/Login.jsx';
 // import PasswordRecovery from '../pages/PasswordRecovery.jsx';
@@ -66,7 +67,9 @@ const App = () => {
 				<BrowserRouter>
 					{/* <Navbar user={user} setUser={setUser} /> */}
 					<Routes>
-						<Route path='/' element={user ? <Home to='/' /> : <Signup to='/signup' />} />
+						{/* <Route path='/' element={user ? <Home to='/' /> : <Signup to='/signup' />} /> */}
+						<Route path='/' element={<Home to='/' />} />
+						{/* <Route path='/signup' element={user ? <Home to='/' /> : <Signup to='/signup' />} /> */}
 						<Route path='/signup' element={user ? <Home to='/' /> : <Signup to='/signup' />} />
 						{/* <Route path='/login' element={user ? <Navigate to='/' /> : <Login setUser={setUser} />} />
 						<Route path='/recovery' element={user ? <Navigate to='/' /> : <PasswordRecovery />} />
