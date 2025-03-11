@@ -18,6 +18,7 @@ import signature from '../../assets/site/signature_transparent.png';
 import crossout from '../../assets/site/crossout.png';
 
 const Signup = ({ loading, user }) => {
+	
 	//SIGNUP LOGIC
 	const [signup, setSignup] = useState(false);
 	const [formData, setFormData] = useState({
@@ -66,9 +67,6 @@ const Signup = ({ loading, user }) => {
 
 	// Regex for email validation
 	const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
-
-	// // Regex for password validation
-	// const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;

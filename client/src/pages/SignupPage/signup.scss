@@ -436,6 +436,7 @@ $lightestGray: #eeeeee;
 					gap: 1rem;
 					width: calc(10 / 12 * 100%);
 					min-height: 25rem;
+					transform: translateX(-.5rem);
 
 					h2 {
 						font-size: 1.125rem;
