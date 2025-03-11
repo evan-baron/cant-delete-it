@@ -515,7 +515,7 @@ const Signup = ({ loading, user }) => {
 							</section>
 						</div>
 						<div className='contact'>
-							<Mail sx={{fontSize: '2.5rem', filter: 'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .5))'}}/>
+							<Mail sx={{fontSize: '2.5rem', filter: 'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))'}}/>
 							<p>Get in touch!</p>
 						</div>
 					</div>
