@@ -2,7 +2,15 @@ import React, { useState, useEffect, useMemo, useRef } from 'react';
 import axiosInstance from '../../utils/axios';
 import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
-import { Check, Close, East, Mail, Visibility, VisibilityOff, West } from '@mui/icons-material';
+import {
+	Check,
+	Close,
+	East,
+	Mail,
+	Visibility,
+	VisibilityOff,
+	West,
+} from '@mui/icons-material';
 import './signup.scss';
 import words_dictionary from '../../utils/words_dictionary.json';
 import { profilePictures } from '../../assets/site/demoProfilePic';
@@ -10,7 +18,6 @@ import signature from '../../assets/site/signature_transparent.png';
 import crossout from '../../assets/site/crossout.png';
 
 const Signup = ({ loading, user }) => {
-
 	//SIGNUP LOGIC
 	const [signup, setSignup] = useState(false);
 	const [formData, setFormData] = useState({
@@ -31,7 +38,7 @@ const Signup = ({ loading, user }) => {
 		length: false,
 		uppercase: false,
 		number: false,
-		character: false
+		character: false,
 	});
 	const [formSubmitted, setFormSubmitted] = useState(null);
 	const [registrationError, setRegistrationError] = useState(null);
@@ -48,17 +55,13 @@ const Signup = ({ loading, user }) => {
 			formData.password !== '' && formData.password === formData.confirm;
 		setPasswordMatch(passwordsMatch);
 
-		setFormComplete(
-			formData.email &&
-			passwordMatch &&
-			passwordValid
-		);
+		setFormComplete(formData.email && passwordMatch && passwordValid);
 	}, [
 		formData.password,
 		formData.confirm,
 		formData.email,
 		passwordMatch,
-		passwordValid
+		passwordValid,
 	]);
 
 	// Regex for email validation
@@ -66,7 +69,7 @@ const Signup = ({ loading, user }) => {
 
 	// // Regex for password validation
 	// const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
-	
+
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({
@@ -84,7 +87,7 @@ const Signup = ({ loading, user }) => {
 			const uppercaseValid = /[A-Z]/.test(value); // Checks for uppercase
 			const numberValid = /\d/.test(value); // Checks for at least one number
 			const specialCharValid = /[@$!%*?&]/.test(value); // Checks for special characters
-	
+
 			// Update password requirements state
 			setPasswordReqs({
 				length: lengthValid,
@@ -92,11 +95,11 @@ const Signup = ({ loading, user }) => {
 				number: numberValid,
 				character: specialCharValid,
 			});
-	
+
 			// Update overall password validity
 			setPasswordValid(lengthValid && numberValid && specialCharValid);
 		}
-		
+
 		setFormSubmitted(false);
 		setRegistrationError(null);
 	};
@@ -107,15 +110,15 @@ const Signup = ({ loading, user }) => {
 		if (!nameEmailSubmitted) {
 			try {
 				const response = await axiosInstance.post('/check-email', {
-					email: email.trim()
+					email: email.trim(),
 				});
-	
+
 				const { available } = response.data;
-	
+
 				console.log(available);
-	
+
 				if (available) {
-					setNameEmailSubmitted(prev => !prev);
+					setNameEmailSubmitted((prev) => !prev);
 					console.log('Email ok to use');
 				} else {
 					console.log('Email already in use');
@@ -128,9 +131,9 @@ const Signup = ({ loading, user }) => {
 				setNameEmailComplete(false);
 			}
 		} else {
-			setNameEmailSubmitted(prev => !prev);
+			setNameEmailSubmitted((prev) => !prev);
 		}
-	}
+	};
 
 	const handleSubmit = async () => {
 		setFormSubmitted(true);
@@ -151,7 +154,7 @@ const Signup = ({ loading, user }) => {
 				});
 				console.log('Registration complete!');
 				console.log(response.data);
-				
+
 				await axiosInstance.post('/verify-email', {
 					email: formData.email,
 					tokenName: 'email_verification',
@@ -174,7 +177,7 @@ const Signup = ({ loading, user }) => {
 					length: false,
 					uppercase: false,
 					number: false,
-					character: false
+					character: false,
 				});
 
 				// Reset other relevant states
@@ -185,7 +188,6 @@ const Signup = ({ loading, user }) => {
 				setPasswordValid(null);
 				setFormSubmitted(false);
 				setNameEmailSubmitted(false);
-
 			} catch (error) {
 				console.error('Registration error: ', error.response?.data);
 				setRegistrationError(
@@ -270,7 +272,7 @@ const Signup = ({ loading, user }) => {
 
 	const checkedWords = useMemo(() => {
 		return (demoPostData?.content || [])
-			.filter(word => word.trim().length > 0) // Removes more than one spaces back to back
+			.filter((word) => word.trim().length > 0) // Removes more than one spaces back to back
 			.map((word) => ({
 				word,
 				isCorrect: spellCheckWord(word),
@@ -350,13 +352,24 @@ const Signup = ({ loading, user }) => {
 					<div className='content'>
 						<div className='content-wrapper'>
 							<section className='hero'>
-								<h1 className='title'>Cant<span>&nbsp;</span><span style={{color: 'red'}}>Delete</span><span>&nbsp;</span>It.</h1>
+								<h1 className='title'>
+									Cant<span>&nbsp;</span>
+									<span style={{ color: 'red' }}>Delete</span>
+									<span>&nbsp;</span>It.
+								</h1>
 								<h2 className='pitch'>The world's worst social media site</h2>
 							</section>
 							<section className='rules'>
 								<h2>The Rules:</h2>
 								<div className='divider'></div>
 								<ul>
+									<li>
+										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
+										<p>
+											Your content will automatically post 30 seconds after your
+											last keystroke.
+										</p>
+									</li>
 									<li>
 										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
 										<p>
@@ -367,15 +380,8 @@ const Signup = ({ loading, user }) => {
 									<li>
 										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
 										<p>
-											You can't edit either. That includes no clicking back
-											on previously typed words.
-										</p>
-									</li>
-									<li>
-										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
-										<p>
-											Your content will automatically post 30 seconds after your
-											last keystroke.
+											You can't edit either. That includes no clicking back on
+											previously typed words.
 										</p>
 									</li>
 									<li>
@@ -515,7 +521,12 @@ const Signup = ({ loading, user }) => {
 							</section>
 						</div>
 						<div className='contact'>
-							<Mail sx={{fontSize: '2.5rem', filter: 'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))'}}/>
+							<Mail
+								sx={{
+									fontSize: '2.5rem',
+									filter: 'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
+								}}
+							/>
 							<p>Get in touch!</p>
 						</div>
 					</div>
@@ -565,7 +576,7 @@ const Signup = ({ loading, user }) => {
 												</div>
 											</div>
 										</div>
-										<div className="registrant-email">
+										<div className='registrant-email'>
 											<label htmlFor='email'>Email:</label>
 											<div className='input-container'>
 												<input
@@ -588,7 +599,7 @@ const Signup = ({ loading, user }) => {
 									</section>
 								) : (
 									<section className='password-section'>
-										<div className="enter-password">
+										<div className='enter-password'>
 											<label htmlFor='password'>Password:</label>
 											<div className='input-container'>
 												<input
@@ -636,7 +647,7 @@ const Signup = ({ loading, user }) => {
 												) : null}
 											</div>
 										</div>
-										<div className="confirm-password">
+										<div className='confirm-password'>
 											<label htmlFor='confirm'>Confirm Password:</label>
 											<div className='input-container'>
 												<input
@@ -648,43 +659,83 @@ const Signup = ({ loading, user }) => {
 													onChange={handleChange}
 													required
 													aria-label='Confirm your password'
-													/>
+												/>
 
 												{passwordMatch !== null && formData.confirm ? (
 													passwordMatch ? (
 														<Check
-														className='validatePw'
-														role='img'
-														aria-label='Passwords match'
-														sx={{ color: 'rgb(0, 200, 0)', fontSize: '2rem' }}
+															className='validatePw'
+															role='img'
+															aria-label='Passwords match'
+															sx={{ color: 'rgb(0, 200, 0)', fontSize: '2rem' }}
 														/>
 													) : (
 														<Close
-														className='validatePw'
-														role='img'
-														aria-label='Passwords do not match'
-														sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
+															className='validatePw'
+															role='img'
+															aria-label='Passwords do not match'
+															sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
 														/>
 													)
 												) : null}
 											</div>
-											<div className="password-requirements">
-												<p className="requirements-description">Your password must contain:</p>
-												<div className="requirement">
-													{passwordReqs.length && <Check sx={{fontSize: 'small', color: 'rgb(0, 200, 0)'}}/>}
+											<div className='password-requirements'>
+												<p className='requirements-description'>
+													Your password must contain:
+												</p>
+												<div className='requirement'>
+													{passwordReqs.length && (
+														<Check
+															sx={{
+																fontSize: 'small',
+																color: 'rgb(0, 200, 0)',
+															}}
+														/>
+													)}
 													<p>8 characters</p>
 												</div>
-												<div className="requirement">
-													{passwordReqs.uppercase && <Check sx={{fontSize: 'small', color: 'rgb(0, 200, 0)'}}/>}
+												<div className='requirement'>
+													{passwordReqs.uppercase && (
+														<Check
+															sx={{
+																fontSize: 'small',
+																color: 'rgb(0, 200, 0)',
+															}}
+														/>
+													)}
 													<p>1 uppercase</p>
 												</div>
-												<div className="requirement">
-													{passwordReqs.number && <Check sx={{fontSize: 'small', color: 'rgb(0, 200, 0)'}}/>}
+												<div className='requirement'>
+													{passwordReqs.number && (
+														<Check
+															sx={{
+																fontSize: 'small',
+																color: 'rgb(0, 200, 0)',
+															}}
+														/>
+													)}
 													<p>1 number</p>
 												</div>
-												<div className="requirement">
-													{passwordReqs.character && <Check sx={{fontSize: 'small', color: 'rgb(0, 200, 0)'}}/>}
-													<p>1 special character<span>&nbsp;</span><span style={{color: 'rgba(0, 0, 0, .5)', fontSize: '.675rem'}}>(e.g. $, !, @, %, &)</span></p>
+												<div className='requirement'>
+													{passwordReqs.character && (
+														<Check
+															sx={{
+																fontSize: 'small',
+																color: 'rgb(0, 200, 0)',
+															}}
+														/>
+													)}
+													<p>
+														1 special character<span>&nbsp;</span>
+														<span
+															style={{
+																color: 'rgba(0, 0, 0, .5)',
+																fontSize: '.675rem',
+															}}
+														>
+															(e.g. $, !, @, %, &)
+														</span>
+													</p>
 												</div>
 											</div>
 										</div>
@@ -813,12 +864,12 @@ const Signup = ({ loading, user }) => {
 						>
 							<West
 								className={`arrow west-arrow ${signup ? 'visible' : 'hidden'}`}
-								sx={{color: '#252525'}}
+								sx={{ color: '#252525' }}
 							/>
 							<span className='direction'>{signup ? 'Back' : 'Sign up'}</span>
 							<East
 								className={`arrow east-arrow ${signup ? 'hidden' : 'visible'}`}
-								sx={{color: '#252525'}}
+								sx={{ color: '#252525' }}
 							/>
 						</a>
 					</div>
