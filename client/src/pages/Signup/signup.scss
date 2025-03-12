@@ -21,12 +21,12 @@ $lightestGray: #eeeeee;
 	}
 
 	.signup-form {
-		aspect-ratio: 1;
-		max-width: 25rem;
+		width: 25rem;
+		min-height: 25rem;
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: space-between;
 		padding: 2rem;
 		gap: 1.25rem;
 		background-color: white;

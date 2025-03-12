@@ -34,10 +34,10 @@ $lightestGray: #eeeeee;
 		position: relative;
 		display: flex;
 		flex-direction: column;
-		justify-content: center;
+		justify-content: space-between;
 		padding: 2rem;
 		background-color: white;
-		gap: 1rem;
+		// gap: 1rem;
 		box-shadow: 2px 2px .5rem rgba(0, 0, 0, 0.1);
 
 		h2 {
@@ -49,73 +49,80 @@ $lightestGray: #eeeeee;
 		.login-field {
 			display: flex;
 			flex-direction: column;
-			gap: .25rem;
+			gap: 1rem;
 
-			label {
-				font-size: 1.125rem;
-				color: $darkGray;
-			}
-	
-			.input-container {
-				position: relative;
+			.login-input {
 				display: flex;
-				align-items: center;
-				width: 100%;
-			}
+				flex-direction: column;
+				justify-content: center;
+				gap: .25rem;
 	
-			input {
-				border: none;
-				border-bottom: 1px solid $darkGray;
-				height: 2.25rem;
-				padding-left: 0.25rem;
-				font-size: 1.125rem;
-				background-color: $masterBackground;
-				color: $darkGray;
-				width: 100%;
-	
-				&:focus {
-					outline: none;
-					background-color: transparent;
+				label {
+					font-size: 1.125rem;
+					color: $darkGray;
+				}
+		
+				.input-container {
+					position: relative;
+					display: flex;
+					align-items: center;
+					width: 100%;
+				}
+		
+				input {
+					border: none;
+					border-bottom: 1px solid $darkGray;
+					height: 2.25rem;
+					padding-left: 0.25rem;
+					font-size: 1.125rem;
+					background-color: $masterBackground;
+					color: $darkGray;
+					width: 100%;
+		
+					&:focus {
+						outline: none;
+						background-color: transparent;
+					}
+		
+					&:not(:placeholder-shown) {
+						background-color: transparent;
+					}
+		
+					&[type='password'] {
+						font-size: 1.5rem;
+					}
+				}
+		
+				input:-webkit-autofill {
+					background-color: transparent !important;
+					box-shadow: 0 0 0px 1000px white inset !important;
+				}
+		
+				.validatePw {
+					position: absolute;
+					right: 0.25rem;
+				}
+		
+				.visible {
+					position: absolute;
+					right: 0.25rem;
 				}
 	
-				&:not(:placeholder-shown) {
-					background-color: transparent;
+				.remember-me {
+					display: flex;
+					align-items: center;
+					gap: .5rem;
+					color: $darkGray;
+					font-size: 1rem;
 				}
 	
-				&[type='password'] {
-					font-size: 1.5rem;
+				.forgot-password {
+					display: flex;
+					margin-left: auto;
+					color: red;
+					font-weight: bold;
+					text-decoration: underline;
 				}
-			}
-	
-			input:-webkit-autofill {
-				background-color: transparent !important;
-				box-shadow: 0 0 0px 1000px white inset !important;
-			}
-	
-			.validatePw {
-				position: absolute;
-				right: 0.25rem;
-			}
-	
-			.visible {
-				position: absolute;
-				right: 0.25rem;
-			}
-
-			.remember-me {
-				display: flex;
-				align-items: center;
-				gap: .5rem;
-				color: $darkGray;
-				font-size: 1rem;
-			}
-
-			.forgot-password {
-				display: flex;
-				margin-left: auto;
-				color: red;
-				font-weight: bold;
-				text-decoration: underline;
 			}
 		}
 

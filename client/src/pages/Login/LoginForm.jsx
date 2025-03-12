@@ -91,90 +91,90 @@ const LoginForm = ({ setComponent }) => {
 			<form role='form'>
 				<h1>Login</h1>
 				<div className="login-field">
-					<label htmlFor='email'>Email:</label>
-					<div className='input-container'>
-						<input
-							id='email'
-							type='email'
-							name='email'
-							placeholder=''
-							onChange={handleChange}
-							required
-							aria-label='Enter your email address'
-						/>
+					<div className="login-input">
+						<label htmlFor='email'>Email:</label>
+						<div className='input-container'>
+							<input
+								id='email'
+								type='email'
+								name='email'
+								placeholder=''
+								onChange={handleChange}
+								required
+								aria-label='Enter your email address'
+							/>
+						</div>
 					</div>
-				</div>
-				<div className="login-field">
-					<label htmlFor='password'>Password:</label>
-					<div className='input-container'>
-						<input
-							id='password'
-							type={passwordVisible ? 'text' : 'password'}
-							name='password'
-							placeholder=''
-							onChange={handleChange}
-							required
-							aria-label='Enter your password'
-						/>
-						{formData.password ? (
-							passwordVisible ? (
-								<Visibility
-									className='visible'
-									role='button'
-									tabIndex='0'
-									aria-label='Toggle password visibility'
-									onClick={() => {
-										setPasswordVisible((prev) => !prev);
-									}}
-									sx={{
-										fontSize: '1.75rem',
-										color: '#777777',
-										outline: 'none',
-									}}
+					<div className="login-input">
+						<label htmlFor='password'>Password:</label>
+						<div className='input-container'>
+							<input
+								id='password'
+								type={passwordVisible ? 'text' : 'password'}
+								name='password'
+								placeholder=''
+								onChange={handleChange}
+								required
+								aria-label='Enter your password'
+							/>
+							{formData.password ? (
+								passwordVisible ? (
+									<Visibility
+										className='visible'
+										role='button'
+										tabIndex='0'
+										aria-label='Toggle password visibility'
+										onClick={() => {
+											setPasswordVisible((prev) => !prev);
+										}}
+										sx={{
+											fontSize: '1.75rem',
+											color: '#777777',
+											outline: 'none',
+										}}
+									/>
+								) : (
+									<VisibilityOff
+										className='visible'
+										role='button'
+										tabIndex='0'
+										aria-label='Toggle password visibility'
+										onClick={() => {
+											setPasswordVisible((prev) => !prev);
+										}}
+										sx={{
+											fontSize: '1.75rem',
+											color: '#777777',
+											outline: 'none',
+										}}
+									/>
+								)
+							) : null}
+						</div>
+						<div className='remember-me'>
+							{checked ? (
+								<CheckBox
+									onClick={() => setChecked((prev) => !prev)}
+									sx={{ color: '#525252' }}
 								/>
 							) : (
-								<VisibilityOff
-									className='visible'
-									role='button'
-									tabIndex='0'
-									aria-label='Toggle password visibility'
-									onClick={() => {
-										setPasswordVisible((prev) => !prev);
-									}}
-									sx={{
-										fontSize: '1.75rem',
-										color: '#777777',
-										outline: 'none',
-									}}
+								<CheckBoxOutlineBlank
+									sx={{ color: '#444444' }}
+									onClick={() => setChecked((prev) => !prev)}
 								/>
-							)
-						) : null}
-					</div>
-					<div className='remember-me'>
-						{checked ? (
-							<CheckBox
-								onClick={() => setChecked((prev) => !prev)}
-								sx={{ color: '#525252' }}
-							/>
-						) : (
-							<CheckBoxOutlineBlank
-								sx={{ color: '#444444' }}
-								onClick={() => setChecked((prev) => !prev)}
-							/>
-						)}
-						<span>Remember me</span>
-						<Link
-							to='/recovery'
-							role='link'
-							aria-label='Go to recover password page'
-							className='forgot-password'
-						>
-							Forgot password?
-						</Link>
+							)}
+							<span>Remember me</span>
+							<Link
+								to='/recovery'
+								role='link'
+								aria-label='Go to recover password page'
+								className='forgot-password'
+							>
+								Forgot password?
+							</Link>
+						</div>
 					</div>
 				</div>
-
-
 				<button
 					type='button'
 					role='button'
