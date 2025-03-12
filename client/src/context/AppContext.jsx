@@ -2,12 +2,13 @@ import { createContext, useContext, useState, useEffect } from 'react';
 import axiosInstance from '../utils/axios';
 
 // Create context
-const UserContext = createContext(null);
+const AppContext = createContext(null);
 
 // Create provider component
-export const UserProvider = ({ children }) => {
+export const ContextProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
+	const [component, setComponent] = useState('founder');
 
 	useEffect(() => {
 		const fetchUserData = async () => {
@@ -40,10 +41,10 @@ export const UserProvider = ({ children }) => {
 	}, []);
 
 	return (
-		<UserContext.Provider value={{ user, setUser, loading }}>
+		<AppContext.Provider value={{ component, setComponent, user, setUser, loading }}>
 			{children}
-		</UserContext.Provider>
+		</AppContext.Provider>
 	);
 };
 
-export const useUser = () => useContext(UserContext);
+export const useAppContext = () => useContext(AppContext);

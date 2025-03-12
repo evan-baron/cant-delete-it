@@ -6,8 +6,10 @@ import axiosInstance from '../../utils/axios';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import { Check, Close, Visibility, VisibilityOff } from '@mui/icons-material';
 import './passwordReset.scss';
+import { useAppContext } from '../../context/AppContext';
 
 const PasswordReset = () => {
+	const { setComponent } = useAppContext();
 	const [searchParams] = useSearchParams();
 	const token = searchParams.get('token');
 
@@ -307,10 +309,10 @@ const PasswordReset = () => {
 									Please check your inbox shortly. If you don't see it, please
 									check your spam or junk folder.
 								</h2>
-								<h2>
+								<h2 onClick={() => setComponent('login')}>
 									<Link
 										className='link'
-										to='/login'
+										to='/'
 										role='link'
 										aria-label='Go to login page'
 									>
@@ -324,10 +326,10 @@ const PasswordReset = () => {
 							<h2>
 								Your password has been reset. Please return to the login page.
 							</h2>
-							<h2>
+							<h2 onClick={() => setComponent('login')}>
 								<Link
 									className='link'
-									to='/login'
+									to='/'
 									role='link'
 									aria-label='Go to login page'
 								>
@@ -343,9 +345,10 @@ const PasswordReset = () => {
 							<br />
 							<Link
 								className='link'
-								to='/login'
+								to='/'
 								role='link'
 								aria-label='Go to login page'
+								onClick={() => setComponent('login')}
 							>
 								Login
 							</Link>

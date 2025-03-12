@@ -12,7 +12,7 @@ import words_dictionary from '../../utils/words_dictionary.json';
 import { profilePictures } from '../../assets/site/demoProfilePic';
 
 // Context
-import { useUser } from '../../context/UserContext';
+import { useAppContext } from '../../context/AppContext';
 
 // Components
 import FounderMessage from './FounderMessage';
@@ -22,10 +22,9 @@ import PasswordRecovery from '../../components/PasswordComponents/PasswordRecove
 
 const Home = () => {
 	// HOME LOGIC
-	const { user, setUser } = useUser();
+	const { component, setComponent } = useAppContext();
 
 	// RIGHT SIDE / COMPONENTS LOGIC
-	const [component, setComponent] = useState('founder');
 
 	// LEFT SIDE / DEMO LOGIC
 	const [demoFormData, setDemoFormData] = useState('');
@@ -392,9 +391,9 @@ const Home = () => {
 				<section className='right-side'>
 					<div className="content">
 						{component === 'founder' && <FounderMessage />}
-						{component === 'signup' && <Signup setComponent={setComponent} />}
-						{component === 'login' && <LoginForm setComponent={setComponent} />}
-						{component === 'password' && <PasswordRecovery setComponent={setComponent} />}
+						{component === 'signup' && <Signup />}
+						{component === 'login' && <LoginForm />}
+						{component === 'password' && <PasswordRecovery />}
 						{(component === 'founder' || component === 'signup') && <a
 							className='sign-up-link'
 							onClick={() => {component !== 'founder' ? setComponent('founder') : setComponent('signup')}}

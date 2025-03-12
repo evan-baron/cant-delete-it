@@ -11,8 +11,12 @@ import {
 } from '@mui/icons-material';
 import './signup.scss';
 import crossout from '../../../assets/site/crossout.png';
+import { useAppContext } from '../../../context/AppContext';
 
-const Signup = ({ setComponent }) => {
+const Signup = () => {
+	// CONTEXT
+	const { setComponent } = useAppContext();
+
 	//SIGNUP LOGIC
 	const [formData, setFormData] = useState({
 		first: '',

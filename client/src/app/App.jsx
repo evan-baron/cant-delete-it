@@ -4,7 +4,7 @@ import '../../reset.css';
 import './app.scss';
 
 // Context
-import { UserProvider } from '../context/UserContext.jsx';
+import { ContextProvider } from '../context/AppContext.jsx';
 
 // Pages
 import Home from '../pages/HomePage/Home.jsx';
@@ -18,10 +18,10 @@ import PasswordReset from '../pages/PasswordReset/PasswordReset.jsx';
 // import Navbar from '../components/Navbar.jsx';
 
 const App = () => {
-	const { user } = UserProvider;
+	const { user } = ContextProvider;
 
 	return (
-		<UserProvider>
+		<ContextProvider>
 			<div className='app'>
 				<div className='container'>
 					<BrowserRouter>
@@ -37,7 +37,7 @@ const App = () => {
 					</BrowserRouter>
 				</div>
 			</div>
-		</UserProvider>
+		</ContextProvider>
 	);
 };
 

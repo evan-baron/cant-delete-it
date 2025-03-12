@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../utils/axios';
 import { Link } from 'react-router-dom';
 import './passwordRecovery.scss';
+import { useAppContext } from '../../context/AppContext';
 
-const PasswordRecovery = ({ setComponent }) => {
+const PasswordRecovery = () => {
+	const { setComponent } = useAppContext();
 	const [formData, setFormData] = useState({
 		email: '',
 	});

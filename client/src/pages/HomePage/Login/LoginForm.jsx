@@ -7,11 +7,11 @@ import {
 	Visibility,
 	VisibilityOff,
 } from '@mui/icons-material';
-import { useUser } from '../../../context/UserContext';
+import { useAppContext } from '../../../context/AppContext';
 import './LoginForm.scss';
 
-const LoginForm = ({ setComponent }) => {
-	const { setUser } = useUser();
+const LoginForm = () => {
+	const { setComponent, setUser } = useAppContext();
 
 	const [formData, setFormData] = useState({
 		email: '',
