@@ -27,10 +27,7 @@ const App = () => {
 					<BrowserRouter>
 						{/* <Navbar user={user} setUser={setUser} /> */}
 						<Routes>
-							{/* <Route path='/' element={user ? <Home to='/' /> : <Signup to='/signup' />} /> */}
 							<Route path='/' element={<Home to='/'/>} />
-							{/* <Route path='/signup' element={user ? <Home to='/' /> : <Signup to='/signup' />} /> */}
-							{/* <Route path='/signup' element={user ? <Home to='/' /> : <Signup to='/signup' />} /> */}
 							<Route path='/reset-password' element={user ? <Navigate to='/' /> : <PasswordReset />} />
 							{/* <Route path='/verify' element={user ? <Navigate to='/' /> : <Verify />} /> */}
 						</Routes>
