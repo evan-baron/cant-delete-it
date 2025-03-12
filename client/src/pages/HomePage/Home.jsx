@@ -1,24 +1,27 @@
+// External Libraries
 import React, { useState, useEffect, useMemo, useRef } from 'react';
-import dayjs from 'dayjs';
 import { Link } from 'react-router-dom';
-import {
-	Check,
-	Close,
-	East,
-	Login,
-	Mail,
-	West
-} from '@mui/icons-material';
+import dayjs from 'dayjs';
+
+// MUI Icons
+import { Check, Close, East, Login, Mail, West } from '@mui/icons-material';
+
+// Assets & Styles
 import './home.scss';
 import words_dictionary from '../../utils/words_dictionary.json';
 import { profilePictures } from '../../assets/site/demoProfilePic';
 
+// Context
+import { useUser } from '../../context/UserContext';
+
 // Components
 import FounderMessage from './FounderMessage';
-import Signup from '../SignupPage/Signup';
+import Signup from '../Signup/Signup';
+import LoginForm from '../Login/LoginForm';
 
 const Home = () => {
 	// HOME LOGIC
+	const { user, setUser } = useUser();
 
 	// RIGHT SIDE / COMPONENTS LOGIC
 	const [component, setComponent] = useState('founder');
@@ -360,7 +363,7 @@ const Home = () => {
 							</section>
 						</div>
 						<div className='floating-links'>
-							<div className='floating-link'>
+							<div className='floating-link' onClick={() => setComponent('login')}>
 								<Login
 									sx={{
 										fontSize: '2.5rem',
@@ -387,7 +390,8 @@ const Home = () => {
 
 				<section className='right-side'>
 					{component === 'founder' && <FounderMessage />}
-					{component === 'signup' && <Signup />}
+					{component === 'signup' && <Signup setComponent={setComponent} />}
+					{component === 'login' && <LoginForm />}
 					<a
 						className='sign-up-link'
 						onClick={() => {component === 'founder' ? setComponent('signup') : setComponent('founder')}}

@@ -12,7 +12,7 @@ import {
 import './signup.scss';
 import crossout from '../../assets/site/crossout.png';
 
-const Signup = () => {
+const Signup = ({ setComponent }) => {
 	//SIGNUP LOGIC
 	const [formData, setFormData] = useState({
 		first: '',
@@ -460,14 +460,14 @@ const Signup = () => {
 				<span>
 					Already have an account?
 					<br />
-					<Link
+					<a
 						className='link'
-						to='/login'
 						role='link'
 						aria-label='Go to login page'
+						onClick={() => setComponent('login')}
 					>
 						Login
-					</Link>
+					</a>
 				</span>
 			</form>
 		</div>
