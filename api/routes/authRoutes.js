@@ -51,7 +51,7 @@ router.get('/authenticateRecoveryToken', async (req, res) => {
 		const difference = Math.floor(dayjs(expiresAt).diff(dayjs(), 'second'));
 		console.log('difference: ', difference);
 
-		const isValid = difference < 1800 && tokenData.token_used !== 1;
+		const isValid = (difference > 0 && difference < 1800) && tokenData.token_used !== 1;
 		const timeRemaining = isValid ? (difference) : 0;
 
 		return res.json({ 
