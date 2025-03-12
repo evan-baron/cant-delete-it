@@ -7,8 +7,12 @@ import {
 	Visibility,
 	VisibilityOff,
 } from '@mui/icons-material';
+import { useUser } from '../../context/UserContext';
+import './LoginForm.scss';
 
-const LoginForm = ({ setUser }) => {
+const LoginForm = ({ setComponent }) => {
+	const { setUser } = useUser();
+
 	const [formData, setFormData] = useState({
 		email: '',
 		password: '',
@@ -84,89 +88,92 @@ const LoginForm = ({ setUser }) => {
 
 	return (
 		<div className='auth' role='main'>
-			<h1>Login</h1>
 			<form role='form'>
-				<label htmlFor='email'>Email:</label>
-				<div className='input-container'>
-					<input
-						id='email'
-						type='email'
-						name='email'
-						placeholder=''
-						onChange={handleChange}
-						required
-						aria-label='Enter your email address'
-					/>
+				<h1>Login</h1>
+				<div className="login-field">
+					<label htmlFor='email'>Email:</label>
+					<div className='input-container'>
+						<input
+							id='email'
+							type='email'
+							name='email'
+							placeholder=''
+							onChange={handleChange}
+							required
+							aria-label='Enter your email address'
+						/>
+					</div>
 				</div>
-
-				<label htmlFor='password'>Password:</label>
-				<div className='input-container'>
-					<input
-						id='password'
-						type={passwordVisible ? 'text' : 'password'}
-						name='password'
-						placeholder=''
-						onChange={handleChange}
-						required
-						aria-label='Enter your password'
-					/>
-					{formData.password ? (
-						passwordVisible ? (
-							<Visibility
-								className='visible'
-								role='button'
-								tabIndex='0'
-								aria-label='Toggle password visibility'
-								onClick={() => {
-									setPasswordVisible((prev) => !prev);
-								}}
-								sx={{
-									fontSize: '1.75rem',
-									color: '#777777',
-									outline: 'none',
-								}}
+				<div className="login-field">
+					<label htmlFor='password'>Password:</label>
+					<div className='input-container'>
+						<input
+							id='password'
+							type={passwordVisible ? 'text' : 'password'}
+							name='password'
+							placeholder=''
+							onChange={handleChange}
+							required
+							aria-label='Enter your password'
+						/>
+						{formData.password ? (
+							passwordVisible ? (
+								<Visibility
+									className='visible'
+									role='button'
+									tabIndex='0'
+									aria-label='Toggle password visibility'
+									onClick={() => {
+										setPasswordVisible((prev) => !prev);
+									}}
+									sx={{
+										fontSize: '1.75rem',
+										color: '#777777',
+										outline: 'none',
+									}}
+								/>
+							) : (
+								<VisibilityOff
+									className='visible'
+									role='button'
+									tabIndex='0'
+									aria-label='Toggle password visibility'
+									onClick={() => {
+										setPasswordVisible((prev) => !prev);
+									}}
+									sx={{
+										fontSize: '1.75rem',
+										color: '#777777',
+										outline: 'none',
+									}}
+								/>
+							)
+						) : null}
+					</div>
+					<div className='remember-me'>
+						{checked ? (
+							<CheckBox
+								onClick={() => setChecked((prev) => !prev)}
+								sx={{ color: '#525252' }}
 							/>
 						) : (
-							<VisibilityOff
-								className='visible'
-								role='button'
-								tabIndex='0'
-								aria-label='Toggle password visibility'
-								onClick={() => {
-									setPasswordVisible((prev) => !prev);
-								}}
-								sx={{
-									fontSize: '1.75rem',
-									color: '#777777',
-									outline: 'none',
-								}}
+							<CheckBoxOutlineBlank
+								sx={{ color: '#444444' }}
+								onClick={() => setChecked((prev) => !prev)}
 							/>
-						)
-					) : null}
+						)}
+						<span>Remember me</span>
+						<Link
+							to='/recovery'
+							role='link'
+							aria-label='Go to recover password page'
+							className='forgot-password'
+						>
+							Forgot password?
+						</Link>
+					</div>
 				</div>
 
-				<div className='remember-me'>
-					{checked ? (
-						<CheckBox
-							onClick={() => setChecked((prev) => !prev)}
-							sx={{ color: 'rgba(0, 120, 120, 1)' }}
-						/>
-					) : (
-						<CheckBoxOutlineBlank
-							sx={{ color: '#444444' }}
-							onClick={() => setChecked((prev) => !prev)}
-						/>
-					)}
-					<span>Remember me</span>
-					<Link
-						to='/recovery'
-						role='link'
-						aria-label='Go to recover password page'
-						className='forgot-password'
-					>
-						Forgot password?
-					</Link>
-				</div>
 
 				<button
 					type='button'
@@ -175,7 +182,7 @@ const LoginForm = ({ setUser }) => {
 					onClick={handleSubmit}
 					disabled={!formComplete}
 					style={{
-						backgroundColor: formComplete ? null : 'rgba(0, 120, 120, .5)',
+						opacity: formComplete ? null : '.5',
 						cursor: formComplete ? 'pointer' : null,
 					}}
 				>
@@ -189,14 +196,14 @@ const LoginForm = ({ setUser }) => {
 				<span>
 					Don't have an account?
 					<br />
-					<Link
+					<a
 						className='link'
-						to='/register'
 						role='link'
-						aria-label='Go to register page'
+						aria-label='Go to sign up page'
+						onClick={() => setComponent('signup')}
 					>
 						Register
-					</Link>
+					</a>
 				</span>
 			</form>
 		</div>

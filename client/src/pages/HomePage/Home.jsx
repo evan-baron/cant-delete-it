@@ -391,7 +391,7 @@ const Home = () => {
 				<section className='right-side'>
 					{component === 'founder' && <FounderMessage />}
 					{component === 'signup' && <Signup setComponent={setComponent} />}
-					{component === 'login' && <LoginForm />}
+					{component === 'login' && <LoginForm setComponent={setComponent} />}
 					<a
 						className='sign-up-link'
 						onClick={() => {component === 'founder' ? setComponent('signup') : setComponent('founder')}}
