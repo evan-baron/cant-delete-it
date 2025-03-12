@@ -201,7 +201,7 @@ const Signup = ({ setComponent }) => {
 				{!nameEmailSubmitted ? (
 					<section className='name-email'>
 						<div className='registrant-name'>
-							<div className='name-box'>
+							<div className='input-field'>
 								<label htmlFor='email'>First Name:</label>
 								<div className='input-container'>
 									<input
@@ -216,7 +216,7 @@ const Signup = ({ setComponent }) => {
 									/>
 								</div>
 							</div>
-							<div className='name-box'>
+							<div className='input-field'>
 								<label htmlFor='email'>Last Name:</label>
 								<div className='input-container'>
 									<input
@@ -232,7 +232,7 @@ const Signup = ({ setComponent }) => {
 								</div>
 							</div>
 						</div>
-						<div className='registrant-email'>
+						<div className='input-field'>
 							<label htmlFor='email'>Email:</label>
 							<div className='input-container'>
 								<input
@@ -255,7 +255,7 @@ const Signup = ({ setComponent }) => {
 					</section>
 				) : (
 					<section className='password-section'>
-						<div className='enter-password'>
+						<div className='input-field'>
 							<label htmlFor='password'>Password:</label>
 							<div className='input-container'>
 								<input
@@ -303,7 +303,7 @@ const Signup = ({ setComponent }) => {
 								) : null}
 							</div>
 						</div>
-						<div className='confirm-password'>
+						<div className='input-field'>
 							<label htmlFor='confirm'>Confirm Password:</label>
 							<div className='input-container'>
 								<input
