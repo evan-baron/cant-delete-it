@@ -30,10 +30,11 @@ $lightestGray: #eeeeee;
 
 	form, .recovery-sent {
 		aspect-ratio: 1;
-		max-width: 25rem;
+		width: 25rem;
 		position: relative;
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		padding: 2rem;
 		background-color: white;
 		gap: 1rem;
@@ -68,7 +69,7 @@ $lightestGray: #eeeeee;
 				height: 2.25rem;
 				padding-left: 0.25rem;
 				font-size: 1.125rem;
-				background-color: $lightestGray;
+				background-color: $masterBackground;
 				color: $darkGray;
 				width: 100%;
 	
