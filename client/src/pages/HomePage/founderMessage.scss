@@ -7,6 +7,7 @@ $lighterGray: #aaaaaa;
 $lightestGray: #eeeeee;
 
 .message-container {
+	position: relative;
 	display: flex;
 	flex-direction: column;
 	gap: 1rem;

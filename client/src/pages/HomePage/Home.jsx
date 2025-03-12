@@ -389,23 +389,25 @@ const Home = () => {
 				</section>
 
 				<section className='right-side'>
-					{component === 'founder' && <FounderMessage />}
-					{component === 'signup' && <Signup setComponent={setComponent} />}
-					{component === 'login' && <LoginForm setComponent={setComponent} />}
-					<a
-						className='sign-up-link'
-						onClick={() => {component === 'founder' ? setComponent('signup') : setComponent('founder')}}
-					>
-						<West
-							className={`arrow west-arrow ${component === 'signup' ? 'visible' : 'hidden'}`}
-							sx={{ color: '#252525' }}
-						/>
-						<span className='direction'>{component === 'signup' ? 'Back' : 'Sign up'}</span>
-						<East
-							className={`arrow east-arrow ${component === 'signup' ? 'hidden' : 'visible'}`}
-							sx={{ color: '#252525' }}
-						/>
-					</a>
+					<div className="content">
+						{component === 'founder' && <FounderMessage />}
+						{component === 'signup' && <Signup setComponent={setComponent} />}
+						{component === 'login' && <LoginForm setComponent={setComponent} />}
+						{(component === 'founder' || component === 'signup') && <a
+							className='sign-up-link'
+							onClick={() => {component !== 'founder' ? setComponent('founder') : setComponent('signup')}}
+						>
+							<West
+								className={`arrow west-arrow ${component === 'signup' ? 'visible' : 'hidden'}`}
+								sx={{ color: '#252525' }}
+							/>
+							<span className='direction' >{component === 'signup' ? 'Back to Home' : 'Sign up'}</span>
+							<East
+								className={`arrow east-arrow ${component === 'signup' ? 'hidden' : 'visible'}`}
+								sx={{ color: '#252525' }}
+							/>
+						</a>}
+					</div>
 				</section>
 			</div>
 		</div>
