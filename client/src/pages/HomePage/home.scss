@@ -451,6 +451,7 @@ $lightestGray: #eeeeee;
 					font-size: 1.25rem;
 					color: $darkGray;
 					cursor: pointer;
+					user-select: none;
 	
 					.arrow {
 						width: 1.5rem;
