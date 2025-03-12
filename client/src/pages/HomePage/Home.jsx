@@ -16,8 +16,9 @@ import { useUser } from '../../context/UserContext';
 
 // Components
 import FounderMessage from './FounderMessage';
-import Signup from '../Signup/Signup';
-import LoginForm from '../Login/LoginForm';
+import Signup from './Signup/Signup';
+import LoginForm from './Login/LoginForm';
+import PasswordRecovery from '../../components/PasswordComponents/PasswordRecovery';
 
 const Home = () => {
 	// HOME LOGIC
@@ -393,6 +394,7 @@ const Home = () => {
 						{component === 'founder' && <FounderMessage />}
 						{component === 'signup' && <Signup setComponent={setComponent} />}
 						{component === 'login' && <LoginForm setComponent={setComponent} />}
+						{component === 'password' && <PasswordRecovery setComponent={setComponent} />}
 						{(component === 'founder' || component === 'signup') && <a
 							className='sign-up-link'
 							onClick={() => {component !== 'founder' ? setComponent('founder') : setComponent('signup')}}

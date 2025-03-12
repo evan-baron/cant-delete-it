@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../../utils/axios';
+import axiosInstance from '../../../utils/axios';
 import { Link } from 'react-router-dom';
 import {
 	Check,
@@ -10,7 +10,7 @@ import {
 	West,
 } from '@mui/icons-material';
 import './signup.scss';
-import crossout from '../../assets/site/crossout.png';
+import crossout from '../../../assets/site/crossout.png';
 
 const Signup = ({ setComponent }) => {
 	//SIGNUP LOGIC
@@ -190,7 +190,7 @@ const Signup = ({ setComponent }) => {
 	};
 
 	return (
-		<div className='content'>
+		<section aria-labelledby='sign-up-form' className='content'>
 			<form className='signup-form'>
 				<h3>
 					Don't Sign Up
@@ -441,9 +441,7 @@ const Signup = ({ setComponent }) => {
 							onClick={handleSubmit}
 							disabled={!formComplete}
 							style={{
-								backgroundColor: formComplete
-									? null
-									: 'rgba(82, 82, 82, .5)',
+								backgroundColor: formComplete ? null : 'rgba(82, 82, 82, .5)',
 								cursor: formComplete ? 'pointer' : null,
 							}}
 						>
@@ -470,7 +468,7 @@ const Signup = ({ setComponent }) => {
 					</a>
 				</span>
 			</form>
-		</div>
+		</section>
 	);
 };
 

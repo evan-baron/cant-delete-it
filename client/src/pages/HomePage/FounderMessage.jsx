@@ -4,7 +4,7 @@ import './founderMessage.scss';
 
 const FounderMessage = () => {
 	return (
-		<section className='message-container'>
+		<section aria-labelledby='message-from-the-founder' className='message-container'>
 			<h2 className='message-title'>A message from the founder:</h2>
 			<section className='message-contents'>
 				<p>

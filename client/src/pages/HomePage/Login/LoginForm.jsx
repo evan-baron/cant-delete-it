@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../../utils/axios';
+import axiosInstance from '../../../utils/axios';
 import { useNavigate, Link } from 'react-router-dom';
 import {
 	CheckBox,
@@ -7,7 +7,7 @@ import {
 	Visibility,
 	VisibilityOff,
 } from '@mui/icons-material';
-import { useUser } from '../../context/UserContext';
+import { useUser } from '../../../context/UserContext';
 import './LoginForm.scss';
 
 const LoginForm = ({ setComponent }) => {
@@ -87,11 +87,11 @@ const LoginForm = ({ setComponent }) => {
 	};
 
 	return (
-		<div className='auth' role='main'>
-			<form role='form'>
+		<section aria-labelledby='login-form'>
+			<form className='login-form' role='form'>
 				<h1>Login</h1>
-				<div className="login-field">
-					<div className="login-input">
+				<div className='login-field'>
+					<div className='login-input'>
 						<label htmlFor='email'>Email:</label>
 						<div className='input-container'>
 							<input
@@ -105,7 +105,7 @@ const LoginForm = ({ setComponent }) => {
 							/>
 						</div>
 					</div>
-					<div className="login-input">
+					<div className='login-input'>
 						<label htmlFor='password'>Password:</label>
 						<div className='input-container'>
 							<input
@@ -164,32 +164,34 @@ const LoginForm = ({ setComponent }) => {
 								/>
 							)}
 							<span>Remember me</span>
-							<Link
-								to='/recovery'
+							<a
 								role='link'
 								aria-label='Go to recover password page'
-								className='forgot-password'
+								className='link'
+								onClick={() => setComponent('password')}
 							>
 								Forgot password?
-							</Link>
+							</a>
 						</div>
 					</div>
 				</div>
-				<button
-					type='button'
-					role='button'
-					aria-label='Submit registration form'
-					onClick={handleSubmit}
-					disabled={!formComplete}
-					style={{
-						opacity: formComplete ? null : '.5',
-						cursor: formComplete ? 'pointer' : null,
-					}}
-				>
-					Login
-				</button>
+				{!loginError && (
+					<button
+						type='button'
+						role='button'
+						aria-label='Submit registration form'
+						onClick={handleSubmit}
+						disabled={!formComplete}
+						style={{
+							opacity: formComplete ? null : '.5',
+							cursor: formComplete ? 'pointer' : null,
+						}}
+					>
+						Login
+					</button>
+				)}
 				{loginError && (
-					<p aria-live='polite' role='alert'>
+					<p aria-live='polite' role='alert' className='alert'>
 						{loginError}
 					</p>
 				)}
@@ -206,7 +208,7 @@ const LoginForm = ({ setComponent }) => {
 					</a>
 				</span>
 			</form>
-		</div>
+		</section>
 	);
 };
 
