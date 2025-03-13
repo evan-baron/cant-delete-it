@@ -197,7 +197,7 @@ const Signup = () => {
 		<section aria-labelledby='sign-up-form' className='content'>
 			{!registrationComplete ? (
 				<form className='signup-form'>
-					<h3>
+					<h3 className='signup-title'>
 						Don't Sign Up
 						<img className='crossout-up' src={crossout} />
 						<img className='crossout-down' src={crossout} />

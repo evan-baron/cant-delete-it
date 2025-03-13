@@ -14,12 +14,6 @@ $lightestGray: #eeeeee;
 	justify-content: center;
 	gap: 1rem;
 
-	h3 {
-		align-self: center;
-		font-size: 2rem;
-		color: #696969;
-	}
-
 	.signup-form {
 		width: 25rem;
 		min-height: 25rem;
@@ -32,8 +26,11 @@ $lightestGray: #eeeeee;
 		background-color: white;
 		box-shadow: 2px 2px .5rem rgba(0, 0, 0, 0.1);
 
-		h3 {
+		.signup-title {
 			position: relative;
+			align-self: center;
+			font-size: 2rem;
+			color: #696969;
 		}
 
 		.crossout-up {
