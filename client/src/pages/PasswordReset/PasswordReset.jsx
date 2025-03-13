@@ -1,20 +1,36 @@
+// External Libraries
 import React, { useState, useEffect } from 'react';
 import dayjs from 'dayjs';
 import utc from 'dayjs/plugin/utc';
 import timezone from 'dayjs/plugin/timezone';
-import axiosInstance from '../../utils/axios';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
+
+// Utilities
+import axiosInstance from '../../utils/axios';
+
+// MUI Icons
 import { Check, Close, Visibility, VisibilityOff } from '@mui/icons-material';
+
+// Styles
 import './passwordReset.scss';
+
+// Context
 import { useAppContext } from '../../context/AppContext';
 
 const PasswordReset = () => {
+	// Context & Navigation
 	const { setComponent } = useAppContext();
+	const navigate = useNavigate();
+
+	// URL & Query Parameters
 	const [searchParams] = useSearchParams();
 	const token = searchParams.get('token');
 
+	// Form Data
+	const [formData, setFormData] = useState({ password: '', confirm: '' });
+
+	// Validation States
 	const [passwordMatch, setPasswordMatch] = useState(null);
-	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [passwordValid, setPasswordValid] = useState(null);
 	const [passwordReqs, setPasswordReqs] = useState({
 		length: false,
@@ -22,49 +38,39 @@ const PasswordReset = () => {
 		number: false,
 		character: false,
 	});
+
+	// Process States
+	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [formComplete, setFormComplete] = useState(false);
-	const [formData, setFormData] = useState({
-		password: '',
-		confirm: '',
-	});
-	const [errorMessage, setErrorMessage] = useState(null);
 	const [tokenValid, setTokenValid] = useState(null);
 	const [resendEmail, setResendEmail] = useState(null);
 	const [emailSent, setEmailSent] = useState(false);
 	const [timeRemaining, setTimeRemaining] = useState(null);
 	const [passwordReset, setPasswordReset] = useState(false);
+	const [errorMessage, setErrorMessage] = useState(null);
 
-	const navigate = useNavigate();
-
+	// Extend Day.js with plugins
 	dayjs.extend(utc);
 	dayjs.extend(timezone);
 
-	//Email Recovery Token Validation
+	// Token Validation
 	useEffect(() => {
 		const validateToken = async () => {
 			if (!token) {
 				navigate('/');
-			} else {
-				try {
-					const response = await axiosInstance.get(
-						'/authenticateRecoveryToken',
-						{ params: { token: token } }
-					);
-					const { tokenValid, timeRemaining, email } = response.data;
+				return;
+			}
+			try {
+				const response = await axiosInstance.get('/authenticateRecoveryToken', {
+					params: { token },
+				});
+				const { tokenValid, timeRemaining, email } = response.data;
 
-					console.log(response.data);
-
-					setResendEmail(email);
-
-					if (tokenValid) {
-						setTokenValid(true);
-						setTimeRemaining(timeRemaining);
-					} else {
-						setTokenValid(false);
-					}
-				} catch (error) {
-					console.error('Error authenticating token: ', error);
-				}
+				setResendEmail(email);
+				setTokenValid(tokenValid);
+				setTimeRemaining(tokenValid ? timeRemaining : 0);
+			} catch (error) {
+				console.error('Error authenticating token:', error);
 			}
 		};
 		validateToken();
@@ -72,113 +78,93 @@ const PasswordReset = () => {
 
 	// Countdown Timer
 	useEffect(() => {
-		let timer;
-		if (tokenValid && timeRemaining > 0) {
-			timer = setInterval(() => {
-				setTimeRemaining((prev) => prev - 1);
-			}, 1000);
-		} else if (timeRemaining === 0) {
-			setTokenValid(false);
-		}
+		if (!tokenValid || timeRemaining <= 0) return;
+
+		const timer = setInterval(() => {
+			setTimeRemaining((prev) => (prev > 0 ? prev - 1 : 0));
+		}, 1000);
+
 		return () => clearInterval(timer);
 	}, [tokenValid, timeRemaining]);
 
-	// Password Match Validation
+	// Password Match & Validation
 	useEffect(() => {
 		const passwordsMatch =
-			formData.password !== '' && formData.password === formData.confirm;
+			formData.password && formData.password === formData.confirm;
 		setPasswordMatch(passwordsMatch);
+		setFormComplete(passwordsMatch);
+	}, [formData.password, formData.confirm]);
 
-		setFormComplete(passwordMatch);
-	}, [formData.password, formData.confirm, passwordMatch]);
-
+	// Handle Input Change
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setFormData((prev) => ({
-			...prev,
-			[name]: value,
-		}));
+		setFormData((prev) => ({ ...prev, [name]: value }));
 
 		if (name === 'password') {
-			// Check individual password requirements
 			const lengthValid = value.length >= 8;
-			const uppercaseValid = /[A-Z]/.test(value); // Checks for uppercase
-			const numberValid = /\d/.test(value); // Checks for at least one number
-			const specialCharValid = /[@$!%*?&]/.test(value); // Checks for special characters
+			const uppercaseValid = /[A-Z]/.test(value);
+			const numberValid = /\d/.test(value);
+			const specialCharValid = /[@$!%*?&]/.test(value);
 
-			// Update password requirements state
 			setPasswordReqs({
 				length: lengthValid,
 				uppercase: uppercaseValid,
 				number: numberValid,
 				character: specialCharValid,
 			});
-
-			// Update overall password validity
 			setPasswordValid(lengthValid && numberValid && specialCharValid);
 		}
 	};
 
+	// Handle Form Submission
 	const handleSubmit = async () => {
-		if (tokenValid) {
-			if (!passwordValid) {
-				console.log(
-					'Registration Error! Email Valid: Password Valid: ' + passwordValid
-				);
-				setFormComplete(false);
-				return;
-			} else {
-				setFormComplete(false);
-				try {
-					await axiosInstance.post('/reset-password', {
-						token: token, // Sending token in the request body
-						password: formData.password.trim(),
-					});
-
-					// VALIDATION NEEDED IN FRONTEND AND BACKEND TO MAKE SURE NO SAME PASSWORD AS PREVIOUS, ETC.
-
-					setFormData({
-						password: '',
-						confirm: '',
-					});
-					setEmailSent(null);
-					setPasswordReset((prev) => !prev);
-					setPasswordValid(null);
-					setPasswordVisible(false);
-					setPasswordMatch(null);
-					setTokenValid(false);
-				} catch (error) {
-					console.error('Registration error: ', error.response?.data);
-					setErrorMessage(
-						error.response ? error.response.data.message : 'An error occurred'
-					);
-					setFormComplete(false);
-				}
-			}
-		} else {
-			console.log(token);
-			console.log(resendEmail);
-			setFormComplete(true);
+		if (!tokenValid) {
 			try {
 				setEmailSent(true);
 				const data = await axiosInstance.post('/recover-password', {
 					email: resendEmail,
 				});
 
-				if (data) {
-					setResendEmail(null);
-				}
+				if (data) setResendEmail(null);
 			} catch (error) {
 				setErrorMessage(
 					'There was an issue sending the reset email. Please try again.'
 				);
-				console.error('Error: ', error.response?.data);
+				console.error('Error:', error.response?.data);
 			}
+			return;
+		}
+
+		if (!passwordValid) {
+			console.log('Registration Error! Password Valid:', passwordValid);
+			setFormComplete(false);
+			return;
+		}
+
+		try {
+			await axiosInstance.post('/reset-password', {
+				token,
+				password: formData.password.trim(),
+			});
+
+			setFormData({ password: '', confirm: '' });
+			setEmailSent(null);
+			setPasswordReset((prev) => !prev);
+			setPasswordValid(null);
+			setPasswordVisible(false);
+			setPasswordMatch(null);
+			setTokenValid(false);
+		} catch (error) {
+			console.error('Registration error:', error.response?.data);
+			setErrorMessage(
+				error.response ? error.response.data.message : 'An error occurred'
+			);
+			setFormComplete(false);
 		}
 	};
 
 	return (
-		<div className='auth' role='main'>
+		<div className='auth'>
 			<section aria-labelledby='password-recovery-form'>
 				<h1 id='password-recovery-form'>
 					cant <span style={{ color: 'red' }}>delete</span> it

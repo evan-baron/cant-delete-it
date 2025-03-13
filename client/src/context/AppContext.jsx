@@ -1,5 +1,8 @@
+// External Libraries
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
+
+// Utilities
 import axiosInstance from '../utils/axios';
 
 // Create context

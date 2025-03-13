@@ -1,19 +1,25 @@
+// External Libraries
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../../../utils/axios';
 import { useSearchParams, useNavigate } from 'react-router-dom';
+
+// Context
 import { useAppContext } from '../../../context/AppContext';
+
+// Styles
 import './verify.scss';
 
 const Verify = () => {
+	// CONTEXT
 	const { emailVerified, setComponent } = useAppContext();
 
+	// ROUTER HOOKS
 	const [searchParams] = useSearchParams();
 	const navigate = useNavigate();
-  
+
+	// HELPER FUNCTIONS
 	const removeTokenFromUrl = () => {
-	  searchParams.delete("token");
-  
-	  navigate(`?${searchParams.toString()}`, { replace: true });
+		searchParams.delete('token');
+		navigate(`?${searchParams.toString()}`, { replace: true });
 	};
 
 	return (
@@ -21,9 +27,13 @@ const Verify = () => {
 			<section aria-labelledby='password-recovery-form'>
 				<div className='verify-container'>
 					<h1 id='password-recovery-form'>Email Verified</h1>
-					<p>{!emailVerified ? 'Thank you for verifying your email.' : `You've already verified your email.`}</p>
+					<p>
+						{!emailVerified
+							? 'Thank you for verifying your email.'
+							: `You've already verified your email.`}
+					</p>
 					<span>
-					Continue to login
+						Continue to login
 						<br />
 						<a
 							className='link'

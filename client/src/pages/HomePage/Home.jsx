@@ -178,7 +178,7 @@ const Home = () => {
 	return (
 		<div className='home'>
 			<div className='home-container'>
-				<section className='left-side'>
+				<main className='left-side'>
 					<div className='content'>
 						<div className='content-wrapper'>
 							<section className='hero'>
@@ -189,32 +189,33 @@ const Home = () => {
 								</h1>
 								<h2 className='pitch'>The world's worst social media site</h2>
 							</section>
-							<section className='rules'>
-								<h2>The Rules:</h2>
+
+							<section className='rules' aria-labelledby='rules-section'>
+								<h2 id='rules-section'>The Rules:</h2>
 								<div className='divider'></div>
-								<ul>
-									<li>
+								<ul role='list'>
+									<li role='listitem'>
 										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
 										<p>
 											Your content will automatically post 30 seconds after your
 											last keystroke.
 										</p>
 									</li>
-									<li>
+									<li role='listitem'>
 										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
 										<p>
 											You can't delete. <span className='bold'>Anything.</span>{' '}
 											Pressing backspace removes 10 seconds from the timer.
 										</p>
 									</li>
-									<li>
+									<li role='listitem'>
 										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
 										<p>
 											You can't edit either. That includes no clicking back on
 											previously typed words.
 										</p>
 									</li>
-									<li>
+									<li role='listitem'>
 										<Close
 											sx={{
 												color: 'rgb(255, 0, 0)',
@@ -229,14 +230,20 @@ const Home = () => {
 									</li>
 								</ul>
 							</section>
-							<section className='demo'>
-								<h2>Try It Out:</h2>
+
+							<section className='demo' aria-labelledby='demo-section'>
+								<h2 id='demo-section'>Try It Out:</h2>
 								<div className='demo-container'>
 									<div className='demo-content'>
 										{/* FORM BELOW WILL EVENTUALLY BE A WRITE COMPONENT */}
-										<form className='write-post'>
+										<form
+											className='write-post'
+											role='form'
+											aria-labelledby='write-post-form'
+										>
 											<section className='input'>
 												<textarea
+													id='demoTextArea'
 													type='text'
 													maxLength='69'
 													placeholder='Signing up is a really bad idea...'
@@ -264,6 +271,7 @@ const Home = () => {
 												<div
 													className='timer'
 													style={{ color: timeLeft < 1000 && 'red' }}
+													aria-live='polite'
 												>
 													{countdownStarted &&
 														(timeLeft > 1000
@@ -276,7 +284,7 @@ const Home = () => {
 													{69 - demoFormData.length} (normally 420 character
 													limit)
 												</p>
-												<button type='button' onClick={demoSubmit}>
+												<button type='button' onClick={demoSubmit} aria-label='Post content'>
 													Post
 												</button>
 											</div>
@@ -284,9 +292,9 @@ const Home = () => {
 
 										{/* SECTION BELOW WILL EVENTUALLY BE A POST COMPONENT */}
 										{demoPostData.visible && (
-											<section className='posted-content'>
+											<article className='posted-content'>
 												<div className='profile-picture'>
-													<img src={profilePic} alt='Profile' />
+													<img src={profilePic} alt='Demo User Profile Picture' />
 												</div>
 												<div className='posted-content-container'>
 													<h3 className='user'>{demoPostData.userName}</h3>
@@ -349,7 +357,7 @@ const Home = () => {
 														</div>
 													</div>
 												</div>
-											</section>
+											</article>
 										)}
 										<div className='style-blob-2'></div>
 									</div>
@@ -357,6 +365,7 @@ const Home = () => {
 										className='signup-button'
 										type='button'
 										onClick={() => setComponent('signup')}
+										aria-label='Sign up'
 									>
 										Sign up
 									</button>
@@ -367,6 +376,8 @@ const Home = () => {
 							<div
 								className='floating-link'
 								onClick={() => setComponent('login')}
+								role='button'
+								aria-label='Login'
 							>
 								<Login
 									sx={{
@@ -377,7 +388,7 @@ const Home = () => {
 								/>
 								<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
 							</div>
-							<div className='floating-link'>
+							<div className='floating-link' aria-label='Get in touch'>
 								<Mail
 									sx={{
 										fontSize: '2.5rem',
@@ -390,9 +401,9 @@ const Home = () => {
 						</div>
 					</div>
 					<div className='style-blob-1'></div>
-				</section>
+				</main>
 
-				<section className='right-side'>
+				<aside className='right-side'>
 					<div className='content'>
 						{component === 'founder' && <FounderMessage />}
 						{component === 'signup' && <Signup />}
@@ -406,6 +417,8 @@ const Home = () => {
 									? setComponent('founder')
 									: setComponent('signup');
 							}}
+							role='link'
+							aria-label='Switch between founder message and sign up'
 						>
 							<West
 								className={`arrow west-arrow ${
@@ -424,7 +437,7 @@ const Home = () => {
 							/>
 						</a>
 					</div>
-				</section>
+				</aside>
 			</div>
 		</div>
 	);

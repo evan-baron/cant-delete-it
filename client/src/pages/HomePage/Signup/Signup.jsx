@@ -1,17 +1,21 @@
+// External Libraries
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../../../utils/axios';
 import { Link } from 'react-router-dom';
-import {
-	Check,
-	Close,
-	East,
-	Visibility,
-	VisibilityOff,
-	West,
-} from '@mui/icons-material';
+
+// Utilities
+import axiosInstance from '../../../utils/axios';
+
+// MUI Icons
+import { Check, Close, East, Visibility, VisibilityOff, West } from '@mui/icons-material';
+
+// Assets & Styles
 import './signup.scss';
 import crossout from '../../../assets/site/crossout.png';
+
+// Context
 import { useAppContext } from '../../../context/AppContext';
+
+// Components
 import LoadingSpinner from '../../../components/Loading/LoadingSpinner';
 import LoadingKey from '../../../components/Loading/LoadingKey';
 
@@ -199,8 +203,8 @@ const Signup = () => {
 				<form className='signup-form'>
 					<h3 className='signup-title'>
 						Don't Sign Up
-						<img className='crossout-up' src={crossout} />
-						<img className='crossout-down' src={crossout} />
+						<img className='crossout-up' src={crossout} alt='cross-out decoration' />
+						<img className='crossout-down' src={crossout} alt='cross-out decoration' />
 					</h3>
 
 					{loadingScreen ? (
@@ -208,7 +212,7 @@ const Signup = () => {
 					) : (
 						<>
 							{!nameEmailSubmitted ? (
-								<section className='name-email'>
+								<fieldset className='name-email' aria-labelledby='name-email-fields'>
 									<div className='registrant-name'>
 										<div className='input-field'>
 											<label htmlFor='email'>First Name:</label>
@@ -256,14 +260,14 @@ const Signup = () => {
 											/>
 										</div>
 										{formSubmitted && !emailValid ? (
-											<p className='validation-error' aria-live='polite'>
+											<p className='validation-error' role='alert' aria-live='polite'>
 												Please enter a valid email address
 											</p>
 										) : null}
 									</div>
-								</section>
+								</fieldset>
 							) : (
-								<section className='password-section'>
+								<fieldset className='password-section'>
 									<div className='input-field'>
 										<label htmlFor='password'>Password:</label>
 										<div className='input-container'>
@@ -404,7 +408,7 @@ const Signup = () => {
 											</div>
 										</div>
 									</div>
-								</section>
+								</fieldset>
 							)}
 
 							{!nameEmailSubmitted ? (

@@ -1,6 +1,9 @@
+// External Libraries
 import React from 'react';
-import signature from '../../assets/site/signature_transparent.png';
+
+// Assets & Styles
 import './founderMessage.scss';
+import signature from '../../assets/site/signature_transparent.png';
 
 const FounderMessage = () => {
 	return (

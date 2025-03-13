@@ -1,3 +1,4 @@
+// External Libraries
 import React, { useState, useEffect } from 'react';
 import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
 import '../../reset.css';
@@ -21,14 +22,18 @@ const App = () => {
 			<ContextProvider>
 				<div className='app'>
 					<div className='container'>
-						{/* <Navbar user={user} setUser={setUser} /> */}
-						<Routes>
-							<Route path='/' element={<Home to='/' />} />
-							<Route
-								path='/reset-password'
-								element={user ? <Navigate to='/' /> : <PasswordReset />}
-							/>
-						</Routes>
+						<header>
+							{/* <Navbar user={user} setUser={setUser} /> */}
+						</header>
+						<main>
+							<Routes>
+								<Route path='/' element={<Home to='/' />} />
+								<Route
+									path='/reset-password'
+									element={user ? <Navigate to='/' /> : <PasswordReset />}
+								/>
+							</Routes>
+						</main>
 					</div>
 				</div>
 			</ContextProvider>
