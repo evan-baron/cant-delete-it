@@ -1,0 +1,14 @@
+.loading-spinner {
+	width: 2.5rem;
+	aspect-ratio: 1;
+	border: .25rem solid;
+	border-color: red red red transparent;
+	border-radius: 50%;
+	animation: spin 1.25s linear infinite;
+}
+
+@keyframes spin {
+	to {
+		transform: rotate(360deg)
+	}
+}

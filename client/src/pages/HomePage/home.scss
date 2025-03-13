@@ -438,6 +438,7 @@ $lightestGray: #eeeeee;
 
 			.content {
 				position: relative;
+				color: $darkGray;
 
 				.sign-up-link {
 					position: absolute;
@@ -446,6 +447,7 @@ $lightestGray: #eeeeee;
 					display: flex;
 					align-items: center;
 					justify-content: center;
+					min-width: 20rem;
 					height: 1.5rem;
 					gap: .5rem;
 					font-size: 1.25rem;

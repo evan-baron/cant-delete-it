@@ -363,7 +363,10 @@ const Home = () => {
 							</section>
 						</div>
 						<div className='floating-links'>
-							<div className='floating-link' onClick={() => setComponent('login')}>
+							<div
+								className='floating-link'
+								onClick={() => setComponent('login')}
+							>
 								<Login
 									sx={{
 										fontSize: '2.5rem',
@@ -389,25 +392,35 @@ const Home = () => {
 				</section>
 
 				<section className='right-side'>
-					<div className="content">
+					<div className='content'>
 						{component === 'founder' && <FounderMessage />}
 						{component === 'signup' && <Signup />}
 						{component === 'login' && <LoginForm />}
 						{component === 'password' && <PasswordRecovery />}
-						{(component === 'founder' || component === 'signup') && <a
+						<a
 							className='sign-up-link'
-							onClick={() => {component !== 'founder' ? setComponent('founder') : setComponent('signup')}}
+							onClick={() => {
+								component !== 'founder'
+									? setComponent('founder')
+									: setComponent('signup');
+							}}
 						>
 							<West
-								className={`arrow west-arrow ${component === 'signup' ? 'visible' : 'hidden'}`}
+								className={`arrow west-arrow ${
+									component !== 'founder' ? 'visible' : 'hidden'
+								}`}
 								sx={{ color: '#252525' }}
 							/>
-							<span className='direction' >{component === 'signup' ? 'Back to Home' : 'Sign up'}</span>
+							<span className='direction'>
+								{component !== 'founder' ? 'Return to Home' : 'Sign up'}
+							</span>
 							<East
-								className={`arrow east-arrow ${component === 'signup' ? 'hidden' : 'visible'}`}
+								className={`arrow east-arrow ${
+									component !== 'founder' ? 'hidden' : 'visible'
+								}`}
 								sx={{ color: '#252525' }}
 							/>
-						</a>}
+						</a>
 					</div>
 				</section>
 			</div>
