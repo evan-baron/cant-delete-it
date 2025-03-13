@@ -9,7 +9,6 @@ import { ContextProvider } from '../context/AppContext.jsx';
 // Pages
 import Home from '../pages/HomePage/Home.jsx';
 import PasswordReset from '../pages/PasswordReset/PasswordReset.jsx';
-// import Verify from '../pages/Verify';
 
 // Components
 // import Navbar from '../components/Navbar.jsx';
@@ -29,7 +28,6 @@ const App = () => {
 								path='/reset-password'
 								element={user ? <Navigate to='/' /> : <PasswordReset />}
 							/>
-							{/* <Route path='/verify' element={user ? <Navigate to='/' /> : <Verify />} /> */}
 						</Routes>
 					</div>
 				</div>
