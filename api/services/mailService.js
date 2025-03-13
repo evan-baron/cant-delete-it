@@ -54,7 +54,7 @@ const sendVerificationEmail = async (user, verificationToken) => {
 	const { email } = user;
 
 	//UPDATE BELOW WHEN YOU ADD THAT PART IN
-	const verifyLink = `https://localhost:5173/verify?token=${verificationToken}`;
+	const verifyLink = `https://localhost:5173/?token=${verificationToken}`;
 
 	const htmlContent = getTemplate('emailVerification', {
 		verifyLink,

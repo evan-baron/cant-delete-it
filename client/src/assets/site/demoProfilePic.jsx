@@ -1,11 +1,11 @@
-import cat0 from '../../assets/site/cat_profile_0.jpg';
-import cat1 from '../../assets/site/cat_profile_1.jpg';
-import cat2 from '../../assets/site/cat_profile_2.jpg';
-import cat3 from '../../assets/site/cat_profile_3.jpg';
-import cat4 from '../../assets/site/cat_profile_4.jpg';
-import cat5 from '../../assets/site/cat_profile_5.jpg';
-import cat6 from '../../assets/site/cat_profile_6.jpg';
-import cat7 from '../../assets/site/cat_profile_7.jpg';
+import cat0 from '../../assets/site/ProfilePics/cat_profile_0.jpg';
+import cat1 from '../../assets/site/ProfilePics/cat_profile_1.jpg';
+import cat2 from '../../assets/site/ProfilePics/cat_profile_2.jpg';
+import cat3 from '../../assets/site/ProfilePics/cat_profile_3.jpg';
+import cat4 from '../../assets/site/ProfilePics/cat_profile_4.jpg';
+import cat5 from '../../assets/site/ProfilePics/cat_profile_5.jpg';
+import cat6 from '../../assets/site/ProfilePics/cat_profile_6.jpg';
+import cat7 from '../../assets/site/ProfilePics/cat_profile_7.jpg';
 
 const profilePictures = [
 	{ id: 0, img: cat0 },

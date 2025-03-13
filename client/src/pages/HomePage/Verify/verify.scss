@@ -1,0 +1,54 @@
+$masterBackground: #f6f6f6;
+$darkerGray: #121212;
+$darkGray: #252525;
+$mediumGray: #373737;
+$lightGray: #525252;
+$lighterGray: #aaaaaa;
+$lightestGray: #eeeeee;
+
+.auth {
+	section {
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		justify-content: center;
+		gap: 1rem;
+	
+		.verify-container {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			padding: 2rem;
+			background-color: white;
+			gap: 1rem;
+			width: 22rem;
+			border-radius: 5px;
+			box-shadow: 2px 2px .5rem rgba(0, 0, 0, 0.1);
+	
+			h1 {
+				font-size: 2rem;
+				color: #696969;
+				text-align: center;
+			}
+	
+			p {
+				font-size: 1.125rem;
+				color: $darkGray;
+				text-align: center;
+			}
+	
+			span {
+				text-align: center;
+				font-size: 1.125rem;
+			}
+	
+			.link {
+				font-weight: bold;
+				text-decoration: underline;
+				color: red;
+				cursor: pointer;
+			}
+		}
+	}
+}
+

@@ -86,7 +86,7 @@ const getTokenData = async (token) => {
 		const recoveryTokenData = await tokenModel.getTokenData(token);
 		return recoveryTokenData;
 	} catch (err) {
-		console.log('There was an error: ', err.message);
+		console.log('There was an error at getTokenData: ', err.message);
 	}
 }
 
@@ -110,7 +110,7 @@ const updateVerified = async (user_id, token) => {
 		await userModel.updateVerified(user_id);
 		await tokenModel.updateTokenUsed(token);
 	} catch (err) {
-		console.log('There was an error. ', err.message);
+		console.log('There was an error at updateVerified. ', err.message);
 	}
 }
 

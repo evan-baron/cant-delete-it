@@ -1,4 +1,5 @@
 import { createContext, useContext, useState, useEffect } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import axiosInstance from '../utils/axios';
 
 // Create context
@@ -9,6 +10,48 @@ export const ContextProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
 	const [loading, setLoading] = useState(true);
 	const [component, setComponent] = useState('founder');
+	const [searchParams] = useSearchParams();
+	const [emailVerified, setEmailVerified] = useState(null);
+	
+	const emailToken = searchParams.get('token');
+
+	//Verification Token Validation
+	useEffect(() => {
+		const verifyEmail = async () => {
+			if (!emailToken) {
+				console.log('No token found. Redirecting to home.');
+			} else {
+				setComponent('verify');
+				try {
+					const response = await axiosInstance.get('/authenticateVerifyToken', {
+						params: { token: emailToken },
+					});
+					const { userId, emailVerified } = response.data;
+
+					if (emailVerified === 0) {
+						setEmailVerified(false)
+						try {
+							console.log( userId, emailToken );
+							await axiosInstance.post('/updateVerified', {
+								user_id: userId,
+								token: emailToken,
+							});
+						} catch (error) {
+							console.log('There was an error.', error);
+						}
+					} else if (emailVerified === 1) {
+						setEmailVerified(true)
+					} else {
+						console.error('Unrecognized emailVerified response.')
+					}
+
+				} catch (error) {
+					console.error('Error authenticating token: ', error);
+				}
+			}
+		};
+		verifyEmail();
+	}, [emailToken]);
 
 	useEffect(() => {
 		const fetchUserData = async () => {
@@ -41,7 +84,7 @@ export const ContextProvider = ({ children }) => {
 	}, []);
 
 	return (
-		<AppContext.Provider value={{ component, setComponent, user, setUser, loading }}>
+		<AppContext.Provider value={{ component, setComponent, emailVerified, user, setUser, loading }}>
 			{children}
 		</AppContext.Provider>
 	);

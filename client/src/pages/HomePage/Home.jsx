@@ -19,6 +19,7 @@ import FounderMessage from './FounderMessage';
 import Signup from './Signup/Signup';
 import LoginForm from './Login/LoginForm';
 import PasswordRecovery from '../../components/PasswordComponents/PasswordRecovery';
+import Verify from './Verify/Verify';
 
 const Home = () => {
 	// HOME LOGIC
@@ -397,6 +398,7 @@ const Home = () => {
 						{component === 'signup' && <Signup />}
 						{component === 'login' && <LoginForm />}
 						{component === 'password' && <PasswordRecovery />}
+						{component === 'verify' && <Verify />}
 						<a
 							className='sign-up-link'
 							onClick={() => {
