@@ -60,7 +60,7 @@ const PasswordRecovery = () => {
 					<h1 id='password-recovery-form'>Recover Password</h1>
 					<div className="input-field">						
 						<h2>
-							Please enter your email address below to receive a password reset
+							Please enter the email you registered with below to receive a password reset
 							link.
 						</h2>
 						<div className="recovery-input">
