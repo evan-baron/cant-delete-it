@@ -16,6 +16,12 @@ const PasswordReset = () => {
 	const [passwordMatch, setPasswordMatch] = useState(null);
 	const [passwordVisible, setPasswordVisible] = useState(false);
 	const [passwordValid, setPasswordValid] = useState(null);
+	const [passwordReqs, setPasswordReqs] = useState({
+		length: false,
+		uppercase: false,
+		number: false,
+		character: false,
+	});
 	const [formComplete, setFormComplete] = useState(false);
 	const [formData, setFormData] = useState({
 		password: '',
@@ -86,9 +92,6 @@ const PasswordReset = () => {
 		setFormComplete(passwordMatch);
 	}, [formData.password, formData.confirm, passwordMatch]);
 
-	// Regex for password validation
-	const passwordRegex = /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&]).{8,}$/;
-
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({
@@ -97,13 +100,27 @@ const PasswordReset = () => {
 		}));
 
 		if (name === 'password') {
-			setPasswordValid(passwordRegex.test(value));
+			// Check individual password requirements
+			const lengthValid = value.length >= 8;
+			const uppercaseValid = /[A-Z]/.test(value); // Checks for uppercase
+			const numberValid = /\d/.test(value); // Checks for at least one number
+			const specialCharValid = /[@$!%*?&]/.test(value); // Checks for special characters
+
+			// Update password requirements state
+			setPasswordReqs({
+				length: lengthValid,
+				uppercase: uppercaseValid,
+				number: numberValid,
+				character: specialCharValid,
+			});
+
+			// Update overall password validity
+			setPasswordValid(lengthValid && numberValid && specialCharValid);
 		}
 	};
 
 	const handleSubmit = async () => {
 		if (tokenValid) {
-
 			if (!passwordValid) {
 				console.log(
 					'Registration Error! Email Valid: Password Valid: ' + passwordValid
@@ -130,7 +147,6 @@ const PasswordReset = () => {
 					setPasswordVisible(false);
 					setPasswordMatch(null);
 					setTokenValid(false);
-
 				} catch (error) {
 					console.error('Registration error: ', error.response?.data);
 					setErrorMessage(
@@ -164,20 +180,22 @@ const PasswordReset = () => {
 	return (
 		<div className='auth' role='main'>
 			<section aria-labelledby='password-recovery-form'>
-				<h1 id='password-recovery-form'>cant <span style={{color: 'red'}}>delete</span> it</h1>
+				<h1 id='password-recovery-form'>
+					cant <span style={{ color: 'red' }}>delete</span> it
+				</h1>
 				<form role='form'>
 					{tokenValid ? (
 						<>
 							<h1>Reset Password</h1>
 							<h2>Please enter a new password.</h2>
 
-							<p>
+							<p className='alert'>
 								Time remaining: {Math.floor(timeRemaining / 60)}:
 								{(timeRemaining % 60).toString().padStart(2, '0')}
 							</p>
 
-							<div className="password-field">
-								<div className="password-input">
+							<div className='password-field'>
+								<div className='password-input'>
 									<label htmlFor='password'>New Password:</label>
 									<div className='input-container'>
 										<input
@@ -224,7 +242,7 @@ const PasswordReset = () => {
 										) : null}
 									</div>
 								</div>
-								<div className="password-input">
+								<div className='password-input'>
 									<label htmlFor='confirm'>Confirm Password:</label>
 									<div className='input-container'>
 										<input
@@ -255,6 +273,65 @@ const PasswordReset = () => {
 											)
 										) : null}
 									</div>
+									<div className='password-requirements'>
+										<p className='requirements-description'>
+											Your password must contain:
+										</p>
+										<div className='requirement'>
+											{passwordReqs.length && (
+												<Check
+													sx={{
+														fontSize: 'small',
+														color: 'rgb(0, 200, 0)',
+													}}
+												/>
+											)}
+											<p>8 characters</p>
+										</div>
+										<div className='requirement'>
+											{passwordReqs.uppercase && (
+												<Check
+													sx={{
+														fontSize: 'small',
+														color: 'rgb(0, 200, 0)',
+													}}
+												/>
+											)}
+											<p>1 uppercase</p>
+										</div>
+										<div className='requirement'>
+											{passwordReqs.number && (
+												<Check
+													sx={{
+														fontSize: 'small',
+														color: 'rgb(0, 200, 0)',
+													}}
+												/>
+											)}
+											<p>1 number</p>
+										</div>
+										<div className='requirement'>
+											{passwordReqs.character && (
+												<Check
+													sx={{
+														fontSize: 'small',
+														color: 'rgb(0, 200, 0)',
+													}}
+												/>
+											)}
+											<p>
+												1 special character<span>&nbsp;</span>
+												<span
+													style={{
+														color: 'rgba(0, 0, 0, .5)',
+														fontSize: '.675rem',
+													}}
+												>
+													(e.g. $, !, @, %, &)
+												</span>
+											</p>
+										</div>
+									</div>
 								</div>
 							</div>
 
@@ -265,9 +342,7 @@ const PasswordReset = () => {
 								onClick={handleSubmit}
 								disabled={!formComplete}
 								style={{
-									opacity: formComplete
-										? null
-										: '.5',
+									opacity: formComplete ? null : '.5',
 									cursor: formComplete ? 'pointer' : null,
 								}}
 							>
@@ -275,7 +350,7 @@ const PasswordReset = () => {
 							</button>
 
 							{errorMessage && (
-								<p aria-live='polite' role='alert'>
+								<p className='alert' aria-live='polite' role='alert'>
 									{errorMessage}
 								</p>
 							)}
@@ -291,9 +366,7 @@ const PasswordReset = () => {
 									onClick={handleSubmit}
 									disabled={formComplete}
 									style={{
-										opacity: !formComplete
-											? null
-											: '.5',
+										opacity: !formComplete ? null : '.5',
 										cursor: !formComplete ? 'pointer' : null,
 									}}
 								>

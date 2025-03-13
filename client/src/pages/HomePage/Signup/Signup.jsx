@@ -137,8 +137,7 @@ const Signup = () => {
 			setFormComplete(false);
 			return;
 		} else {
-			// Redirects to home
-			// navigate('/login');
+
 			try {
 				setLoadingScreen(true);
 				const response = await axiosInstance.post('/register-account', {
