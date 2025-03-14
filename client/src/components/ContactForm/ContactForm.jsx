@@ -8,17 +8,22 @@ const ContactForm = () => {
 		email: '',
 		message: '',
 	});
+	const [formComplete, setFormComplete] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const [formStatus, setFormStatus] = useState('');
 	const maxLength = 1000;
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
-		setFormData({
-			...formData,
+		setFormData((prev) => ({
+			...prev,
 			[name]: value,
-		});
+		}));
 	};
+
+	useEffect(() => {
+		setFormComplete(formData.name !== '' && formData.email !== '' && formData.message !== '');
+	}, [formData.name, formData.email, formData.message])
 
 	const remainingChars = maxLength - formData.message.length;
 
@@ -93,7 +98,7 @@ const ContactForm = () => {
 						</div>
 					</div>
 				</div>
-				<button type='button' disabled={isSubmitting}>
+				<button type='button' disabled={formComplete || isSubmitting} style={{ opacity: !formComplete && '.5' }}>
 					{isSubmitting ? 'Sending...' : 'Send'}
 				</button>
 			</form>

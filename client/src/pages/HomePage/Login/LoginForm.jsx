@@ -36,12 +36,8 @@ const LoginForm = () => {
 	};
 
 	useEffect(() => {
-		if (formData.email !== '' && formData.password !== '') {
-			setFormComplete(true);
-		} else {
-			setFormComplete(false);
-		}
-	}, [formData.email, formData.password]);
+		setFormComplete(formData.email !== '' && formData.password !== '');
+	}, [formData.email, formData.password]);	
 
 	const handleSubmit = async () => {
 		if (formComplete) {
