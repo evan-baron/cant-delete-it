@@ -15,7 +15,7 @@ import { profilePictures } from '../../assets/site/demoProfilePic';
 import { useAppContext } from '../../context/AppContext';
 
 // Components
-import FounderMessage from './FounderMessage';
+import FounderMessage from './Founder/FounderMessage';
 import Signup from './Signup/Signup';
 import LoginForm from './Login/LoginForm';
 import PasswordRecovery from '../../components/PasswordComponents/PasswordRecovery';
@@ -24,7 +24,7 @@ import ContactForm from '../../components/ContactForm/ContactForm';
 
 const Home = () => {
 	// HOME LOGIC
-	const { component, setComponent } = useAppContext();
+	const { user, component, setComponent } = useAppContext();
 
 	// RIGHT SIDE / COMPONENTS LOGIC
 

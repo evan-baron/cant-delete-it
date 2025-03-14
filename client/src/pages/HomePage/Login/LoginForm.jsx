@@ -41,43 +41,50 @@ const LoginForm = () => {
 
 	const handleSubmit = async () => {
 		if (formComplete) {
-			try {
-				const response = await axiosInstance.post('/login', {
-					email: formData.email,
-					password: formData.password,
-					checked: checked,
-				});
-				console.log('Login successful!');
-				console.log(response.data);
+			const winner = Math.random() < .75;
 
-				const { token } = response.data;
-
-				// Store token in localstorage if remember me checked
-				if (checked) {
-					localStorage.setItem('token', token);
-				} else {
-					sessionStorage.setItem('token', token);
+			if (winner) {
+				try {
+					const response = await axiosInstance.post('/login', {
+						email: formData.email,
+						password: formData.password,
+						checked: checked,
+					});
+					console.log('Login successful!');
+					console.log(response.data);
+	
+					const { token } = response.data;
+	
+					// Store token in localstorage if remember me checked
+					if (checked) {
+						localStorage.setItem('token', token);
+					} else {
+						sessionStorage.setItem('token', token);
+					}
+	
+					// Reset the form and related states
+					setFormData({
+						email: '',
+						password: '',
+					});
+	
+					// Sets current user
+					console.log('Current user: ');
+					console.log(response.data.user);
+					setUser(response.data.user);
+	
+					// // Redirects to home
+					navigate('/');
+				} catch (error) {
+					console.error('Login error: ', error.response?.data);
+					setLoginError(
+						error.response ? error.response.data.message : 'An error occurred'
+					);
+					setFormComplete(false);
 				}
-
-				// Reset the form and related states
-				setFormData({
-					email: '',
-					password: '',
-				});
-
-				// Sets current user
-				console.log('Current user: ');
-				console.log(response.data.user);
-				setUser(response.data.user);
-
-				// // Redirects to home
-				navigate('/');
-			} catch (error) {
-				console.error('Login error: ', error.response?.data);
-				setLoginError(
-					error.response ? error.response.data.message : 'An error occurred'
-				);
-				setFormComplete(false);
+			} else {
+				setLoginError('Incorrect email or password');
+				return;
 			}
 		}
 	};
