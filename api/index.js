@@ -3,7 +3,7 @@ const fs = require('fs');
 const path = require('path');
 const express = require('express');
 const cors = require('cors');
-const authRoutes = require('./routes/authRoutes');
+const routes = require('./routes/routes');
 const PORT = process.env.PORT || 5000;
 require('dotenv').config();
 
@@ -25,7 +25,7 @@ app.use(
 		credentials: true,
 	})
 );
-app.use('/', authRoutes);
+app.use('/', routes);
 
 https
 	.createServer({ key: privateKey, cert: certificate }, app)
