@@ -30,39 +30,43 @@ const checkIfUserExists = async (email) => {
 
 // Create a new user
 const createUser = async (first, last, email, password) => {
-	const hashedPassword = await bcrypt.hash(password, 10);
+	try {
+		const hashedPassword = await bcrypt.hash(password, 10);
 
-	const result = await userModel.createUser(
-		first,
-		last,
-		email,
-		hashedPassword
-	);
+		const result = await userModel.createUser(
+			first,
+			last,
+			email,
+			hashedPassword
+		);
 
-	const newUser = await userModel.findUserById(result.insertId);
+		const storeResult = await userModel.storePassword(
+			result.insertId,
+			hashedPassword
+		);
 
-	return {
-		id: newUser.id,
-		first_name: newUser.first_name,
-		last_name: newUser.last_name,
-		email: newUser.email,
-		created_at: newUser.created_at,
-	};
+		if (!storeResult) {
+			throw new Error('Failed to store the password');
+		}
+
+		const newUser = await userModel.findUserById(result.insertId);
+
+		return {
+			id: newUser.id,
+			first_name: newUser.first_name,
+			last_name: newUser.last_name,
+			email: newUser.email,
+			created_at: newUser.created_at,
+		};
+	} catch (error) {
+		console.error('Error creating user:', error.message);
+		throw error;
+	}
 };
 
 // Delete a user by ID
 const deleteUser = async (id) => {
 	return await userModel.deleteUserById(id);
-};
-
-// Get a user by email
-const getUserByEmail = async (email) => {
-	return await userModel.findUserByEmail(email);
-};
-
-// Get user by ID
-const getUserById = async (id) => {
-	return await userModel.findUserById(id);
 };
 
 // Generate recovery token
@@ -80,6 +84,16 @@ const generateToken = async (id, tokenName, length = 32) => {
 	}
 };
 
+// Get a user by email
+const getUserByEmail = async (email) => {
+	return await userModel.findUserByEmail(email);
+};
+
+// Get user by ID
+const getUserById = async (id) => {
+	return await userModel.findUserById(id);
+};
+
 // Get recovery token Data
 const getTokenData = async (token) => {
 	try {
@@ -88,21 +102,56 @@ const getTokenData = async (token) => {
 	} catch (err) {
 		console.log('There was an error at getTokenData: ', err.message);
 	}
-}
+};
 
 // Update password
 const updatePassword = async (password, token) => {
-	const hashedPassword = await bcrypt.hash(password, 10);
-
-	// ADD LOGIC TO MAKE SURE USER ISN'T USING SAME PASSWORD OR PREVIOUS PASSWORDS
-
 	try {
-		await userModel.updateUserPassword(hashedPassword, token);
-		await tokenModel.updateTokenUsed(token);
+		// Step 1: Get the user id by searching the token
+		const response = await tokenModel.getTokenData(token);
+		const { user_id } = response;
+
+		// Step 2: Find existing password hash for the user
+		const existingPasswords = await userModel.getPasswordById(user_id);
+
+		// Step 3: Check if the new password is the same as the old one
+
+		let isMatch = false;
+
+		for (let passwordObj of existingPasswords) {
+			const matches = await bcrypt.compare(password, passwordObj.password);
+			if (matches) {
+				isMatch = true;
+				break;
+			}
+		};
+
+		if (isMatch) {
+			console.log("You can't use a previously used password.");
+			return {
+				success: false,
+				message:
+					'For security reasons, you cannot reuse a previous password.',
+			};
+		} else {
+			console.log(`The passwords don't match. Proceed`);
+
+		// Step 4: Hash the new password
+			const newPassword = await bcrypt.hash(password, 10);
+
+			// Step 5: Update the password and token
+			await userModel.updateUserPassword(newPassword, token); // Pass user_id instead of token if needed
+			await userModel.storePassword(user_id, newPassword);
+			await tokenModel.updateTokenUsed(token); // Mark token as used
+
+			return { success: true, message: 'Password updated successfully.' };
+		}
+		
 	} catch (err) {
-		console.log('There was an error: ', err.message);
+		console.error('Error during password update: ', err.message);
+		return { success: false, message: 'Error updating password.' };
 	}
-}
+};
 
 // Update verified
 const updateVerified = async (user_id, token) => {
@@ -112,7 +161,7 @@ const updateVerified = async (user_id, token) => {
 	} catch (err) {
 		console.log('There was an error at updateVerified. ', err.message);
 	}
-}
+};
 
 module.exports = {
 	authenticateUser,

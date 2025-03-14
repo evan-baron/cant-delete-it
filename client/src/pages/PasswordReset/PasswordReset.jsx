@@ -66,6 +66,8 @@ const PasswordReset = () => {
 				});
 				const { tokenValid, timeRemaining, email } = response.data;
 
+				console.log(response.data);
+
 				setResendEmail(email);
 				setTokenValid(tokenValid);
 				setTimeRemaining(tokenValid ? timeRemaining : 0);
@@ -99,6 +101,7 @@ const PasswordReset = () => {
 	const handleChange = (e) => {
 		const { name, value } = e.target;
 		setFormData((prev) => ({ ...prev, [name]: value }));
+		setErrorMessage(null);
 
 		if (name === 'password') {
 			const lengthValid = value.length >= 8;
@@ -123,6 +126,7 @@ const PasswordReset = () => {
 				setEmailSent(true);
 				const data = await axiosInstance.post('/recover-password', {
 					email: resendEmail,
+					tokenName: 'email_recovery'
 				});
 
 				if (data) setResendEmail(null);
@@ -142,18 +146,27 @@ const PasswordReset = () => {
 		}
 
 		try {
-			await axiosInstance.post('/reset-password', {
+			const response = await axiosInstance.post('/reset-password', {
 				token,
 				password: formData.password.trim(),
 			});
 
-			setFormData({ password: '', confirm: '' });
-			setEmailSent(null);
-			setPasswordReset((prev) => !prev);
-			setPasswordValid(null);
-			setPasswordVisible(false);
-			setPasswordMatch(null);
-			setTokenValid(false);
+			console.log(response);
+
+			const { success, message } = response.data;
+
+			if (success) {
+				setFormData({ password: '', confirm: '' });
+				setEmailSent(null);
+				setPasswordReset((prev) => !prev);
+				setPasswordValid(null);
+				setPasswordVisible(false);
+				setPasswordMatch(null);
+				setTokenValid(false);
+			} else {
+				setErrorMessage(message);
+			}
+
 		} catch (error) {
 			console.error('Registration error:', error.response?.data);
 			setErrorMessage(
