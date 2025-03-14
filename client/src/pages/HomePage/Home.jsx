@@ -1,5 +1,6 @@
 // External Libraries
 import React, { useState, useEffect, useMemo, useRef } from 'react';
+import axiosInstance from '../../utils/axios';
 import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 
@@ -18,13 +19,17 @@ import { useAppContext } from '../../context/AppContext';
 import FounderMessage from './Founder/FounderMessage';
 import Signup from './Signup/Signup';
 import LoginForm from './Login/LoginForm';
-import PasswordRecovery from '../../components/PasswordComponents/PasswordRecovery';
+import PasswordRecovery from './PasswordRecovery/PasswordRecovery';
 import Verify from './Verify/Verify';
 import ContactForm from '../../components/ContactForm/ContactForm';
 
 const Home = () => {
 	// HOME LOGIC
-	const { user, component, setComponent } = useAppContext();
+	const { user, setUser, component, setComponent } = useAppContext();
+
+	useEffect(() => {
+
+	}, [user]);
 
 	// RIGHT SIDE / COMPONENTS LOGIC
 
@@ -177,283 +182,313 @@ const Home = () => {
 	};
 
 	return (
-		<div className='home'>
+		<main className='home'>
 			<div className='home-container'>
-				<main className='left-side'>
-					<div className='content'>
-						<div className='content-wrapper'>
-							<section className='hero'>
-								<h1 className='title'>
-									Cant<span>&nbsp;</span>
-									<span style={{ color: 'red' }}>Delete</span>
-									<span>&nbsp;</span>It.
-								</h1>
-								<h2 className='pitch'>The world's worst social media site</h2>
-							</section>
+				{user ? (
+					<div onClick={async () => {
+						try {
+							await axiosInstance.post('/logout');
+							setUser(null);
+						} catch (error) {
+							console.error('There was an error logging out: ', error);
+						}
+					}}>Hello</div>
+				) : (
+					<>
+						<section className='left-side'>
+							<div className='content'>
+								<div className='content-wrapper'>
+									<section className='hero'>
+										<h1 className='title'>
+											Cant<span>&nbsp;</span>
+											<span style={{ color: 'red' }}>Delete</span>
+											<span>&nbsp;</span>It.
+										</h1>
+										<h2 className='pitch'>
+											The world's worst social media site
+										</h2>
+									</section>
 
-							<section className='rules' aria-labelledby='rules-section'>
-								<h2 id='rules-section'>The Rules:</h2>
-								<div className='divider'></div>
-								<ul role='list'>
-									<li role='listitem'>
-										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
-										<p>
-											Your content will automatically post 30 seconds after your
-											last keystroke.
-										</p>
-									</li>
-									<li role='listitem'>
-										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
-										<p>
-											You can't delete. <span className='bold'>Anything.</span>{' '}
-											Pressing backspace removes 10 seconds from the timer.
-										</p>
-									</li>
-									<li role='listitem'>
-										<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
-										<p>
-											You can't edit either. That includes no clicking back on
-											previously typed words.
-										</p>
-									</li>
-									<li role='listitem'>
-										<Close
-											sx={{
-												color: 'rgb(255, 0, 0)',
-												fontSize: '2rem',
-											}}
-										/>
-										<p>
-											Our spell-check{' '}
-											<span className='misspelled'>doesn't</span> work. Get used
-											to it.
-										</p>
-									</li>
-								</ul>
-							</section>
-
-							<section className='demo' aria-labelledby='demo-section'>
-								<h2 id='demo-section'>Try It Out:</h2>
-								<div className='demo-container'>
-									<div className='demo-content'>
-										{/* FORM BELOW WILL EVENTUALLY BE A WRITE COMPONENT */}
-										<form
-											className='write-post'
-											role='form'
-											aria-labelledby='write-post-form'
-										>
-											<section className='input'>
-												<textarea
-													id='demoTextArea'
-													type='text'
-													maxLength='69'
-													placeholder='Signing up is a really bad idea...'
-													onChange={demoChange}
-													value={demoFormData}
-													onKeyDown={handleKeyDown}
-													onKeyUp={(e) => {
-														if (e.key === 'Backspace') {
-															if (timeLeft <= 0) {
-																setTimeLeft(3000);
-															} else {
-																return;
-															}
-														}
-													}}
-													onContextMenu={(e) => {
-														e.preventDefault();
-													}}
-													onMouseDown={(e) => {
-														e.target.focus();
-														e.preventDefault();
-														return;
+									<section className='rules' aria-labelledby='rules-section'>
+										<h2 id='rules-section'>The Rules:</h2>
+										<div className='divider'></div>
+										<ul role='list'>
+											<li role='listitem'>
+												<Close
+													sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
+												/>
+												<p>
+													Your content will automatically post 30 seconds after
+													your last keystroke.
+												</p>
+											</li>
+											<li role='listitem'>
+												<Close
+													sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
+												/>
+												<p>
+													You can't delete.{' '}
+													<span className='bold'>Anything.</span> Pressing
+													backspace removes 10 seconds from the timer.
+												</p>
+											</li>
+											<li role='listitem'>
+												<Close
+													sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
+												/>
+												<p>
+													You can't edit either. That includes no clicking back
+													on previously typed words.
+												</p>
+											</li>
+											<li role='listitem'>
+												<Close
+													sx={{
+														color: 'rgb(255, 0, 0)',
+														fontSize: '2rem',
 													}}
 												/>
-												<div
-													className='timer'
-													style={{ color: timeLeft < 1000 && 'red' }}
-													aria-live='polite'
-												>
-													{countdownStarted &&
-														(timeLeft > 1000
-															? Math.round(timeLeft / 100)
-															: (timeLeft / 100).toFixed(2))}
-												</div>
-											</section>
-											<div className='input-decorations'>
-												<p className='characters-remaining'>
-													{69 - demoFormData.length} (normally 420 character
-													limit)
+												<p>
+													Our spell-check{' '}
+													<span className='misspelled'>doesn't</span> work. Get
+													used to it.
 												</p>
-												<button
-													type='button'
-													onClick={demoSubmit}
-													aria-label='Post content'
-												>
-													Post
-												</button>
-											</div>
-										</form>
+											</li>
+										</ul>
+									</section>
 
-										{/* SECTION BELOW WILL EVENTUALLY BE A POST COMPONENT */}
-										{demoPostData.visible && (
-											<article className='posted-content'>
-												<div className='profile-picture'>
-													<img
-														src={profilePic}
-														alt='Demo User Profile Picture'
-													/>
-												</div>
-												<div className='posted-content-container'>
-													<h3 className='user'>{demoPostData.userName}</h3>
-													<p className='post-content'>
-														{checkedWords.map(({ word, isCorrect }, index) => (
-															<React.Fragment key={index}>
-																<span className={isCorrect ? '' : 'misspelled'}>
-																	{word}
-																</span>
-																{index !== checkedWords.length - 1 && (
-																	<span>&nbsp;</span>
-																)}
-															</React.Fragment>
-														))}
-													</p>
-													<div className='post-decorations'>
-														<p className='timestamp'>
-															{demoPostData.timestamp}
+									<section className='demo' aria-labelledby='demo-section'>
+										<h2 id='demo-section'>Try It Out:</h2>
+										<div className='demo-container'>
+											<div className='demo-content'>
+												{/* FORM BELOW WILL EVENTUALLY BE A WRITE COMPONENT */}
+												<form
+													className='write-post'
+													role='form'
+													aria-labelledby='write-post-form'
+												>
+													<section className='input'>
+														<textarea
+															id='demoTextArea'
+															type='text'
+															maxLength='69'
+															placeholder='Signing up is a really bad idea...'
+															onChange={demoChange}
+															value={demoFormData}
+															onKeyDown={handleKeyDown}
+															onKeyUp={(e) => {
+																if (e.key === 'Backspace') {
+																	if (timeLeft <= 0) {
+																		setTimeLeft(3000);
+																	} else {
+																		return;
+																	}
+																}
+															}}
+															onContextMenu={(e) => {
+																e.preventDefault();
+															}}
+															onMouseDown={(e) => {
+																e.target.focus();
+																e.preventDefault();
+																return;
+															}}
+														/>
+														<div
+															className='timer'
+															style={{ color: timeLeft < 1000 && 'red' }}
+															aria-live='polite'
+														>
+															{countdownStarted &&
+																(timeLeft > 1000
+																	? Math.round(timeLeft / 100)
+																	: (timeLeft / 100).toFixed(2))}
+														</div>
+													</section>
+													<div className='input-decorations'>
+														<p className='characters-remaining'>
+															{69 - demoFormData.length} (normally 420 character
+															limit)
 														</p>
-														<div className='post-buttons'>
-															<div className='score-box'>
-																<Check
-																	className='symbol'
-																	sx={{
-																		color: approve
-																			? 'rgb(0, 200, 0)'
-																			: '#525252',
-																		fontSize: '1.5rem',
-																		transform: 'translateY(-1px)',
-																	}}
-																	onClick={() => {
-																		setApprove((prev) => !prev);
-																		setDisapprove(false);
-																	}}
-																/>
-																<div className='post-buttons-divider'></div>
-																<div className='post-score'>
-																	{postScore.approve}
-																</div>
-															</div>
-															<div className='score-box'>
-																<Close
-																	className='symbol'
-																	sx={{
-																		color: disapprove
-																			? 'rgb(255, 0, 0)'
-																			: '#525252',
-																		fontSize: '1.5rem',
-																	}}
-																	onClick={() => {
-																		setDisapprove((prev) => !prev);
-																		setApprove(false);
-																	}}
-																/>
-																<div className='post-buttons-divider'></div>
-																<div className='post-score'>
-																	{postScore.disapprove}
+														<button
+															type='button'
+															onClick={demoSubmit}
+															aria-label='Post content'
+														>
+															Post
+														</button>
+													</div>
+												</form>
+
+												{/* SECTION BELOW WILL EVENTUALLY BE A POST COMPONENT */}
+												{demoPostData.visible && (
+													<article className='posted-content'>
+														<div className='profile-picture'>
+															<img
+																src={profilePic}
+																alt='Demo User Profile Picture'
+															/>
+														</div>
+														<div className='posted-content-container'>
+															<h3 className='user'>{demoPostData.userName}</h3>
+															<p className='post-content'>
+																{checkedWords.map(
+																	({ word, isCorrect }, index) => (
+																		<React.Fragment key={index}>
+																			<span
+																				className={
+																					isCorrect ? '' : 'misspelled'
+																				}
+																			>
+																				{word}
+																			</span>
+																			{index !== checkedWords.length - 1 && (
+																				<span>&nbsp;</span>
+																			)}
+																		</React.Fragment>
+																	)
+																)}
+															</p>
+															<div className='post-decorations'>
+																<p className='timestamp'>
+																	{demoPostData.timestamp}
+																</p>
+																<div className='post-buttons'>
+																	<div className='score-box'>
+																		<Check
+																			className='symbol'
+																			sx={{
+																				color: approve
+																					? 'rgb(0, 200, 0)'
+																					: '#525252',
+																				fontSize: '1.5rem',
+																				transform: 'translateY(-1px)',
+																			}}
+																			onClick={() => {
+																				setApprove((prev) => !prev);
+																				setDisapprove(false);
+																			}}
+																		/>
+																		<div className='post-buttons-divider'></div>
+																		<div className='post-score'>
+																			{postScore.approve}
+																		</div>
+																	</div>
+																	<div className='score-box'>
+																		<Close
+																			className='symbol'
+																			sx={{
+																				color: disapprove
+																					? 'rgb(255, 0, 0)'
+																					: '#525252',
+																				fontSize: '1.5rem',
+																			}}
+																			onClick={() => {
+																				setDisapprove((prev) => !prev);
+																				setApprove(false);
+																			}}
+																		/>
+																		<div className='post-buttons-divider'></div>
+																		<div className='post-score'>
+																			{postScore.disapprove}
+																		</div>
+																	</div>
 																</div>
 															</div>
 														</div>
-													</div>
-												</div>
-											</article>
-										)}
-										<div className='style-blob-2'></div>
-									</div>
-									<button
-										className='signup-button'
-										type='button'
-										onClick={() => setComponent('signup')}
-										aria-label='Sign up'
-									>
-										Sign up
-									</button>
-								</div>
-							</section>
-						</div>
-						<div className='floating-links'>
-							<div
-								className='floating-link'
-								onClick={() => setComponent('login')}
-								role='button'
-								aria-label='Login'
-							>
-								<Login
-									sx={{
-										fontSize: '2.5rem',
-										filter:
-											'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
-									}}
-								/>
-								<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
-							</div>
-							<div
-								className='floating-link'
-								aria-label='Get in touch'
-								role='button'
-								onClick={() => setComponent('contact')}
-							>
-								<Mail
-									sx={{
-										fontSize: '2.5rem',
-										filter:
-											'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
-									}}
-								/>
-								<p>Get in touch!</p>
-							</div>
-						</div>
-					</div>
-					<div className='style-blob-1'></div>
-				</main>
+													</article>
+												)}
+												<div className='style-blob-2'></div>
+											</div>
 
-				<aside className='right-side'>
-					<div className='content'>
-						{component === 'founder' && <FounderMessage />}
-						{component === 'signup' && <Signup />}
-						{component === 'login' && <LoginForm />}
-						{component === 'password' && <PasswordRecovery />}
-						{component === 'verify' && <Verify />}
-						{component === 'contact' && <ContactForm />}
-						<a
-							className='sign-up-link'
-							onClick={() => {
-								component !== 'founder'
-									? setComponent('founder')
-									: setComponent('signup');
-							}}
-							role='link'
-							aria-label='Switch between founder message and sign up'
-						>
-							<West
-								className={`arrow west-arrow ${
-									component !== 'founder' ? 'visible' : 'hidden'
-								}`}
-								sx={{ color: '#252525' }}
-							/>
-							<span className='direction'>
-								{component !== 'founder' ? 'Return to Home' : 'Sign up'}
-							</span>
-							<East
-								className={`arrow east-arrow ${
-									component !== 'founder' ? 'hidden' : 'visible'
-								}`}
-								sx={{ color: '#252525' }}
-							/>
-						</a>
-					</div>
-				</aside>
+											<button
+												className='signup-button'
+												type='button'
+												onClick={() => setComponent('signup')}
+												aria-label='Sign up'
+											>
+												Sign up
+											</button>
+										</div>
+									</section>
+								</div>
+
+								<div className='floating-links'>
+									<div
+										className='floating-link'
+										onClick={() => setComponent('login')}
+										role='button'
+										aria-label='Login'
+									>
+										<Login
+											sx={{
+												fontSize: '2.5rem',
+												filter:
+													'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
+											}}
+										/>
+										<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
+									</div>
+									<div
+										className='floating-link'
+										aria-label='Get in touch'
+										role='button'
+										onClick={() => setComponent('contact')}
+									>
+										<Mail
+											sx={{
+												fontSize: '2.5rem',
+												filter:
+													'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
+											}}
+										/>
+										<p>Get in touch!</p>
+									</div>
+								</div>
+							</div>
+							<div className='style-blob-1'></div>
+						</section>
+
+						<section className='right-side'>
+							<div className='content'>
+								{component === 'founder' && <FounderMessage />}
+								{component === 'signup' && <Signup />}
+								{component === 'login' && <LoginForm />}
+								{component === 'password' && <PasswordRecovery />}
+								{component === 'verify' && <Verify />}
+								{component === 'contact' && <ContactForm />}
+								<a
+									className='sign-up-link'
+									onClick={() => {
+										component !== 'founder'
+											? setComponent('founder')
+											: setComponent('signup');
+									}}
+									role='link'
+									aria-label='Switch between founder message and sign up'
+								>
+									<West
+										className={`arrow west-arrow ${
+											component !== 'founder' ? 'visible' : 'hidden'
+										}`}
+										sx={{ color: '#252525' }}
+									/>
+									<span className='direction'>
+										{component !== 'founder' ? 'Return to Home' : 'Sign up'}
+									</span>
+									<East
+										className={`arrow east-arrow ${
+											component !== 'founder' ? 'hidden' : 'visible'
+										}`}
+										sx={{ color: '#252525' }}
+									/>
+								</a>
+							</div>
+						</section>
+					</>
+				)}
 			</div>
-		</div>
+		</main>
 	);
 };
 

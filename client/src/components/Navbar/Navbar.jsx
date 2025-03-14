@@ -1,8 +1,12 @@
 import React from 'react';
-import axiosInstance from '../utils/axios';
+import axiosInstance from '../../utils/axios';
 import { Link } from 'react-router-dom';
+import { useAppContext } from '../../context/AppContext';
+import './navbar.scss';
 
-const Navbar = ({ user, setUser }) => {
+const Navbar = () => {
+	const { user, setUser } = useAppContext();
+
 	const handleLogout = async () => {
 		try {
 			await axiosInstance.post('/logout');
@@ -19,19 +23,12 @@ const Navbar = ({ user, setUser }) => {
 		<div className='navbar'>
 			<div className='nav-container'>
 				<Link to='/' className='logo'>
-					Can't Delete It
+					can't <span style={{color: 'red'}}>delete</span> it
 				</Link>
 				<div className='links'>
-					{user ? (
-						<Link to='/' className='logout' onClick={handleLogout}>
-							Logout
-						</Link>
-					) : (
-						<>
-							<Link to='/login'>Login</Link>
-							<Link to='/register'>Register</Link>
-						</>
-					)}
+					<Link to='/' className='logout' onClick={handleLogout}>
+						Logout
+					</Link>
 				</div>
 			</div>
 		</div>
