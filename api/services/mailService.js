@@ -23,6 +23,28 @@ const getTemplate = (templateName, replacements = {}) => {
 	return template;
 }
 
+const sendContactForm = async (name, email, message) => {
+	const htmlContent = getTemplate('contactForm', {
+		name,
+		email,
+		message
+	})
+
+	const mailOptions = {
+		from: process.env.EMAIL,
+		to: process.env.PERSONAL_EMAIL,
+		subject: `Contact Us Message From ${name}`,
+		html: htmlContent
+	}
+
+	try {
+		await transporter.sendMail(mailOptions);
+		console.log('Contact Us message sent successfully');
+	} catch (err) {
+		console.error('Error sending email: ', err);
+	}
+}
+
 const sendPasswordResetEmail = async (user, resetToken) => {
 	const { email } = user;
 
@@ -77,4 +99,4 @@ const sendVerificationEmail = async (user, verificationToken) => {
 	}
 };
 
-module.exports = { sendPasswordResetEmail, sendVerificationEmail };
+module.exports = { sendContactForm, sendPasswordResetEmail, sendVerificationEmail };

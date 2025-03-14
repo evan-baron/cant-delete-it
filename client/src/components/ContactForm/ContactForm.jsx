@@ -10,11 +10,11 @@ const ContactForm = () => {
 	});
 	const [formComplete, setFormComplete] = useState(false);
 	const [isSubmitting, setIsSubmitting] = useState(false);
-	const [formStatus, setFormStatus] = useState('');
-	const maxLength = 1000;
+	const [messageSent, setMessageSent] = useState(false);
 
 	const handleChange = (e) => {
 		const { name, value } = e.target;
+		setMessageSent(false);
 		setFormData((prev) => ({
 			...prev,
 			[name]: value,
@@ -22,31 +22,35 @@ const ContactForm = () => {
 	};
 
 	useEffect(() => {
-		setFormComplete(formData.name !== '' && formData.email !== '' && formData.message !== '');
-	}, [formData.name, formData.email, formData.message])
+		setFormComplete(
+			formData.name !== '' && formData.email !== '' && formData.message !== ''
+		);
+	}, [formData.name, formData.email, formData.message]);
 
+	const maxLength = 1000;
 	const remainingChars = maxLength - formData.message.length;
 
-	useEffect(() => {
-
-	}, [formData.message])
+	useEffect(() => {}, [formData.message]);
 
 	const handleSubmit = async (e) => {
-		e.preventDefault();
 		setIsSubmitting(true);
-		setFormStatus('');
 
 		try {
-			// UPDATE LOGIC BELOW
-			await axiosInstance.post('/contact', {
+			const response = await axiosInstance.post('/contact', {
+				name: formData.name,
 				email: formData.email,
-				password: formData.password,
-				checked: checked,
+				message: formData.message,
 			});
-			setIsSubmitting(false);
+			response.status === 201 && setIsSubmitting(false);
 		} catch (error) {
-			setFormStatus('There was an error submitting the form.');
+			console.error('There was an error submitting the message.', error);
 		}
+		setFormData({
+			name: '',
+			email: '',
+			message: '',
+		});
+		setMessageSent(prev => !prev);
 	};
 
 	return (
@@ -98,11 +102,19 @@ const ContactForm = () => {
 						</div>
 					</div>
 				</div>
-				<button type='button' disabled={formComplete || isSubmitting} style={{ opacity: !formComplete && '.5' }}>
-					{isSubmitting ? 'Sending...' : 'Send'}
-				</button>
+				{!messageSent ? (
+					<button
+						type='button'
+						disabled={!formComplete || isSubmitting}
+						style={{ opacity: !formComplete && '.5' }}
+						onClick={() => handleSubmit()}
+					>
+						{isSubmitting ? 'Sending...' : 'Send'}
+					</button>
+				) : (
+					<p className='message-sent'>Message sent!</p>
+				)}
 			</form>
-			{formStatus && <p>{formStatus}</p>}
 		</section>
 	);
 };

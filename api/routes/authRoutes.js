@@ -108,6 +108,18 @@ router.post('/check-email', async (req, res) => {
 	}
 });
 
+router.post('/contact', async (req, res) => {
+	const { name, email, message } = req.body;
+
+	try {
+		await mailService.sendContactForm(name, email, message);
+		return res.status(201).json({ message: 'Contact Us email sent' });
+	} catch (err) {
+		console.log('There was an error: ', err.message)
+		return res.status(500).json({ message: 'Error sending password reset email' });
+	}
+});
+
 router.post('/login', async (req, res) => {
 	const { email, password, checked } = req.body;
 
