@@ -20,6 +20,7 @@ import Signup from './Signup/Signup';
 import LoginForm from './Login/LoginForm';
 import PasswordRecovery from '../../components/PasswordComponents/PasswordRecovery';
 import Verify from './Verify/Verify';
+import ContactForm from '../../components/ContactForm/ContactForm';
 
 const Home = () => {
 	// HOME LOGIC
@@ -284,7 +285,11 @@ const Home = () => {
 													{69 - demoFormData.length} (normally 420 character
 													limit)
 												</p>
-												<button type='button' onClick={demoSubmit} aria-label='Post content'>
+												<button
+													type='button'
+													onClick={demoSubmit}
+													aria-label='Post content'
+												>
 													Post
 												</button>
 											</div>
@@ -294,7 +299,10 @@ const Home = () => {
 										{demoPostData.visible && (
 											<article className='posted-content'>
 												<div className='profile-picture'>
-													<img src={profilePic} alt='Demo User Profile Picture' />
+													<img
+														src={profilePic}
+														alt='Demo User Profile Picture'
+													/>
 												</div>
 												<div className='posted-content-container'>
 													<h3 className='user'>{demoPostData.userName}</h3>
@@ -388,7 +396,12 @@ const Home = () => {
 								/>
 								<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
 							</div>
-							<div className='floating-link' aria-label='Get in touch'>
+							<div
+								className='floating-link'
+								aria-label='Get in touch'
+								role='button'
+								onClick={() => setComponent('contact')}
+							>
 								<Mail
 									sx={{
 										fontSize: '2.5rem',
@@ -410,6 +423,7 @@ const Home = () => {
 						{component === 'login' && <LoginForm />}
 						{component === 'password' && <PasswordRecovery />}
 						{component === 'verify' && <Verify />}
+						{component === 'contact' && <ContactForm />}
 						<a
 							className='sign-up-link'
 							onClick={() => {

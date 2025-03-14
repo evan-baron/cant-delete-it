@@ -98,7 +98,6 @@ const LoginForm = () => {
 								id='email'
 								type='email'
 								name='email'
-								placeholder=''
 								onChange={handleChange}
 								required
 								aria-label='Enter your email address'
@@ -112,7 +111,6 @@ const LoginForm = () => {
 								id='password'
 								type={passwordVisible ? 'text' : 'password'}
 								name='password'
-								placeholder=''
 								onChange={handleChange}
 								required
 								aria-label='Enter your password'
