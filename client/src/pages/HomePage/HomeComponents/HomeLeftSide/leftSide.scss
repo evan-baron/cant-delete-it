@@ -11,6 +11,7 @@ $lightestGray: #eeeeee;
 	display: flex;
 	flex-direction: column;
 	align-items: center;
+	justify-content: center;
 	height: 100%;
 	width: calc(7 / 12 * 100%);
 	background-color: #252525;
@@ -19,6 +20,7 @@ $lightestGray: #eeeeee;
 	@media (max-width: 480px) {
 		min-height: 100dvh;
 		width: 100%;
+		justify-content: center;
 	}
 
 	.content {
@@ -35,7 +37,7 @@ $lightestGray: #eeeeee;
 		z-index: 1;
 
 		@media (max-width: 480px) {
-			gap: none;
+			gap: 1rem;
 		}
 
 		.hero {
@@ -111,6 +113,10 @@ $lightestGray: #eeeeee;
 				flex-direction: column;
 				gap: 1.25rem;
 				width: 100%;
+
+				@media (max-width: 480px) {
+					gap: .75rem;
+				}
 			}
 
 			li {
@@ -270,10 +276,18 @@ $lightestGray: #eeeeee;
 						gap: 1rem;
 						z-index: 2 !important;
 
+						@media (max-width: 480px) {
+							gap: .5rem;
+						}
+
 						.profile-picture {
 							height: 3.5rem;
 							aspect-ratio: 1;
 							border-radius: 50%;
+
+							@media (max-width: 480px) {
+								height: 2.75rem;
+							}
 
 							img {
 								height: 100%;
@@ -295,6 +309,10 @@ $lightestGray: #eeeeee;
 								font-size: 2rem;
 								padding-left: 0.5rem;
 								color: $lightestGray;
+
+								@media (max-width: 480px) {
+									font-size: 5vw;
+								}
 							}
 
 							.post-content {
@@ -335,6 +353,10 @@ $lightestGray: #eeeeee;
 									gap: 0.5rem;
 									height: 2rem;
 
+									@media (max-width: 480px) {
+										height: auto;
+									}
+
 									.score-box {
 										display: flex;
 										align-items: center;
@@ -343,25 +365,43 @@ $lightestGray: #eeeeee;
 										border: 2px solid $lightGray;
 										border-radius: 1rem;
 
+										@media (max-width: 480px) {
+											height: 1.5rem;
+										}
+
 										.symbol {
 											display: flex;
 											align-items: center;
 											justify-content: center;
 											width: 2rem;
 											cursor: pointer;
+
+											@media (max-width: 480px) {
+												width: 1.25rem;
+											}
 										}
 
 										.post-buttons-divider {
 											height: 1.5rem;
 											border: 1px solid $lightGray;
+
+											@media (max-width: 480px) {
+												display: none;
+											}
 										}
 
 										.post-score {
 											display: flex;
 											align-items: center;
 											justify-content: center;
-											min-width: 2rem;
+											width: 2rem;
 											max-width: 4rem;
+
+											@media (max-width: 480px) {
+												width: auto;
+												padding: .375rem;
+												font-size: .75rem;
+											}
 										}
 									}
 								}
