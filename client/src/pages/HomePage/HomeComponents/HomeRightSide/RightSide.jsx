@@ -23,7 +23,7 @@ const RightSide = () => {
 
 	return (
 		<section className='right-side'>
-			{/* <div className='content'>
+			<div className='content'>
 				{component === 'founder' && <FounderMessage />}
 				{component === 'signup' && <Signup />}
 				{component === 'login' && <LoginForm />}
@@ -56,7 +56,7 @@ const RightSide = () => {
 						sx={{ color: '#252525' }}
 					/>
 				</a>
-			</div> */}
+			</div>
 		</section>
 	);
 };
