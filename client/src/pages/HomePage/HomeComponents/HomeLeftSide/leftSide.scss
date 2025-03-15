@@ -1,0 +1,413 @@
+$masterBackground: #f6f6f6;
+$darkerGray: #121212;
+$darkGray: #252525;
+$mediumGray: #373737;
+$lightGray: #525252;
+$lighterGray: #aaaaaa;
+$lightestGray: #eeeeee;
+
+// * {
+// 	border: 1px solid red !important;
+// }
+
+.left-side {
+	position: relative;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 100%;
+	width: calc(7 / 12 * 100%);
+	background-color: #252525;
+	overflow: hidden;
+	box-shadow: 0 0 1rem black;
+
+	.content {
+		position: relative;
+		display: flex;
+		flex-direction: column;
+		align-items: center;
+		gap: 1rem;
+		height: 100%;
+		width: 100%;
+		padding: 1rem;
+		color: white;
+		z-index: 1;
+
+		.content-wrapper {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: 2rem;
+			height: 100%;
+		}
+
+		.hero {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: end;
+			gap: 1rem;
+			width: 100%;
+			max-width: 40rem;
+
+			.title {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				font-size: clamp(3rem, 12vh, 6rem);
+				text-transform: lowercase;
+				text-shadow: 2px 2px 0.25rem #111111;
+			}
+
+			.pitch {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				font-size: clamp(1.5rem, 4vh, 2rem);
+				text-transform: uppercase;
+				text-shadow: 2px 2px 0.25rem #111111;
+			}
+		}
+
+		.rules {
+			display: flex;
+			flex-direction: column;
+			// width: calc(8/12 * 100%);
+			width: 100%;
+			max-width: 40rem;
+			padding: 1rem;
+
+			h2 {
+				font-size: clamp(1.5rem, 6vh, 3rem);
+				text-shadow: 2px 2px 0.25rem #111111;
+			}
+
+			.divider {
+				width: 100%;
+				margin-bottom: 1rem;
+				border: 1px solid white;
+				box-shadow: 2px 2px 0.25rem #111111;
+			}
+
+			ul {
+				display: flex;
+				flex-direction: column;
+				gap: 1.25rem;
+				width: 100%;
+			}
+
+			li {
+				display: flex;
+				align-items: center;
+				gap: 0.75rem;
+				width: 100%;
+				font-size: clamp(1rem, 3vh, 1.5rem);
+				text-shadow: 2px 2px 0.25rem #111111;
+
+				p {
+					width: 100%;
+					line-height: 1.125;
+				}
+			}
+		}
+
+		.demo {
+			position: relative;
+			display: flex;
+			flex-direction: column;
+			gap: 1rem;
+			// width: calc(8/12 * 100%);
+			width: 100%;
+			max-width: 40rem;
+			height: 20rem;
+			padding: 0 1rem 1rem 1rem;
+
+			h2 {
+				font-size: clamp(1.5rem, 6vh, 3rem);
+				text-shadow: 2px 2px 0.25rem #111111;
+			}
+
+			.demo-container {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				gap: 1rem;
+
+				.demo-content {
+					position: relative;
+					display: flex;
+					flex-direction: column;
+					gap: 1rem;
+					width: 100%;
+					padding: 1rem;
+					background-color: $darkGray;
+					border: 2px solid $mediumGray;
+					border-radius: 0.5rem;
+					box-shadow: 0.25rem 0.25rem 1rem rgba(0, 0, 0, 0.2),
+						0 0 1.5rem rgba(0, 0, 0, 0.2);
+					overflow: hidden;
+
+					.write-post {
+						position: relative;
+						display: flex;
+						flex-direction: column;
+						gap: 0.375rem;
+						width: 100%;
+						// border: 1px solid red;
+						z-index: 2 !important;
+
+						.input {
+							display: flex;
+							align-items: center;
+							gap: 1rem;
+							width: 100%;
+
+							textarea {
+								position: relative;
+								height: 2.5rem;
+								align-content: center;
+								max-height: 4.5rem;
+								overflow-y: scroll;
+								width: 100%;
+								font-size: 1.25rem;
+								padding-left: 1rem;
+								padding-right: 2.5rem;
+								border: none;
+								border-radius: 1.25rem;
+								outline: none;
+								color: $darkGray;
+								background-color: $masterBackground;
+							}
+
+							textarea::-webkit-scrollbar {
+								display: none;
+							}
+
+							.timer {
+								position: absolute;
+								display: flex;
+								align-items: center;
+								justify-content: center;
+								color: $darkerGray;
+								height: 2.5rem;
+								right: 0.5rem;
+								width: 2rem;
+							}
+						}
+
+						.input-decorations {
+							display: flex;
+							align-items: center;
+							justify-content: space-between;
+							width: 100%;
+
+							.characters-remaining {
+								align-self: flex-start;
+								color: $lightGray;
+								font-size: 0.875rem;
+								padding-left: 1rem;
+							}
+
+							button {
+								outline: none;
+								border: none;
+								border-radius: 1.25rem;
+								color: white;
+								font-size: 1.25rem;
+								background-color: $lightGray;
+								height: 2.5rem;
+								width: 6rem;
+								position: relative;
+								cursor: pointer;
+							}
+
+							button:active {
+								background-color: $lighterGray;
+							}
+						}
+					}
+
+					.posted-content {
+						display: flex;
+						width: 100%;
+						gap: 1rem;
+						z-index: 2 !important;
+
+						.profile-picture {
+							height: 3.5rem;
+							aspect-ratio: 1;
+							border-radius: 50%;
+
+							img {
+								height: 100%;
+								aspect-ratio: 1;
+								object-fit: cover;
+								border-radius: 50%;
+							}
+						}
+
+						.posted-content-container {
+							position: relative;
+							display: flex;
+							flex-direction: column;
+							gap: 0.5rem;
+							width: 100%;
+							z-index: 2 !important;
+
+							.user {
+								font-size: 2rem;
+								padding-left: 0.5rem;
+								color: $lightestGray;
+							}
+
+							.post-content {
+								display: block;
+								min-height: 2rem;
+								width: 100%;
+								align-items: center;
+								padding: 0.5rem;
+								color: $lightestGray;
+								white-space: normal;
+								word-wrap: break-word;
+								word-break: break-word;
+								background-color: $mediumGray;
+								border-radius: 0.25rem;
+
+								span {
+									display: inline-block;
+									max-width: 100%;
+								}
+							}
+
+							.post-decorations {
+								display: flex;
+								width: 100%;
+								align-items: center;
+								justify-content: space-between;
+								padding: 0 0.5rem;
+
+								.timestamp {
+									align-self: start;
+									color: $lightGray;
+									font-size: 0.75rem;
+								}
+
+								.post-buttons {
+									display: flex;
+									align-items: center;
+									gap: 0.5rem;
+									height: 2rem;
+
+									.score-box {
+										display: flex;
+										align-items: center;
+										justify-content: space-evenly;
+										height: 2rem;
+										border: 2px solid $lightGray;
+										border-radius: 1rem;
+
+										.symbol {
+											display: flex;
+											align-items: center;
+											justify-content: center;
+											width: 2rem;
+											cursor: pointer;
+										}
+
+										.post-buttons-divider {
+											height: 1.5rem;
+											border: 1px solid $lightGray;
+										}
+
+										.post-score {
+											display: flex;
+											align-items: center;
+											justify-content: center;
+											min-width: 2rem;
+											max-width: 4rem;
+										}
+									}
+								}
+							}
+						}
+					}
+
+					.style-blob-2 {
+						position: absolute;
+						bottom: 0;
+						right: 0;
+						transform: translate(50%, 60%);
+						width: 75rem;
+						aspect-ratio: 1;
+						border-radius: 50%;
+						background-image: radial-gradient($mediumGray 20%, $darkGray 60%);
+					}
+				}
+
+				.signup-button {
+					position: relative;
+					bottom: 0;
+					align-self: center;
+					outline: none;
+					border: 0.125rem solid $masterBackground;
+					border-radius: 2rem;
+					color: $masterBackground;
+					font-size: 2rem;
+					background-color: transparent;
+					height: 4rem;
+					width: 15rem;
+					cursor: pointer;
+				}
+
+				.signup-button:active {
+					background-color: $lighterGray;
+				}
+			}
+		}
+
+		.floating-links {
+			position: absolute;
+			bottom: 0;
+			left: 0;
+			display: flex;
+			flex-direction: column;
+			align-self: flex-start;
+
+			.floating-link {
+				position: relative;
+				bottom: 1rem;
+				left: 1rem;
+				display: flex;
+				align-items: center;
+				gap: 0.5rem;
+				height: auto;
+				font-size: 1.25rem;
+				text-shadow: 0.5rem 0.5rem 0.25rem rgba(0, 0, 0, 0.5);
+				transition: 0.25s ease-out, left 0.25s ease-out;
+				will-change: transform;
+				text-rendering: geometricPrecision;
+			}
+
+			.floating-link:hover {
+				transform: scale(1.1, 1.1);
+				left: 1.5rem;
+				cursor: pointer;
+			}
+		}
+	}
+
+	.style-blob-1 {
+		position: absolute;
+		bottom: 0;
+		right: 0;
+		transform: translate(50%, 50%);
+		width: 150rem;
+		aspect-ratio: 1;
+		border-radius: 50%;
+		background-image: radial-gradient($lightGray 20%, $darkGray 60%);
+	}
+}

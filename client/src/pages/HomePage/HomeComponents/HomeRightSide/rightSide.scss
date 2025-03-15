@@ -1,0 +1,50 @@
+$masterBackground: #f6f6f6;
+$darkerGray: #121212;
+$darkGray: #252525;
+$mediumGray: #373737;
+$lightGray: #525252;
+$lighterGray: #aaaaaa;
+$lightestGray: #eeeeee;
+
+	.right-side {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			gap: .5rem;
+			height: 100%;
+			width: calc(5 / 12 * 100%);
+			overflow: hidden;
+
+			.content {
+				position: relative;
+				color: $darkGray;
+
+				.sign-up-link {
+					position: absolute;
+					bottom: 0;
+					transform: translateY(calc(.25rem + 100%));
+					display: flex;
+					align-items: center;
+					justify-content: center;
+					min-width: 20rem;
+					height: 1.5rem;
+					gap: .5rem;
+					font-size: 1.25rem;
+					color: $darkGray;
+					cursor: pointer;
+					user-select: none;
+	
+					.arrow {
+						width: 1.5rem;
+						flex-shrink: 0;
+						height: auto;
+					}
+	
+					.hidden {
+						opacity: 0;
+						visibility: hidden;
+					}
+				}
+			}
+	}
