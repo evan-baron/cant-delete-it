@@ -166,221 +166,219 @@ const LeftSide = () => {
 	return (
 		<section className='left-side'>
 			<div className='content'>
-				<div className='content-wrapper'>
-					<section className='hero'>
-						<h1 className='title'>
-							Cant<span>&nbsp;</span>
-							<span style={{ color: 'red' }}>Delete</span>
-							<span>&nbsp;</span>It.
-						</h1>
-						<h2 className='pitch'>
-							The world's worst social media site
-						</h2>
-					</section>
+				<section className='hero'>
+					<h1 className='title'>
+						Cant<span>&nbsp;</span>
+						<span style={{ color: 'red' }}>Delete</span>
+						<span>&nbsp;</span>It.
+					</h1>
+					<h2 className='pitch'>
+						The world's worst social media site
+					</h2>
+				</section>
 
-					<section className='rules' aria-labelledby='rules-section'>
-						<h2 id='rules-section'>The Rules:</h2>
-						<div className='divider'></div>
-						<ul role='list'>
-							<li role='listitem'>
-								<Close
-									sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
-								/>
-								<p>
-									Your content will automatically post 30 seconds after
-									your last keystroke.
-								</p>
-							</li>
-							<li role='listitem'>
-								<Close
-									sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
-								/>
-								<p>
-									You can't delete.{' '}
-									<span className='bold'>Anything.</span> Pressing
-									backspace removes 10 seconds from the timer.
-								</p>
-							</li>
-							<li role='listitem'>
-								<Close
-									sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
-								/>
-								<p>
-									You can't edit either. That includes no clicking back
-									on previously typed words.
-								</p>
-							</li>
-							<li role='listitem'>
-								<Close
-									sx={{
-										color: 'rgb(255, 0, 0)',
-										fontSize: '2rem',
-									}}
-								/>
-								<p>
-									Our spell-check{' '}
-									<span className='misspelled'>doesn't</span> work. Get
-									used to it.
-								</p>
-							</li>
-						</ul>
-					</section>
+				<section className='rules' aria-labelledby='rules-section'>
+					<h2 id='rules-section'>The Rules:</h2>
+					<div className='divider'></div>
+					<ul role='list'>
+						<li role='listitem'>
+							<Close
+								sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
+							/>
+							<p>
+								Your content will automatically post 30 seconds after
+								your last keystroke.
+							</p>
+						</li>
+						<li role='listitem'>
+							<Close
+								sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
+							/>
+							<p>
+								You can't delete.{' '}
+								<span className='bold'>Anything.</span> Pressing
+								backspace removes 10 seconds from the timer.
+							</p>
+						</li>
+						<li role='listitem'>
+							<Close
+								sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
+							/>
+							<p>
+								You can't edit either. That includes no clicking back
+								on previously typed words.
+							</p>
+						</li>
+						<li role='listitem'>
+							<Close
+								sx={{
+									color: 'rgb(255, 0, 0)',
+									fontSize: '2rem',
+								}}
+							/>
+							<p>
+								Our spell-check{' '}
+								<span className='misspelled'>doesn't</span> work. Get
+								used to it.
+							</p>
+						</li>
+					</ul>
+				</section>
 
-					<section className='demo' aria-labelledby='demo-section'>
-						<h2 id='demo-section'>Try It Out:</h2>
-						<div className='demo-container'>
-							<div className='demo-content'>
-								{/* FORM BELOW WILL EVENTUALLY BE A WRITE COMPONENT */}
-								<form
-									className='write-post'
-									role='form'
-									aria-labelledby='write-post-form'
-								>
-									<section className='input'>
-										<textarea
-											id='demoTextArea'
-											type='text'
-											maxLength='69'
-											placeholder='Signing up is a really bad idea...'
-											onChange={demoChange}
-											value={demoFormData}
-											onKeyDown={handleKeyDown}
-											onKeyUp={(e) => {
-												if (e.key === 'Backspace') {
-													if (timeLeft <= 0) {
-														setTimeLeft(3000);
-													} else {
-														return;
-													}
+				<section className='demo' aria-labelledby='demo-section'>
+					<h2 id='demo-section'>Try It Out:</h2>
+					<div className='demo-container'>
+						<div className='demo-content'>
+							{/* FORM BELOW WILL EVENTUALLY BE A WRITE COMPONENT */}
+							<form
+								className='write-post'
+								role='form'
+								aria-labelledby='write-post-form'
+							>
+								<section className='input'>
+									<textarea
+										id='demoTextArea'
+										type='text'
+										maxLength='69'
+										placeholder='Signing up is a really bad idea...'
+										onChange={demoChange}
+										value={demoFormData}
+										onKeyDown={handleKeyDown}
+										onKeyUp={(e) => {
+											if (e.key === 'Backspace') {
+												if (timeLeft <= 0) {
+													setTimeLeft(3000);
+												} else {
+													return;
 												}
-											}}
-											onContextMenu={(e) => {
-												e.preventDefault();
-											}}
-											onMouseDown={(e) => {
-												e.target.focus();
-												e.preventDefault();
-												return;
-											}}
-										/>
-										<div
-											className='timer'
-											style={{ color: timeLeft < 1000 && 'red' }}
-											aria-live='polite'
-										>
-											{countdownStarted &&
-												(timeLeft > 1000
-													? Math.round(timeLeft / 100)
-													: (timeLeft / 100).toFixed(2))}
-										</div>
-									</section>
-									<div className='input-decorations'>
-										<p className='characters-remaining'>
-											{69 - demoFormData.length} (normally 420 character
-											limit)
-										</p>
-										<button
-											type='button'
-											onClick={demoSubmit}
-											aria-label='Post content'
-										>
-											Post
-										</button>
+											}
+										}}
+										onContextMenu={(e) => {
+											e.preventDefault();
+										}}
+										onMouseDown={(e) => {
+											e.target.focus();
+											e.preventDefault();
+											return;
+										}}
+									/>
+									<div
+										className='timer'
+										style={{ color: timeLeft < 1000 && 'red' }}
+										aria-live='polite'
+									>
+										{countdownStarted &&
+											(timeLeft > 1000
+												? Math.round(timeLeft / 100)
+												: (timeLeft / 100).toFixed(2))}
 									</div>
-								</form>
+								</section>
+								<div className='input-decorations'>
+									<p className='characters-remaining'>
+										{69 - demoFormData.length} (normally 420 character
+										limit)
+									</p>
+									<button
+										type='button'
+										onClick={demoSubmit}
+										aria-label='Post content'
+									>
+										Post
+									</button>
+								</div>
+							</form>
 
-								{/* SECTION BELOW WILL EVENTUALLY BE A POST COMPONENT */}
-								{demoPostData.visible && (
-									<article className='posted-content'>
-										<div className='profile-picture'>
-											<img
-												src={profilePic}
-												alt='Demo User Profile Picture'
-											/>
-										</div>
-										<div className='posted-content-container'>
-											<h3 className='user'>{demoPostData.userName}</h3>
-											<p className='post-content'>
-												{checkedWords.map(
-													({ word, isCorrect }, index) => (
-														<React.Fragment key={index}>
-															<span
-																className={
-																	isCorrect ? '' : 'misspelled'
-																}
-															>
-																{word}
-															</span>
-															{index !== checkedWords.length - 1 && (
-																<span>&nbsp;</span>
-															)}
-														</React.Fragment>
-													)
-												)}
+							{/* SECTION BELOW WILL EVENTUALLY BE A POST COMPONENT */}
+							{demoPostData.visible && (
+								<article className='posted-content'>
+									<div className='profile-picture'>
+										<img
+											src={profilePic}
+											alt='Demo User Profile Picture'
+										/>
+									</div>
+									<div className='posted-content-container'>
+										<h3 className='user'>{demoPostData.userName}</h3>
+										<p className='post-content'>
+											{checkedWords.map(
+												({ word, isCorrect }, index) => (
+													<React.Fragment key={index}>
+														<span
+															className={
+																isCorrect ? '' : 'misspelled'
+															}
+														>
+															{word}
+														</span>
+														{index !== checkedWords.length - 1 && (
+															<span>&nbsp;</span>
+														)}
+													</React.Fragment>
+												)
+											)}
+										</p>
+										<div className='post-decorations'>
+											<p className='timestamp'>
+												{demoPostData.timestamp}
 											</p>
-											<div className='post-decorations'>
-												<p className='timestamp'>
-													{demoPostData.timestamp}
-												</p>
-												<div className='post-buttons'>
-													<div className='score-box'>
-														<Check
-															className='symbol'
-															sx={{
-																color: approve
-																	? 'rgb(0, 200, 0)'
-																	: '#525252',
-																fontSize: '1.5rem',
-																transform: 'translateY(-1px)',
-															}}
-															onClick={() => {
-																setApprove((prev) => !prev);
-																setDisapprove(false);
-															}}
-														/>
-														<div className='post-buttons-divider'></div>
-														<div className='post-score'>
-															{postScore.approve}
-														</div>
+											<div className='post-buttons'>
+												<div className='score-box'>
+													<Check
+														className='symbol'
+														sx={{
+															color: approve
+																? 'rgb(0, 200, 0)'
+																: '#525252',
+															fontSize: '1.5rem',
+															transform: 'translateY(-1px)',
+														}}
+														onClick={() => {
+															setApprove((prev) => !prev);
+															setDisapprove(false);
+														}}
+													/>
+													<div className='post-buttons-divider'></div>
+													<div className='post-score'>
+														{postScore.approve}
 													</div>
-													<div className='score-box'>
-														<Close
-															className='symbol'
-															sx={{
-																color: disapprove
-																	? 'rgb(255, 0, 0)'
-																	: '#525252',
-																fontSize: '1.5rem',
-															}}
-															onClick={() => {
-																setDisapprove((prev) => !prev);
-																setApprove(false);
-															}}
-														/>
-														<div className='post-buttons-divider'></div>
-														<div className='post-score'>
-															{postScore.disapprove}
-														</div>
+												</div>
+												<div className='score-box'>
+													<Close
+														className='symbol'
+														sx={{
+															color: disapprove
+																? 'rgb(255, 0, 0)'
+																: '#525252',
+															fontSize: '1.5rem',
+														}}
+														onClick={() => {
+															setDisapprove((prev) => !prev);
+															setApprove(false);
+														}}
+													/>
+													<div className='post-buttons-divider'></div>
+													<div className='post-score'>
+														{postScore.disapprove}
 													</div>
 												</div>
 											</div>
 										</div>
-									</article>
-								)}
-								<div className='style-blob-2'></div>
-							</div>
-
-							<button
-								className='signup-button'
-								type='button'
-								onClick={() => setComponent('signup')}
-								aria-label='Sign up'
-							>
-								Sign up
-							</button>
+									</div>
+								</article>
+							)}
+							<div className='style-blob-2'></div>
 						</div>
-					</section>
-				</div>
+
+						<button
+							className='signup-button'
+							type='button'
+							onClick={() => setComponent('signup')}
+							aria-label='Sign up'
+						>
+							Sign up
+						</button>
+					</div>
+				</section>
 			</div>
 			<div className='style-blob-1'></div>
 		</section>

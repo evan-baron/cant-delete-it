@@ -6,10 +6,6 @@ $lightGray: #525252;
 $lighterGray: #aaaaaa;
 $lightestGray: #eeeeee;
 
-// * {
-// 	border: 1px solid red !important;
-// }
-
 .home {
 	position: relative;
 	display: flex;
@@ -30,6 +26,11 @@ $lightestGray: #eeeeee;
 		align-items: center;
 		height: 100%;
 		width: 100%;
+		border: 1px solid red;
+
+		@media (max-width: 480px) {
+			flex-direction: column;
+		}
 	}
 
 	.floating-links {
