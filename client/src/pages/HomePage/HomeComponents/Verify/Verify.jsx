@@ -3,7 +3,7 @@ import React, { useState, useEffect } from 'react';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 
 // Context
-import { useAppContext } from '../../../context/AppContext';
+import { useAppContext } from '../../../../context/AppContext';
 
 // Styles
 import './verify.scss';

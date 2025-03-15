@@ -1,7 +1,6 @@
 // External Libraries
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import axiosInstance from '../../utils/axios';
-import { Link } from 'react-router-dom';
 import dayjs from 'dayjs';
 
 // MUI Icons
@@ -16,11 +15,11 @@ import { profilePictures } from '../../assets/site/demoProfilePic';
 import { useAppContext } from '../../context/AppContext';
 
 // Components
-import FounderMessage from './Founder/FounderMessage';
-import Signup from './Signup/Signup';
-import LoginForm from './Login/LoginForm';
-import PasswordRecovery from './PasswordRecovery/PasswordRecovery';
-import Verify from './Verify/Verify';
+import FounderMessage from './HomeComponents/Founder/FounderMessage';
+import Signup from './HomeComponents/Signup/Signup';
+import LoginForm from './HomeComponents/Login/LoginForm';
+import PasswordRecovery from './HomeComponents/PasswordRecovery/PasswordRecovery';
+import Verify from './HomeComponents/Verify/Verify';
 import ContactForm from '../../components/ContactForm/ContactForm';
 
 const Home = () => {
@@ -185,14 +184,9 @@ const Home = () => {
 		<main className='home'>
 			<div className='home-container'>
 				{user ? (
-					<div onClick={async () => {
-						try {
-							await axiosInstance.post('/logout');
-							setUser(null);
-						} catch (error) {
-							console.error('There was an error logging out: ', error);
-						}
-					}}>Hello</div>
+					<>
+					<div>Hello {user.first_name}</div>
+					</>
 				) : (
 					<>
 						<section className='left-side'>

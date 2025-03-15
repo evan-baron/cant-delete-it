@@ -3,21 +3,21 @@ import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 
 // Utilities
-import axiosInstance from '../../../utils/axios';
+import axiosInstance from '../../../../utils/axios';
 
 // MUI Icons
 import { Check, Close, East, Visibility, VisibilityOff, West } from '@mui/icons-material';
 
 // Assets & Styles
 import './signup.scss';
-import crossout from '../../../assets/site/crossout.png';
+import crossout from '../../../../assets/site/crossout.png';
 
 // Context
-import { useAppContext } from '../../../context/AppContext';
+import { useAppContext } from '../../../../context/AppContext';
 
 // Components
-import LoadingSpinner from '../../../components/Loading/LoadingSpinner';
-import LoadingKey from '../../../components/Loading/LoadingKey';
+import LoadingSpinner from '../../../../components/Loading/LoadingSpinner';
+import LoadingKey from '../../../../components/Loading/LoadingKey';
 
 const Signup = () => {
 	// CONTEXT
@@ -116,14 +116,10 @@ const Signup = () => {
 
 				const { available } = response.data;
 
-				console.log(available);
-
 				if (available) {
 					setNameEmailSubmitted((prev) => !prev);
-					console.log('Email ok to use');
-				} else {
-					console.log('Email already in use');
-				}
+				} 
+
 			} catch (error) {
 				console.error('Registration error: ', error.response?.data);
 				setRegistrationError(
@@ -145,14 +141,12 @@ const Signup = () => {
 		} else {
 			try {
 				setLoadingScreen(true);
-				const response = await axiosInstance.post('/register-account', {
+				await axiosInstance.post('/register-account', {
 					first: formData.first.trim(),
 					last: formData.last.trim(),
 					email: formData.email.trim(),
 					password: formData.password.trim(),
 				});
-				console.log('Registration complete!');
-				console.log(response.data);
 
 				await axiosInstance.post('/verify-email', {
 					email: formData.email,

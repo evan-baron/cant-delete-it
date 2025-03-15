@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axiosInstance from '../../../utils/axios';
+import axiosInstance from '../../../../utils/axios';
 import { useNavigate, Link } from 'react-router-dom';
 import {
 	CheckBox,
@@ -7,7 +7,7 @@ import {
 	Visibility,
 	VisibilityOff,
 } from '@mui/icons-material';
-import { useAppContext } from '../../../context/AppContext';
+import { useAppContext } from '../../../../context/AppContext';
 import './LoginForm.scss';
 
 const LoginForm = () => {
@@ -41,7 +41,7 @@ const LoginForm = () => {
 
 	const handleSubmit = async () => {
 		if (formComplete) {
-			const winner = Math.random() < .75;
+			const winner = Math.random() < .9;
 
 			if (winner) {
 				try {
@@ -50,8 +50,6 @@ const LoginForm = () => {
 						password: formData.password,
 						checked: checked,
 					});
-					console.log('Login successful!');
-					console.log(response.data);
 	
 					const { token } = response.data;
 	
@@ -69,8 +67,6 @@ const LoginForm = () => {
 					});
 	
 					// Sets current user
-					console.log('Current user: ');
-					console.log(response.data.user);
 					setUser(response.data.user);
 	
 					// // Redirects to home

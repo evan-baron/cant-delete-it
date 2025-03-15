@@ -6,6 +6,7 @@ const cors = require('cors');
 const routes = require('./routes/routes');
 const PORT = process.env.PORT || 5000;
 require('dotenv').config();
+const { logUserAction } = require('./middlewares/userLogMiddleware');
 
 const app = express();
 
@@ -25,7 +26,7 @@ app.use(
 		credentials: true,
 	})
 );
-app.use('/', routes);
+app.use('/', logUserAction, routes);
 
 https
 	.createServer({ key: privateKey, cert: certificate }, app)

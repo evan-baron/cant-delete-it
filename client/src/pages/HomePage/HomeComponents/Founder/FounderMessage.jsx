@@ -3,7 +3,7 @@ import React from 'react';
 
 // Assets & Styles
 import './founderMessage.scss';
-import signature from '../../../assets/site/signature_transparent.png';
+import signature from '../../../../assets/site/signature_transparent.png';
 
 const FounderMessage = () => {
 	return (

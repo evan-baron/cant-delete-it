@@ -1,6 +1,6 @@
 // External Libraries
-import React, { useState, useEffect } from 'react';
-import { Route, BrowserRouter, Routes, Navigate } from 'react-router-dom';
+import React from 'react';
+import { Route, Routes, Navigate } from 'react-router-dom';
 import '../../reset.css';
 import './app.scss';
 
@@ -9,7 +9,7 @@ import { useAppContext } from '../context/AppContext.jsx';
 
 // Pages
 import Home from '../pages/HomePage/Home.jsx';
-import PasswordReset from '../pages/PasswordReset/PasswordReset.jsx';
+import PasswordReset from '../pages/PasswordResetPage/PasswordReset.jsx';
 
 // Components
 import Navbar from '../components/Navbar/Navbar.jsx';

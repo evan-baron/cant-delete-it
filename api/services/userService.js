@@ -84,6 +84,16 @@ const generateToken = async (id, tokenName, length = 32) => {
 	}
 };
 
+// Get recovery token Data
+const getTokenData = async (token) => {
+	try {
+		const recoveryTokenData = await tokenModel.getTokenData(token);
+		return recoveryTokenData;
+	} catch (err) {
+		console.log('There was an error at getTokenData: ', err.message);
+	}
+};
+
 // Get a user by email
 const getUserByEmail = async (email) => {
 	return await userModel.findUserByEmail(email);
@@ -94,14 +104,9 @@ const getUserById = async (id) => {
 	return await userModel.findUserById(id);
 };
 
-// Get recovery token Data
-const getTokenData = async (token) => {
-	try {
-		const recoveryTokenData = await tokenModel.getTokenData(token);
-		return recoveryTokenData;
-	} catch (err) {
-		console.log('There was an error at getTokenData: ', err.message);
-	}
+// Log user action
+const logUserAction = async (user, action, ip_address) => {
+	return await userModel.logAction(user, action, ip_address);
 };
 
 // Update password
@@ -172,6 +177,7 @@ module.exports = {
 	getTokenData,
 	getUserByEmail,
 	getUserById,
+	logUserAction,
 	updatePassword,
 	updateVerified,
 };
