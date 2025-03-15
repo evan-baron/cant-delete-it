@@ -358,14 +358,22 @@ $lightestGray: #eeeeee;
 		}
 	}
 
-	.style-blob-1 {
+	.background-style {
 		position: absolute;
-		bottom: 0;
-		right: 0;
-		transform: translate(50%, 50%);
-		width: 150rem;
-		aspect-ratio: 1;
-		border-radius: 50%;
-		background-image: radial-gradient($lightGray 20%, $darkGray 60%);
+		height: 100%;
+		width: 100%;
+		border: 1px solid yellow;
+		overflow: hidden;
+
+		.style-blob-1 {
+			position: absolute;
+			bottom: 0;
+			right: 0;
+			transform: translate(50%, 50%);
+			width: 150rem;
+			aspect-ratio: 1;
+			border-radius: 50%;
+			background-image: radial-gradient($lightGray 20%, $darkGray 60%);
+		}
 	}
 }

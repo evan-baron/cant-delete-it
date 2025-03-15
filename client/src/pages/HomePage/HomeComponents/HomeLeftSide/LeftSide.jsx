@@ -380,7 +380,9 @@ const LeftSide = () => {
 					</div>
 				</section>
 			</div>
-			<div className='style-blob-1'></div>
+			<div className="background-style">
+				<div className='style-blob-1'></div>
+			</div>
 		</section>
 	);
 };
