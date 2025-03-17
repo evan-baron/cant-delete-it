@@ -1,6 +1,5 @@
 // External Libraries
 import React, { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 
 // Utilities
 import axiosInstance from '../../../../utils/axios';
@@ -16,7 +15,6 @@ import crossout from '../../../../assets/site/crossout.png';
 import { useAppContext } from '../../../../context/AppContext';
 
 // Components
-import LoadingSpinner from '../../../../components/Loading/LoadingSpinner';
 import LoadingKey from '../../../../components/Loading/LoadingKey';
 
 const Signup = () => {
@@ -37,6 +35,7 @@ const Signup = () => {
 	const [emailValid, setEmailValid] = useState(null);
 	const [nameEmailComplete, setNameEmailComplete] = useState(false);
 	const [nameEmailSubmitted, setNameEmailSubmitted] = useState(false);
+	const [passwordSubmitted, setPasswordSubmitted] = useState(false);
 	const [passwordValid, setPasswordValid] = useState(null);
 	const [passwordReqs, setPasswordReqs] = useState({
 		length: false,
@@ -197,8 +196,16 @@ const Signup = () => {
 				<form className='signup-form'>
 					<h3 className='signup-title'>
 						Don't Sign Up
-						<img className='crossout-up' src={crossout} alt='cross-out decoration' />
-						<img className='crossout-down' src={crossout} alt='cross-out decoration' />
+						<img
+							className='crossout-up'
+							src={crossout}
+							alt='cross-out decoration'
+						/>
+						<img
+							className='crossout-down'
+							src={crossout}
+							alt='cross-out decoration'
+						/>
 					</h3>
 
 					{loadingScreen ? (
@@ -206,7 +213,10 @@ const Signup = () => {
 					) : (
 						<>
 							{!nameEmailSubmitted ? (
-								<fieldset className='name-email' aria-labelledby='name-email-fields'>
+								<fieldset
+									className='name-email'
+									aria-labelledby='name-email-fields'
+								>
 									<div className='registrant-name'>
 										<div className='input-field'>
 											<label htmlFor='email'>First Name:</label>
@@ -254,13 +264,17 @@ const Signup = () => {
 											/>
 										</div>
 										{formSubmitted && !emailValid ? (
-											<p className='validation-error' role='alert' aria-live='polite'>
+											<p
+												className='validation-error'
+												role='alert'
+												aria-live='polite'
+											>
 												Please enter a valid email address
 											</p>
 										) : null}
 									</div>
 								</fieldset>
-							) : (
+							) : !passwordSubmitted ? (
 								<fieldset className='password-section'>
 									<div className='input-field'>
 										<label htmlFor='password'>Password:</label>
@@ -403,6 +417,36 @@ const Signup = () => {
 										</div>
 									</div>
 								</fieldset>
+							) : (
+								<>
+									<h3 className='gratuity'>Would you like to add gratuity?</h3>
+									<div className='gratuity-buttons'>
+										<button
+											onClick={(e) => {
+												e.preventDefault();
+												return;
+											}}
+										>
+											22%
+										</button>
+										<button
+											onClick={(e) => {
+												e.preventDefault();
+												return;
+											}}
+										>
+											25%
+										</button>
+										<button
+											onClick={(e) => {
+												e.preventDefault();
+												return;
+											}}
+										>
+											30%
+										</button>
+									</div>
+								</>
 							)}
 
 							{!nameEmailSubmitted ? (
@@ -422,7 +466,7 @@ const Signup = () => {
 									Next
 									<East />
 								</button>
-							) : (
+							) : !passwordSubmitted ? (
 								<div className='back-submit'>
 									<button
 										className='back'
@@ -445,7 +489,7 @@ const Signup = () => {
 										type='button'
 										role='button'
 										aria-label='Submit registration form'
-										onClick={handleSubmit}
+										onClick={() => setPasswordSubmitted(true)}
 										disabled={!formComplete}
 										style={{
 											backgroundColor: formComplete
@@ -455,6 +499,25 @@ const Signup = () => {
 										}}
 									>
 										Create Account
+									</button>
+								</div>
+							) : (
+								<div className='back-submit'>
+									<button
+										className='submit'
+										type='button'
+										role='button'
+										aria-label='Submit registration form'
+										onClick={handleSubmit}
+										disabled={!formComplete}
+										style={{
+											backgroundColor: formComplete
+												? null
+												: 'rgba(82, 82, 82, .5)',
+											cursor: formComplete ? 'pointer' : null,
+										}}
+									>
+										No! Create Account
 									</button>
 								</div>
 							)}
@@ -496,8 +559,10 @@ const Signup = () => {
 						masochistic... Either way...
 					</p>
 					<p>
-						Please check your email for a link to verify your account. If it
-						doesn't show up after a few minutes, check your spam or junk
+						<span style={{ fontWeight: 'bold', color: 'red' }}>
+							Please check your email for a link to verify your account.
+						</span>{' '}
+						If it doesn't show up after a few minutes, check your spam or junk
 						folders. Happy posting!
 					</p>
 					<p>- Evan</p>
