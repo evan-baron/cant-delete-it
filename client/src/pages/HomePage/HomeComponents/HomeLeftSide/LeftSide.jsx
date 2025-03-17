@@ -111,9 +111,18 @@ const LeftSide = () => {
 			/^[a-zA-Z0-9\-=\[\]\\;',./`~!@#$%^&*()_+{}|:"<>? ]$|^Shift$/.test(e.key);
 
 		if (isValidKey) {
+			console.log(demoFormData.length);
 			setTimeLeft(3000);
-			demoFormData.length > 0 && setCountdownStarted(true);
+			if (
+				!demoFormData.length > 0 &&
+				e.key !== ' '
+			) {
+				setCountdownStarted(true);
+			}
+		} else {
+			console.log('something went wrong in leftside.jsx');
 		}
+
 		if (e.key === 'Backspace' && countdownStarted) {
 			e.preventDefault();
 			setTimeLeft((prev) => {
