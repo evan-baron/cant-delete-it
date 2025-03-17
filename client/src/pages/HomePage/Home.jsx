@@ -15,7 +15,7 @@ import LeftSide from './HomeComponents/HomeLeftSide/LeftSide';
 import RightSide from './HomeComponents/HomeRightSide/RightSide';
 
 const Home = () => {
-	const { user, screenWidth, sideActive, setSideActive, setComponent } = useAppContext();
+	const { user, screenWidth, sideActive, setSideActive, component, setComponent } = useAppContext();
 
 	useEffect(() => {}, [user]);
 
@@ -50,7 +50,7 @@ const Home = () => {
 							role='button'
 							aria-label='Login'
 						>
-							{screenWidth > 480 ? (
+							{screenWidth > 480 ? (component !== 'login' && 
 								<>
 									<Login
 										className='floating-icon'
@@ -62,7 +62,7 @@ const Home = () => {
 									/>
 									<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
 								</>
-							) : (
+							) : (component !== 'login' && 
 								<>
 									<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
 									<Login
@@ -124,7 +124,7 @@ const Home = () => {
 							role='button'
 							aria-label='Login'
 						>
-							{screenWidth > 480 ? (
+							{screenWidth > 480 ? (component !== 'login' && 
 								<>
 									<Login
 										className='floating-icon'
@@ -136,7 +136,7 @@ const Home = () => {
 									/>
 									<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
 								</>
-							) : (
+							) : ( component !== 'login' &&
 								<>
 									<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
 									<Login
