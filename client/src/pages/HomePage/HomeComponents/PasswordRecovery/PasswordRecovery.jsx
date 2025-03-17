@@ -54,7 +54,7 @@ const PasswordRecovery = () => {
 	};
 
 	return (
-		<section aria-labelledby='password-recovery-form'>
+		<section aria-labelledby='password-recovery-form' className='recovery-content'>
 			{!emailSent && (
 				<form className='recovery-form' role='form'>
 					<h1 id='password-recovery-form'>Recover Password</h1>
