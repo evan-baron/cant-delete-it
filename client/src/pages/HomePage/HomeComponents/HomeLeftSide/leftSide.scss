@@ -17,10 +17,16 @@ $lightestGray: #eeeeee;
 	background-color: $darkGray;
 	box-shadow: 0 0 1rem black;
 
-	@media (max-width: 480px) {
+	@media (max-width: 480px), (orientation: portrait) {
 		min-height: 100dvh;
 		width: 100%;
 		justify-content: center;
+	}
+	
+	@media (max-width: 480px), (orientation: landscape) {
+		width: 100%;
+		height: auto;
+		justify-content: flex-start;
 	}
 
 	.content {
@@ -36,9 +42,15 @@ $lightestGray: #eeeeee;
 		color: white;
 		z-index: 1;
 
-		@media (max-width: 480px) {
+		@media (max-width: 480px), (orientation: portrait) {
 			padding: 2.5rem 1rem 1rem 1rem;
 			gap: 1rem;
+		}
+
+		@media (max-width: 480px), (orientation: landscape) {
+			padding: 2.5rem 1rem 1rem 1rem;
+			gap: 1rem;
+			height: auto;
 		}
 
 		@media (max-height: 700px) {
@@ -174,9 +186,13 @@ $lightestGray: #eeeeee;
 			height: 20rem;
 			padding: 0 1rem 1rem 1rem;
 
-			@media (max-width: 480px) {
+			@media (max-width: 480px), (orientation: portrait) {
 				height: auto;
 				width: auto;
+			}
+
+			@media (max-width: 480px), (orientation: landscape) {
+				height: auto;
 			}
 
 			@media (max-width: 360px) {
@@ -495,6 +511,10 @@ $lightestGray: #eeeeee;
 		height: 100%;
 		width: 100%;
 		overflow: hidden;
+
+		@media (max-width: 480px), (orientation: landscape) {
+			position: fixed;
+		}
 
 		.style-blob-1 {
 			position: absolute;

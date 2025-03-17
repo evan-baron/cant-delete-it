@@ -13,6 +13,11 @@ $lightestGray: #eeeeee;
 	width: 100%;
 	background-color: $masterBackground;
 
+	@media (max-width: 480px), (orientation: landscape) {
+		flex-direction: column;
+		overflow-y: scroll;
+	}
+
 	.misspelled {
 		text-decoration: underline wavy red;
 		text-decoration-skip-ink: none;
@@ -23,7 +28,7 @@ $lightestGray: #eeeeee;
 		height: 100%;
 		width: 100%;
 
-		@media (max-width: 480px) {
+		@media (max-width: 480px), (orientation: portrait) {
 			flex-direction: column;
 		}
 	}
@@ -38,7 +43,18 @@ $lightestGray: #eeeeee;
 		color: white;
 		z-index: 10;
 
-		@media (max-width: 480px) {
+		@media (max-width: 480px), (orientation: portrait) {
+			flex-direction: row;
+			justify-content: start;
+			width: 100%;
+			top: .75rem;
+
+			:nth-child(2) {
+				margin-left: auto;
+			}
+		}
+
+		@media (max-width: 480px), (orientation: landscape) {
 			flex-direction: row;
 			justify-content: start;
 			width: 100%;
@@ -63,7 +79,17 @@ $lightestGray: #eeeeee;
 			will-change: transform;
 			text-rendering: geometricPrecision;
 
-			@media (max-width: 480px) {
+			@media (max-width: 480px), (orientation: portrait) {
+				left: 0;
+				padding: 0 1rem;
+				bottom: 0;
+
+				.floating-icon {
+					font-size: 2rem;
+				}
+			}
+
+			@media (max-width: 480px), (orientation: landscape) {
 				left: 0;
 				padding: 0 1rem;
 				bottom: 0;
