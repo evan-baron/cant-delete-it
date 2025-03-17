@@ -18,36 +18,37 @@ export const ContextProvider = ({ children }) => {
 	const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 	const [sideActive, setSideActive] = useState('left');
 
-	const emailToken = searchParams.get('token');
+	const urlToken = searchParams.get('token');
 
 	//Verification Token Validation
 	useEffect(() => {
 		const verifyEmail = async () => {
-			if (!emailToken) {
+			if (!urlToken) {
 				console.log('No token found. Redirecting to home.');
 			} else {
 				setComponent('verify');
 				try {
 					const response = await axiosInstance.get('/authenticateVerifyToken', {
-						params: { token: emailToken },
+						params: { token: urlToken },
 					});
-					const { userId, emailVerified } = response.data;
+					const { userId, tokenType, emailVerified } = response.data;
 
-					if (emailVerified === 0) {
-						setEmailVerified(false);
-						try {
-							console.log(userId, emailToken);
-							await axiosInstance.post('/updateVerified', {
-								user_id: userId,
-								token: emailToken,
-							});
-						} catch (error) {
-							console.log('There was an error.', error);
+					if (tokenType === 'email_verification') {
+						if (emailVerified === 0) {
+							setEmailVerified(false);
+							try {
+								await axiosInstance.post('/updateVerified', {
+									user_id: userId,
+									token: urlToken,
+								});
+							} catch (error) {
+								console.log('There was an error.', error);
+							}
+						} else if (emailVerified === 1) {
+							setEmailVerified(true);
+						} else {
+							console.error('Unrecognized emailVerified response.');
 						}
-					} else if (emailVerified === 1) {
-						setEmailVerified(true);
-					} else {
-						console.error('Unrecognized emailVerified response.');
 					}
 				} catch (error) {
 					console.error('Error authenticating token: ', error);
@@ -55,7 +56,7 @@ export const ContextProvider = ({ children }) => {
 			}
 		};
 		verifyEmail();
-	}, [emailToken]);
+	}, [urlToken]);
 
 	useEffect(() => {
 		const fetchUserData = async () => {

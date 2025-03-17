@@ -19,7 +19,7 @@ import { useAppContext } from '../../context/AppContext';
 
 const PasswordReset = () => {
 	// Context & Navigation
-	const { screenWidth, setComponent } = useAppContext();
+	const { screenWidth, setComponent, setSideActive } = useAppContext();
 	const navigate = useNavigate();
 
 	// URL & Query Parameters
@@ -65,8 +65,6 @@ const PasswordReset = () => {
 					params: { token },
 				});
 				const { tokenValid, timeRemaining, email } = response.data;
-
-				console.log(response.data);
 
 				setResendEmail(email);
 				setTokenValid(tokenValid);
@@ -381,7 +379,10 @@ const PasswordReset = () => {
 									Please check your inbox shortly. If you don't see it, please
 									check your spam or junk folder.
 								</h2>
-								<h2 onClick={() => setComponent('login')}>
+								<h2 onClick={() => {
+									setComponent('login');
+									setSideActive('right');
+								}}>
 									<Link
 										className='link'
 										to='/'
@@ -398,7 +399,10 @@ const PasswordReset = () => {
 							<h2>
 								Your password has been reset. Please return to the login page.
 							</h2>
-							<h2 onClick={() => setComponent('login')}>
+							<h2 onClick={() => {
+								setComponent('login');
+								setSideActive('right');
+								}}>
 								<Link
 									className='link'
 									to='/'
@@ -420,7 +424,10 @@ const PasswordReset = () => {
 								to='/'
 								role='link'
 								aria-label='Go to login page'
-								onClick={() => setComponent('login')}
+								onClick={() => {
+									setComponent('login');
+									setSideActive('right');
+								}}
 							>
 								Login
 							</Link>

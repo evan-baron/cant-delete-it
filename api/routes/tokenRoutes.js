@@ -42,6 +42,7 @@ router.get('/authenticateRecoveryToken', async (req, res) => {
 	try {
 		const tokenData = await userService.getTokenData(token);
 		const { email } = await userService.getUserById(tokenData.user_id);
+		console.log(tokenData);
 
 		const tokenCreatedAt = tokenData.created_at;
 		const expiresAt = dayjs(tokenCreatedAt).add(30, 'minute').$d;
@@ -71,9 +72,11 @@ router.get('/authenticateVerifyToken', async (req, res) => {
 
 	try {
 		const tokenData = await userService.getTokenData(token);
+		console.log('tokenRoutes authenticateVerify: ', tokenData);
 
 		return res.json({ 
 			userId: tokenData.user_id,
+			tokenType: tokenData.token_name,
 			emailVerified: tokenData.token_used,
 		});
 	} catch (err) {
@@ -87,7 +90,7 @@ router.post('/updateVerified', async (req, res) => {
 	const { user_id, token } = req.body;
 
 	try {
-		await userService.updateVerified(user_id, token);
+		await userService.updateVerified(user_id, token_name, token);
 	} catch (err) {
 		res.status(500).json({ message: err.message });
 	}
