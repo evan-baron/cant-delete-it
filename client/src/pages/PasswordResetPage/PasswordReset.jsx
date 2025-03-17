@@ -19,7 +19,7 @@ import { useAppContext } from '../../context/AppContext';
 
 const PasswordReset = () => {
 	// Context & Navigation
-	const { setComponent } = useAppContext();
+	const { screenWidth, setComponent } = useAppContext();
 	const navigate = useNavigate();
 
 	// URL & Query Parameters
@@ -428,6 +428,9 @@ const PasswordReset = () => {
 					)}
 				</form>
 			</section>
+			{screenWidth < 480 && <div className="background-style">
+				<div className='style-blob-1'></div>
+			</div>}
 		</div>
 	);
 };
