@@ -173,7 +173,7 @@ const LeftSide = () => {
 						<span>&nbsp;</span>It.
 					</h1>
 					<h2 className='pitch'>
-						The world's worst social media site
+						The world's worst social media platform
 					</h2>
 				</section>
 
@@ -187,7 +187,7 @@ const LeftSide = () => {
 							/>
 							<p>
 								Your content will automatically post 30 seconds after
-								your last keystroke.
+								you stop typing.
 							</p>
 						</li>
 						<li role='listitem'>
