@@ -191,7 +191,7 @@ const Signup = () => {
 	};
 
 	return (
-		<section aria-labelledby='sign-up-form' className='content'>
+		<section aria-labelledby='sign-up-form' className='signup-content'>
 			{!registrationComplete ? (
 				<form className='signup-form'>
 					<h3 className='signup-title'>

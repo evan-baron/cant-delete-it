@@ -1,16 +1,16 @@
 @keyframes imageSwitch {
 	0% {
-	  background-image: url('../../assets/site/key_up.png');
+		background-image: url('../../assets/site/key_up.png');
 	}
 	50% {
-	  background-image: url('../../assets/site/key_down.png');
+		background-image: url('../../assets/site/key_down.png');
 	}
 	100% {
-	  background-image: url('../../assets/site/key_up.png');
+		background-image: url('../../assets/site/key_up.png');
 	}
-  }
+}
 
-  .loading-box {
+.loading-box {
 	position: relative;
 	display: flex;
 	flex-direction: column;
@@ -18,21 +18,21 @@
 	gap: 1rem;
 
 	.loading-key {
-	  width: 10rem;
-	  height: 10rem;
-	  background-size: cover;
-	  border-radius: 50%;
-	  border: 1px solid white;
-	  margin-top: auto;
-	  margin-bottom: auto;
-	  box-shadow: inset 0 0 .5rem .5rem white;
-	  animation: imageSwitch .15s infinite;
+		width: 10rem;
+		height: 10rem;
+		background-size: cover;
+		border-radius: 50%;
+		border: 1px solid white;
+		margin-top: auto;
+		margin-bottom: auto;
+		box-shadow: inset 0 0 0.5rem 0.5rem white;
+		animation: imageSwitch 0.15s infinite;
 	}
 
 	h2 {
 		position: relative;
 		color: #525252;
-		transform: translateX(-.25rem);
+		transform: translateX(-0.25rem);
 
 		.elipses {
 			position: absolute;
@@ -42,4 +42,3 @@
 		}
 	}
 }
-  
