@@ -38,6 +38,17 @@ $lightestGray: #eeeeee;
 		color: white;
 		z-index: 10;
 
+		@media (max-width: 480px) {
+			flex-direction: row;
+			justify-content: start;
+			width: 100%;
+			top: .5rem;
+
+			:nth-child(2) {
+				margin-left: auto;
+			}
+		}
+
 		.floating-link {
 			position: relative;
 			bottom: 1rem;
@@ -51,12 +62,28 @@ $lightestGray: #eeeeee;
 			transition: 0.25s ease-out, left 0.25s ease-out;
 			will-change: transform;
 			text-rendering: geometricPrecision;
+
+			@media (max-width: 480px) {
+				left: 0;
+				padding: 0 1rem;
+				bottom: 0;
+
+				.floating-icon {
+					font-size: 2rem;
+				}
+			}
 		}
 
 		.floating-link:hover {
 			transform: scale(1.1, 1.1);
 			left: 1.5rem;
 			cursor: pointer;
+
+			@media (max-width: 480px) {
+				left: 0;
+				transform: none;
+				cursor: default;
+			}
 		}
 	}
 }

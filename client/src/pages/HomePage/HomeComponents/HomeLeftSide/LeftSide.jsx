@@ -14,7 +14,7 @@ import words_dictionary from '../../../../utils/words_dictionary.json';
 import { profilePictures } from '../../../../assets/site/demoProfilePic';
 
 const LeftSide = () => {
-	const { component, setComponent } = useAppContext();
+	const { setComponent, setSideActive } = useAppContext();
 	
 	const [demoFormData, setDemoFormData] = useState('');
 	const [demoPostData, setDemoPostData] = useState({
@@ -380,7 +380,10 @@ const LeftSide = () => {
 						<button
 							className='signup-button'
 							type='button'
-							onClick={() => setComponent('signup')}
+							onClick={() => {
+								setComponent('signup');
+								setSideActive('right');
+							}}
 							aria-label='Sign up'
 						>
 							Sign up

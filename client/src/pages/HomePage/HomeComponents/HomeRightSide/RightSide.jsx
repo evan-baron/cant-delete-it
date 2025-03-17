@@ -19,7 +19,7 @@ import Verify from '../Verify/Verify';
 import ContactForm from '../../../../components/ContactForm/ContactForm';
 
 const RightSide = () => {
-	const { component, setComponent } = useAppContext();
+	const { component, setComponent, screenWidth, setSideActive } = useAppContext();
 
 	return (
 		<section className='right-side'>
@@ -36,6 +36,7 @@ const RightSide = () => {
 						component !== 'founder'
 							? setComponent('founder')
 							: setComponent('signup');
+							setSideActive('left');
 					}}
 					role='link'
 					aria-label='Switch between founder message and sign up'
@@ -44,7 +45,7 @@ const RightSide = () => {
 						className={`arrow west-arrow ${
 							component !== 'founder' ? 'visible' : 'hidden'
 						}`}
-						sx={{ color: '#252525' }}
+						sx={{ color: screenWidth < 480 ? 'white' : '#252525' }}
 					/>
 					<span className='direction'>
 						{component !== 'founder' ? 'Return to Home' : 'Sign up'}
@@ -53,10 +54,13 @@ const RightSide = () => {
 						className={`arrow east-arrow ${
 							component !== 'founder' ? 'hidden' : 'visible'
 						}`}
-						sx={{ color: '#252525' }}
+						sx={{ color: screenWidth < 480 ? 'white' : '#252525' }}
 					/>
 				</a>
 			</div>
+			{screenWidth < 480 && <div className="background-style">
+				<div className='style-blob-1'></div>
+			</div>}
 		</section>
 	);
 };

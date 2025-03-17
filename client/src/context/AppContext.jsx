@@ -15,7 +15,9 @@ export const ContextProvider = ({ children }) => {
 	const [component, setComponent] = useState('founder');
 	const [searchParams] = useSearchParams();
 	const [emailVerified, setEmailVerified] = useState(null);
-	
+	const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+	const [sideActive, setSideActive] = useState('left');
+
 	const emailToken = searchParams.get('token');
 
 	//Verification Token Validation
@@ -32,9 +34,9 @@ export const ContextProvider = ({ children }) => {
 					const { userId, emailVerified } = response.data;
 
 					if (emailVerified === 0) {
-						setEmailVerified(false)
+						setEmailVerified(false);
 						try {
-							console.log( userId, emailToken );
+							console.log(userId, emailToken);
 							await axiosInstance.post('/updateVerified', {
 								user_id: userId,
 								token: emailToken,
@@ -43,11 +45,10 @@ export const ContextProvider = ({ children }) => {
 							console.log('There was an error.', error);
 						}
 					} else if (emailVerified === 1) {
-						setEmailVerified(true)
+						setEmailVerified(true);
 					} else {
-						console.error('Unrecognized emailVerified response.')
+						console.error('Unrecognized emailVerified response.');
 					}
-
 				} catch (error) {
 					console.error('Error authenticating token: ', error);
 				}
@@ -86,8 +87,29 @@ export const ContextProvider = ({ children }) => {
 		fetchUserData();
 	}, []);
 
+	//Screenwidth Tracking
+	useEffect(() => {
+		const handleResize = () => setScreenWidth(window.innerWidth);
+
+		window.addEventListener('resize', handleResize);
+
+		return () => window.removeEventListener('resize', handleResize);
+	}, []);
+
 	return (
-		<AppContext.Provider value={{ component, setComponent, emailVerified, user, setUser, loading }}>
+		<AppContext.Provider
+			value={{
+				component,
+				setComponent,
+				emailVerified,
+				user,
+				setUser,
+				loading,
+				screenWidth,
+				sideActive,
+				setSideActive
+			}}
+		>
 			{children}
 		</AppContext.Provider>
 	);
