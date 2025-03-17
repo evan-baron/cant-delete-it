@@ -14,7 +14,7 @@ import words_dictionary from '../../../../utils/words_dictionary.json';
 import { profilePictures } from '../../../../assets/site/demoProfilePic';
 
 const LeftSide = () => {
-	const { setComponent, setSideActive } = useAppContext();
+	const { screenWidth, setComponent, setSideActive } = useAppContext();
 	
 	const [demoFormData, setDemoFormData] = useState('');
 	const [demoPostData, setDemoPostData] = useState({
@@ -240,7 +240,7 @@ const LeftSide = () => {
 										id='demoTextArea'
 										type='text'
 										maxLength='69'
-										placeholder='Signing up is a really bad idea...'
+										placeholder={screenWidth < 480 ? `Signing up's a bad idea...` : 'Signing up is a really bad idea...'}
 										spellCheck={false}
 										autoComplete="off"
 										onChange={demoChange}

@@ -86,7 +86,7 @@ const LoginForm = () => {
 	};
 
 	return (
-		<section aria-labelledby='login-form'>
+		<section aria-labelledby='login-form' className='login-content'>
 			<form className='login-form' role='form'>
 				<h1>Login</h1>
 				<div className='login-field'>
