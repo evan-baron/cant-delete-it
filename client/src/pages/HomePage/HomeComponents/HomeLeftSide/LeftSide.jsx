@@ -241,6 +241,8 @@ const LeftSide = () => {
 										type='text'
 										maxLength='69'
 										placeholder='Signing up is a really bad idea...'
+										spellCheck={false}
+										autoComplete="off"
 										onChange={demoChange}
 										value={demoFormData}
 										onDrop={(e) => {
