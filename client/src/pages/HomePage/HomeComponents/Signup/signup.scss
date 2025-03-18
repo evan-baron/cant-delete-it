@@ -21,9 +21,10 @@ $lightestGray: #eeeeee;
 	}
 
 	@media (max-height: 480px) and (orientation: landscape) {
-		padding-top: 1rem;
-		padding-bottom: 1rem;
 		width: 100%;
+		height: auto;
+		min-height: 100dvh;
+		padding: 1rem 0;
 	}
 
 	.signup-form {
@@ -41,14 +42,17 @@ $lightestGray: #eeeeee;
 	
 		@media (max-width: 480px) and (orientation: portrait) {
 			width: 100%;
-			height: auto;
+			height: 50%;
 			box-shadow: 2px 2px .5rem rgba(0, 0, 0, 0.5);
 		}
 	
 		@media (max-height: 480px) and (orientation: landscape) {
 			justify-content: flex-start;
-			width: 40%;
-			gap: .5rem;
+			width: 50%;
+			max-width: 25rem;
+			height: auto;
+			min-height: unset;
+			padding: 1rem;
 			box-shadow: 2px 2px .5rem rgba(0, 0, 0, 0.5);
 		}
 	
@@ -257,10 +261,14 @@ $lightestGray: #eeeeee;
 		@media (max-width: 480px) {
 			width: 100%;
 		}
+
+		@media (max-height: 480px) and (orientation: landscape) {
+			justify-self: center;
+			max-width: 30rem;
+		}
 	
 		h2 {
 			color: #696969;
-			// text-align: center;
 			font-size: 2rem;
 		}
 	

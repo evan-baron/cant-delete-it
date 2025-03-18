@@ -26,6 +26,7 @@ $lightestGray: #eeeeee;
 	@media (max-height: 480px) and (orientation: landscape) {
 		width: 100%;
 		height: auto;
+		overflow: visible;
 		background-color: $darkGray;
 	}
 
@@ -44,7 +45,8 @@ $lightestGray: #eeeeee;
 
 		@media (max-height: 480px) and (orientation: landscape) {
 			width: 100%;
-			height: auto;
+			flex-direction: row;
+			height: 100%;
 		}
 
 		.sign-up-link {
@@ -61,6 +63,16 @@ $lightestGray: #eeeeee;
 			color: $darkGray;
 			cursor: pointer;
 			user-select: none;
+
+			@media (max-height: 480px) and (orientation: landscape) {
+				position: fixed;
+				width: auto;
+				height: 1rem;
+				bottom: 0;
+				left: 1rem;
+				transform: translateY(-100%);
+				min-width: 0;
+			}
 
 			.direction {
 				@media (max-width: 480px) and (orientation: portrait) {

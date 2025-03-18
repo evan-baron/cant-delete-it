@@ -21,6 +21,8 @@ import ContactForm from '../../../../components/ContactForm/ContactForm';
 const RightSide = () => {
 	const { component, setComponent, screenHeight, screenWidth, setSideActive } = useAppContext();
 
+	const screenSmall = (screenWidth < 720) || (screenHeight < 720);
+
 	return (
 		<section className='right-side'>
 			<div className='content'>
@@ -45,20 +47,20 @@ const RightSide = () => {
 						className={`arrow west-arrow ${
 							component !== 'founder' ? 'visible' : 'hidden'
 						}`}
-						sx={{ color: screenWidth < 480 ? 'white' : '#252525' }}
+						sx={{ color: screenWidth < 480  || screenHeight < 480 ? 'white' : '#252525' }}
 					/>
 					<span className='direction'>
-						{component !== 'founder' ? 'Return to Home' : 'Sign up'}
+						{component !== 'founder' ? (screenHeight < 480 ? 'Go back' : 'Return to Home') : 'Sign up'}
 					</span>
 					<East
 						className={`arrow east-arrow ${
 							component !== 'founder' ? 'hidden' : 'visible'
 						}`}
-						sx={{ color: screenWidth < 480 ? 'white' : '#252525' }}
+						sx={{ color: screenWidth < 480 || screenHeight < 480 ? 'white' : '#252525' }}
 					/>
 				</a>
 			</div>
-			{screenWidth < 720 && screenHeight < 720 && <div className="background-style">
+			{screenSmall && <div className="background-style">
 				<div className='style-blob-1'></div>
 			</div>}
 		</section>
