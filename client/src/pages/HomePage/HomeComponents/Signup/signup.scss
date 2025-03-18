@@ -14,9 +14,15 @@ $lightestGray: #eeeeee;
 	justify-content: center;
 	gap: 1rem;
 
-	@media (max-width: 480px) {
+	@media (max-width: 480px) and (orientation: portrait) {
 		padding-left: 1rem;
 		padding-right: 1rem;
+		width: 100%;
+	}
+
+	@media (max-height: 480px) and (orientation: landscape) {
+		padding-top: 1rem;
+		padding-bottom: 1rem;
 		width: 100%;
 	}
 
@@ -33,9 +39,16 @@ $lightestGray: #eeeeee;
 		box-shadow: 2px 2px .5rem rgba(0, 0, 0, 0.1);
 		border-radius: .5rem;
 	
-		@media (max-width: 480px) {
+		@media (max-width: 480px) and (orientation: portrait) {
 			width: 100%;
 			height: auto;
+			box-shadow: 2px 2px .5rem rgba(0, 0, 0, 0.5);
+		}
+	
+		@media (max-height: 480px) and (orientation: landscape) {
+			justify-content: flex-start;
+			width: 40%;
+			gap: .5rem;
 			box-shadow: 2px 2px .5rem rgba(0, 0, 0, 0.5);
 		}
 	

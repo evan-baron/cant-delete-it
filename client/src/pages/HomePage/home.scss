@@ -33,7 +33,7 @@ $lightestGray: #eeeeee;
 		height: 100%;
 		width: 100%;
 
-		@media (max-width: 480px) and (orientation: portrait) {
+		@media (max-width: 820px) and (orientation: portrait) {
 			flex-direction: column;
 		}
 
@@ -51,6 +51,17 @@ $lightestGray: #eeeeee;
 		align-self: flex-start;
 		color: white;
 		z-index: 10;
+
+		@media (max-width: 820px) and (orientation: portrait) {
+			flex-direction: row;
+			justify-content: start;
+			width: 100%;
+			top: .75rem;
+
+			:nth-child(2) {
+				margin-left: auto;
+			}
+		}
 
 		@media (max-width: 480px) and (orientation: portrait) {
 			flex-direction: row;
@@ -98,6 +109,16 @@ $lightestGray: #eeeeee;
 			transition: 0.25s ease-out, left 0.25s ease-out;
 			will-change: transform;
 			text-rendering: geometricPrecision;
+
+			@media (max-width: 820px) and (orientation: portrait) {
+				left: 0;
+				padding: 0 1rem;
+				bottom: 0;
+
+				.floating-icon {
+					font-size: 2rem;
+				}
+			}
 
 			@media (max-width: 480px) and (orientation: portrait) {
 				left: 0;

@@ -25,7 +25,7 @@ $lightestGray: #eeeeee;
 
 	@media (max-height: 480px) and (orientation: landscape) {
 		width: 100%;
-		height: 100dvh;
+		height: auto;
 		background-color: $darkGray;
 	}
 
@@ -44,6 +44,7 @@ $lightestGray: #eeeeee;
 
 		@media (max-height: 480px) and (orientation: landscape) {
 			width: 100%;
+			height: auto;
 		}
 
 		.sign-up-link {

@@ -182,7 +182,7 @@ const LeftSide = () => {
 						<span>&nbsp;</span>It.
 					</h1>
 					<h2 className='pitch'>
-						The world's worst social media platform
+						The world's worst {screenWidth < 1580 && <br />}social media platform
 					</h2>
 				</section>
 

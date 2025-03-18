@@ -19,7 +19,7 @@ import Verify from '../Verify/Verify';
 import ContactForm from '../../../../components/ContactForm/ContactForm';
 
 const RightSide = () => {
-	const { component, setComponent, screenWidth, setSideActive } = useAppContext();
+	const { component, setComponent, screenHeight, screenWidth, setSideActive } = useAppContext();
 
 	return (
 		<section className='right-side'>
@@ -58,7 +58,7 @@ const RightSide = () => {
 					/>
 				</a>
 			</div>
-			{screenWidth < 480 && <div className="background-style">
+			{screenWidth < 720 && screenHeight < 720 && <div className="background-style">
 				<div className='style-blob-1'></div>
 			</div>}
 		</section>
