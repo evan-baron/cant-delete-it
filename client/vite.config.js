@@ -11,7 +11,7 @@ export default defineConfig({
       key: fs.readFileSync(path.resolve(__dirname, '../certs/localhost+2-key.pem')),
       cert: fs.readFileSync(path.resolve(__dirname, '../certs/localhost+2.pem'))
     },
-    host: 'localhost',
+    host: '0.0.0.0',
     port: 5173
   }
 });
