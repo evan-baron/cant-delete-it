@@ -19,7 +19,7 @@ import { useAppContext } from '../../context/AppContext';
 
 const PasswordReset = () => {
 	// Context & Navigation
-	const { screenWidth, setComponent, setSideActive } = useAppContext();
+	const { screenHeight, screenWidth, setComponent, setSideActive } = useAppContext();
 	const navigate = useNavigate();
 
 	// URL & Query Parameters
@@ -65,6 +65,7 @@ const PasswordReset = () => {
 					params: { token },
 				});
 				const { tokenValid, timeRemaining, email } = response.data;
+				console.log(tokenValid);
 
 				setResendEmail(email);
 				setTokenValid(tokenValid);
@@ -78,7 +79,10 @@ const PasswordReset = () => {
 
 	// Countdown Timer
 	useEffect(() => {
-		if (!tokenValid || timeRemaining <= 0) return;
+		if (!tokenValid || timeRemaining <= 0) {
+			setTokenValid(false);
+			return;
+		}
 
 		const timer = setInterval(() => {
 			setTimeRemaining((prev) => (prev > 0 ? prev - 1 : 0));
@@ -174,12 +178,16 @@ const PasswordReset = () => {
 		}
 	};
 
+	const screenSmall = (screenWidth < 720) || (screenHeight < 720);
+
 	return (
 		<div className='auth'>
 			<section aria-labelledby='password-recovery-form'>
-				<h1 id='password-recovery-form'>
-					cant <span style={{ color: 'red' }}>delete</span> it
-				</h1>
+				<Link to='/'>
+					<h1 id='password-recovery-form'>
+						cant <span style={{ color: 'red' }}>delete</span> it
+					</h1>
+				</Link>
 				<form role='form'>
 					{tokenValid ? (
 						<>
@@ -435,7 +443,7 @@ const PasswordReset = () => {
 					)}
 				</form>
 			</section>
-			{screenWidth < 480 && <div className="background-style">
+			{screenSmall && <div className="background-style">
 				<div className='style-blob-1'></div>
 			</div>}
 		</div>

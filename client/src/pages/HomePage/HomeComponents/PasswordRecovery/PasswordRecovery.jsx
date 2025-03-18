@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import axiosInstance from '../../../../utils/axios';
-import { Link } from 'react-router-dom';
 import './passwordRecovery.scss';
 import { useAppContext } from '../../../../context/AppContext';
 
@@ -55,7 +54,7 @@ const PasswordRecovery = () => {
 
 	return (
 		<section aria-labelledby='password-recovery-form' className='recovery-content'>
-			{!emailSent && (
+			{!emailSent ? (
 				<form className='recovery-form' role='form'>
 					<h1 id='password-recovery-form'>Recover Password</h1>
 					<div className="input-field">						
@@ -107,8 +106,7 @@ const PasswordRecovery = () => {
 						</a>
 					</span>
 				</form>
-			)}
-			{emailSent && (
+			) : (
 				<div className='recovery-sent'>
 					<h2>
 						A password reset link has been sent to your email.

@@ -34,6 +34,13 @@ const LeftSide = () => {
 	const [countdownStarted, setCountdownStarted] = useState(false);
 
 	useEffect(() => {
+		const homeElement = document.querySelector('.home');
+		if (homeElement) {
+			homeElement.scrollTop = 0;
+		}
+	}, []);
+
+	useEffect(() => {
 		if (countdownStarted) {
 			const timer = setTimeout(() => {
 				setTimeLeft((prev) => {

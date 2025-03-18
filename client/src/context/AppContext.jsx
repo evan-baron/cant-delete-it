@@ -27,16 +27,15 @@ export const ContextProvider = ({ children }) => {
 			if (!urlToken) {
 				console.log('No token found. Redirecting to home.');
 			} else {
-				setComponent('verify');
 				setSideActive('right');
 				try {
 					const response = await axiosInstance.get('/authenticateVerifyToken', {
 						params: { token: urlToken },
 					});
 					const { userId, tokenType, emailVerified } = response.data;
-					console.log(response.data);
 
 					if (tokenType === 'email_verification') {
+						setComponent('verify');
 						if (emailVerified === 0) {
 							setEmailVerified(false);
 							try {
