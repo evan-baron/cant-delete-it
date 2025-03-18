@@ -18,6 +18,11 @@ $lightestGray: #eeeeee;
 		overflow-y: scroll;
 	}
 
+	@media (max-height: 480px) and (orientation: landscape) {
+		flex-direction: column;
+		overflow-y: scroll;
+	}
+
 	.misspelled {
 		text-decoration: underline wavy red;
 		text-decoration-skip-ink: none;
@@ -29,6 +34,10 @@ $lightestGray: #eeeeee;
 		width: 100%;
 
 		@media (max-width: 480px) and (orientation: portrait) {
+			flex-direction: column;
+		}
+
+		@media (max-height: 480px) and (orientation: landscape) {
 			flex-direction: column;
 		}
 	}
@@ -64,6 +73,17 @@ $lightestGray: #eeeeee;
 				margin-left: auto;
 			}
 		}
+
+		@media (max-height: 480px) and (orientation: landscape) {
+			flex-direction: row;
+			justify-content: start;
+			width: 100%;
+			top: .75rem;
+
+			:nth-child(2) {
+				margin-left: auto;
+			}	
+		}
 		
 		.floating-link {
 			position: relative;
@@ -98,6 +118,16 @@ $lightestGray: #eeeeee;
 					font-size: 2rem;
 				}
 			}
+
+			@media (max-height: 480px) and (orientation: landscape) {
+				left: 0;
+				padding: 0 1rem;
+				bottom: 0;
+
+				.floating-icon {
+					font-size: 2rem;
+				}
+			}
 		}
 
 		.floating-link:hover {
@@ -106,6 +136,12 @@ $lightestGray: #eeeeee;
 			cursor: pointer;
 
 			@media (max-width: 480px) {
+				left: 0;
+				transform: none;
+				cursor: default;
+			}
+
+			@media (max-height: 480px) {
 				left: 0;
 				transform: none;
 				cursor: default;
