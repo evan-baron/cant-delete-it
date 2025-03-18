@@ -6,102 +6,133 @@ $lightGray: #525252;
 $lighterGray: #aaaaaa;
 $lightestGray: #eeeeee;
 
-.contact-form {
-	min-height: 25rem;
-	width: 25rem;
+.contact-content {
 	position: relative;
 	display: flex;
 	flex-direction: column;
+	align-items: center;
 	justify-content: center;
-	gap: 1rem;
-	padding: 2rem;
-	background-color: white;
-	box-shadow: 2px 2px .5rem rgba(0, 0, 0, 0.1);
-	border-radius: .5rem;
 
-	h2 {
-		text-align: center;
-		font-size: 2rem;
-		color: #696969;
+	@media (max-height: 480px) and (orientation: landscape) {
+		width: 100%;
 	}
 
-	.contact-field {
+	@media (max-width: 480px) and (orientation: portrait) {
+		width: 100%;
+	}
+
+	.contact-form {
+		min-height: 25rem;
+		width: 25rem;
+		position: relative;
 		display: flex;
 		flex-direction: column;
+		justify-content: center;
 		gap: 1rem;
+		padding: 2rem;
+		background-color: white;
+		box-shadow: 2px 2px .5rem rgba(0, 0, 0, 0.1);
+		border-radius: .5rem;
 
-		.contact-input {
+		@media (max-width: 480px) and (orientation: portrait) {
+			box-shadow: 2px 2px .5rem rgba(0, 0, 0, 0.5);
+			width: 100%;
+		}
+	
+		@media (max-height: 480px) and (orientation: landscape) {
+			box-shadow: 2px 2px .5rem rgba(0, 0, 0, 0.5);
+			justify-content: flex-start;
+		}
+	
+		@media (max-height: 380px) and (orientation: landscape) {
+			width: 50%;
+			padding: 1rem;
+		}
+	
+		h2 {
+			text-align: center;
+			font-size: 2rem;
+			color: #696969;
+		}
+	
+		.contact-field {
 			display: flex;
 			flex-direction: column;
-			justify-content: center;
-			gap: .25rem;
-
-			label {
-				font-size: 1.125rem;
-				color: $darkGray;
-			}
+			gap: 1rem;
 	
-			.input-container {
-				position: relative;
+			.contact-input {
 				display: flex;
 				flex-direction: column;
 				justify-content: center;
 				gap: .25rem;
-				width: 100%;
-
-				.char-count {
-					color: rgba(105, 105, 105, .5);
-					font-size: .75rem;
-					padding-left: .5rem;
+	
+				label {
+					font-size: 1.125rem;
+					color: $darkGray;
 				}
-			}
+		
+				.input-container {
+					position: relative;
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					gap: .25rem;
+					width: 100%;
 	
-			input {
-				border: none;
-				border-bottom: 1px solid $darkGray;
-				height: 2.25rem;
-				padding-left: 0.25rem;
-				font-size: 1.125rem;
-				background-color: $masterBackground;
-				color: $darkGray;
-				width: 100%;
+					.char-count {
+						color: rgba(105, 105, 105, .5);
+						font-size: .75rem;
+						padding-left: .5rem;
+					}
+				}
+		
+				input {
+					border: none;
+					border-bottom: 1px solid $darkGray;
+					height: 2.25rem;
+					padding-left: 0.25rem;
+					font-size: 1.125rem;
+					background-color: $masterBackground;
+					color: $darkGray;
+					width: 100%;
+		
+					&:focus {
+						outline: none;
+						background-color: transparent;
+					}
+		
+					&[type='password'] {
+						font-size: 1.5rem;
+					}
+				}
 	
-				&:focus {
+				textarea {
+					padding-left: 0.25rem;
+					font-size: 1.125rem;
+					width: 100%;
+				}
+				
+				textarea:focus {
 					outline: none;
-					background-color: transparent;
 				}
-	
-				&[type='password'] {
-					font-size: 1.5rem;
-				}
-			}
-
-			textarea {
-				padding-left: 0.25rem;
-				font-size: 1.125rem;
-				width: 100%;
-			}
-			
-			textarea:focus {
-				outline: none;
 			}
 		}
-	}
-
-	button {
-		align-self: center;
-		border: none;
-		border-radius: 5px;
-		font-size: 1.25rem;
-		padding: 1rem;
-		width: 80%;
-		color: white;
-		background-color: $lightGray;
-		cursor: pointer;
-	}
-
-	.message-sent {
-		font-size: 1.5rem;
-		text-align: center;
+	
+		button {
+			align-self: center;
+			border: none;
+			border-radius: 5px;
+			font-size: 1.25rem;
+			padding: 1rem;
+			width: 80%;
+			color: white;
+			background-color: $lightGray;
+			cursor: pointer;
+		}
+	
+		.message-sent {
+			font-size: 1.5rem;
+			text-align: center;
+		}
 	}
 }

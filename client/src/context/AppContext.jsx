@@ -28,6 +28,7 @@ export const ContextProvider = ({ children }) => {
 				console.log('No token found. Redirecting to home.');
 			} else {
 				setComponent('verify');
+				setSideActive('right');
 				try {
 					const response = await axiosInstance.get('/authenticateVerifyToken', {
 						params: { token: urlToken },

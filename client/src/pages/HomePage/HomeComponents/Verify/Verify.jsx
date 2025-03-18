@@ -10,7 +10,7 @@ import './verify.scss';
 
 const Verify = () => {
 	// CONTEXT
-	const { emailVerified, setComponent } = useAppContext();
+	const { emailVerified, setComponent, setSideActive } = useAppContext();
 
 	// ROUTER HOOKS
 	const [searchParams] = useSearchParams();
@@ -23,33 +23,31 @@ const Verify = () => {
 	};
 
 	return (
-		<div className='auth' role='main'>
-			<section aria-labelledby='password-recovery-form'>
-				<div className='verify-container'>
-					<h1 id='password-recovery-form'>Email Verified</h1>
-					<p>
-						{!emailVerified
-							? 'Thank you for verifying your email.'
-							: `You've already verified your email.`}
-					</p>
-					<span>
-						Continue to login
-						<br />
-						<a
-							className='link'
-							role='link'
-							aria-label='Go to login page'
-							onClick={() => {
-								setComponent('login');
-								removeTokenFromUrl();
-							}}
-						>
-							Login
-						</a>
-					</span>
-				</div>
-			</section>
-		</div>
+		<section aria-labelledby='password-recovery-form' className='verify-content'>
+			<div className='verify-container'>
+				<h1 id='password-recovery-form'>Email Verified</h1>
+				<p>
+					{!emailVerified
+						? 'Thank you for verifying your email.'
+						: `You've already verified your email.`}
+				</p>
+				<span>
+					Continue to login
+					<br />
+					<a
+						className='link'
+						role='link'
+						aria-label='Go to login page'
+						onClick={() => {
+							setComponent('login');
+							removeTokenFromUrl();
+						}}
+					>
+						Login
+					</a>
+				</span>
+			</div>
+		</section>
 	);
 };
 

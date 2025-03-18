@@ -54,7 +54,7 @@ const ContactForm = () => {
 	};
 
 	return (
-		<section aria-labelledby='contact-form'>
+		<section aria-labelledby='contact-form' className='contact-content'>
 			<form className='contact-form'>
 				<h2>Contact Us</h2>
 				<div className='contact-field'>
