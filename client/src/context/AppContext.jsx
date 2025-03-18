@@ -15,6 +15,7 @@ export const ContextProvider = ({ children }) => {
 	const [component, setComponent] = useState('founder');
 	const [searchParams] = useSearchParams();
 	const [emailVerified, setEmailVerified] = useState(null);
+	const [screenHeight, setScreenHeight] = useState(window.innerHeight);
 	const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 	const [sideActive, setSideActive] = useState('left');
 
@@ -90,7 +91,10 @@ export const ContextProvider = ({ children }) => {
 
 	//Screenwidth Tracking
 	useEffect(() => {
-		const handleResize = () => setScreenWidth(window.innerWidth);
+		const handleResize = () => {
+			setScreenHeight(window.innerHeight);
+			setScreenWidth(window.innerWidth);
+		};
 
 		window.addEventListener('resize', handleResize);
 
@@ -106,6 +110,7 @@ export const ContextProvider = ({ children }) => {
 				user,
 				setUser,
 				loading,
+				screenHeight,
 				screenWidth,
 				sideActive,
 				setSideActive

@@ -15,7 +15,7 @@ import LeftSide from './HomeComponents/HomeLeftSide/LeftSide';
 import RightSide from './HomeComponents/HomeRightSide/RightSide';
 
 const Home = () => {
-	const { user, screenWidth, sideActive, setSideActive, component, setComponent } = useAppContext();
+	const { user, screenHeight, screenWidth, sideActive, setSideActive, component, setComponent } = useAppContext();
 
 	useEffect(() => {}, [user]);
 
@@ -26,7 +26,7 @@ const Home = () => {
 					<>
 						<div>Hello {user.first_name}</div>
 					</>
-				) : screenWidth > 820 ? (
+				) : screenWidth > 820 && screenHeight > 720 ? (
 					<>
 						<LeftSide />
 						<RightSide />
