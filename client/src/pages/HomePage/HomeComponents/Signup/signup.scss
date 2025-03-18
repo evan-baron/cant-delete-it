@@ -22,8 +22,8 @@ $lightestGray: #eeeeee;
 
 	@media (max-height: 480px) and (orientation: landscape) {
 		width: 100%;
-		height: auto;
 		min-height: 100dvh;
+		height: 100%;
 		padding: 1rem 0;
 	}
 
@@ -52,8 +52,12 @@ $lightestGray: #eeeeee;
 			max-width: 25rem;
 			height: auto;
 			min-height: unset;
-			padding: 1rem;
+			padding: 2rem;
 			box-shadow: 2px 2px .5rem rgba(0, 0, 0, 0.5);
+		}
+
+		@media (max-height: 380px) and (orientation: landscape) {
+			padding: 1rem;
 		}
 	
 		.signup-title {

@@ -50,7 +50,7 @@ const RightSide = () => {
 						sx={{ color: screenWidth < 480  || screenHeight < 480 ? 'white' : '#252525' }}
 					/>
 					<span className='direction'>
-						{component !== 'founder' ? (screenHeight < 480 ? 'Go back' : 'Return to Home') : 'Sign up'}
+						{component !== 'founder' ? (screenHeight < 480 ? 'Home' : 'Return to Home') : 'Sign up'}
 					</span>
 					<East
 						className={`arrow east-arrow ${
