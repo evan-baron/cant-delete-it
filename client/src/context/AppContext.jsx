@@ -34,6 +34,7 @@ export const ContextProvider = ({ children }) => {
 						params: { token: urlToken },
 					});
 					const { userId, tokenType, emailVerified } = response.data;
+					console.log(response.data);
 
 					if (tokenType === 'email_verification') {
 						if (emailVerified === 0) {

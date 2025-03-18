@@ -88,7 +88,7 @@ router.post('/updateVerified', async (req, res) => {
 	const { user_id, token } = req.body;
 
 	try {
-		await userService.updateVerified(user_id, token_name, token);
+		await userService.updateVerified(user_id, token);
 	} catch (err) {
 		res.status(500).json({ message: err.message });
 	}
