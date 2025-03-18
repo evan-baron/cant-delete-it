@@ -249,7 +249,7 @@ const LeftSide = () => {
 										id='demoTextArea'
 										type='text'
 										maxLength='69'
-										placeholder={screenWidth < 480 ? `Signing up's a bad idea...` : 'Signing up is a really bad idea...'}
+										placeholder={screenWidth < 480 ? `Signing up is a bad idea...` : 'Signing up is a really bad idea...'}
 										spellCheck={false}
 										autoComplete="off"
 										onChange={demoChange}
