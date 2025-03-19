@@ -76,16 +76,29 @@ const Home = () => {
 						aria-label='Login'
 					>
 						{component !== 'login' && 
-						<>
-							<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
-							<Login
-								className='floating-icon'
-								sx={{
-									fontSize: '2.5rem',
-									filter: 'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
-								}}
-							/>
-						</>}
+							screenWidth > 1000 ? (
+								<>
+									<Login
+										className='floating-icon'
+										sx={{
+											fontSize: '2.5rem',
+											filter: 'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
+										}}
+									/>
+									<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
+								</>
+							) : (
+								<>
+									<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
+									<Login
+										className='floating-icon'
+										sx={{
+											fontSize: '2.5rem',
+											filter: 'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
+										}}
+									/>
+								</>
+							)}
 					</div>
 				</>
 			</div>

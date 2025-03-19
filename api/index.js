@@ -30,6 +30,6 @@ app.use('/', logUserAction, routes);
 
 https
 	.createServer({ key: privateKey, cert: certificate }, app)
-	.listen(PORT, () => {
+	.listen(PORT, '0.0.0.0', () => {
 		console.log(`Connected to server. Listening on HTTPS PORT ${PORT}.`);
 	});
