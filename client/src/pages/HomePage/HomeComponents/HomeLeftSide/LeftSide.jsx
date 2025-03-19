@@ -15,7 +15,7 @@ import { profilePictures } from '../../../../assets/site/demoProfilePic';
 
 const LeftSide = () => {
 	const { screenWidth, setComponent, setSideActive } = useAppContext();
-	
+
 	const [demoFormData, setDemoFormData] = useState('');
 	const [demoPostData, setDemoPostData] = useState({
 		visible: false,
@@ -119,10 +119,7 @@ const LeftSide = () => {
 
 		if (isValidKey) {
 			setTimeLeft(3000);
-			if (
-				!demoFormData.length > 0 &&
-				e.key !== ' '
-			) {
+			if (!demoFormData.length > 0 && e.key !== ' ') {
 				setCountdownStarted(true);
 			}
 		} else {
@@ -154,8 +151,43 @@ const LeftSide = () => {
 		}
 	};
 
+	const textareaRef = useRef(null);
+
 	const demoChange = (e) => {
-		e.target.value !== ' ' && setDemoFormData(e.target.value); // Prevents spaces and empty data from being processed as a 'word'
+		if (!textareaRef.current) return;
+
+		const length = e.target.value.length; // Use updated value length
+		const { value } = e.target;
+		const isDeleting = e.nativeEvent.inputType === 'deleteContentBackward';
+
+		// Prevent cursor from moving back when deleting
+		if (isDeleting) {
+			e.preventDefault();
+			setTimeLeft((prev) => {
+				if (timeLeft > 0) {
+					return prev - 1000;
+				}
+				return prev;
+			});
+			setTimeout(() => {
+				textareaRef.current.setSelectionRange(length + 1, length + 1);
+			}, 0);
+			return;
+		}
+
+		// Only update state if not just a space
+		if (value !== ' ') setDemoFormData(value)
+
+		// Ensure cursor always moves to the end **after state update**
+		setTimeout(() => {
+			textareaRef.current.setSelectionRange(value.length, value.length);
+		}, 0);
+
+		// if (e.nativeEvent.inputType !== 'deleteContentBackward') {
+		// 	setDemoFormData(e.target.value);
+		// }
+
+		// e.target.value !== ' ' && setDemoFormData(e.target.value); // Prevents spaces and empty data from being processed as a 'word'
 	};
 
 	const demoSubmit = () => {
@@ -166,7 +198,7 @@ const LeftSide = () => {
 			setDemoPostData({
 				visible: true,
 				userName: 'Glizzy Kittles',
-				content: demoFormData.split(' '),
+				content: demoFormData.trim(' ').split(' '),
 				timestamp: `${dayjs().format('MMMM DD, YYYY')}, at ${dayjs().format(
 					'h:mm A'
 				)}`,
@@ -188,7 +220,8 @@ const LeftSide = () => {
 						<span>&nbsp;</span>It.
 					</h1>
 					<h2 className='pitch'>
-						The world's worst {screenWidth < 1580 && <br />}social media platform
+						The world's worst {screenWidth < 1580 && <br />}social media
+						platform
 					</h2>
 				</section>
 
@@ -197,31 +230,24 @@ const LeftSide = () => {
 					<div className='divider'></div>
 					<ul role='list'>
 						<li role='listitem'>
-							<Close
-								sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
-							/>
+							<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
 							<p>
-								Your content will automatically post 30 seconds after
-								you stop typing.
+								Your content will automatically post 30 seconds after you stop
+								typing.
 							</p>
 						</li>
 						<li role='listitem'>
-							<Close
-								sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
-							/>
+							<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
 							<p>
-								You can't delete.{' '}
-								<span className='bold'>Anything.</span> Pressing
-								backspace removes 10 seconds from the timer.
+								You can't delete. <span className='bold'>Anything.</span>{' '}
+								Pressing backspace removes 10 seconds from the timer.
 							</p>
 						</li>
 						<li role='listitem'>
-							<Close
-								sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }}
-							/>
+							<Close sx={{ color: 'rgb(255, 0, 0)', fontSize: '2rem' }} />
 							<p>
-								You can't edit either. That includes no clicking back
-								on previously typed words.
+								You can't edit either. That includes no clicking back on
+								previously typed words.
 							</p>
 						</li>
 						<li role='listitem'>
@@ -232,9 +258,8 @@ const LeftSide = () => {
 								}}
 							/>
 							<p>
-								Our spell-check{' '}
-								<span className='misspelled'>doesn't</span> work. Get
-								used to it.
+								Our spell-check <span className='misspelled'>doesn't</span>{' '}
+								work. Get used to it.
 							</p>
 						</li>
 					</ul>
@@ -252,13 +277,21 @@ const LeftSide = () => {
 							>
 								<section className='input'>
 									<textarea
+										ref={textareaRef}
 										id='demoTextArea'
 										type='text'
 										maxLength='69'
-										placeholder={screenWidth < 480 ? `Signing up is a bad idea...` : 'Signing up is a really bad idea...'}
+										placeholder={
+											screenWidth < 480
+												? `Signing up is a bad idea...`
+												: 'Signing up is a really bad idea...'
+										}
 										spellCheck={false}
-										autoComplete="off"
-										onChange={demoChange}
+										autoComplete='off'
+										autoCorrect='off'
+										inputMode='text'
+										// onChange={demoChange}
+										onInput={demoChange}
 										value={demoFormData}
 										onDrop={(e) => {
 											e.preventDefault();
@@ -298,8 +331,7 @@ const LeftSide = () => {
 								</section>
 								<div className='input-decorations'>
 									<p className='characters-remaining'>
-										{69 - demoFormData.length} (normally 420 character
-										limit)
+										{69 - demoFormData.length} (normally 420 character limit)
 									</p>
 									<button
 										type='button'
@@ -315,43 +347,30 @@ const LeftSide = () => {
 							{demoPostData.visible && (
 								<article className='posted-content'>
 									<div className='profile-picture'>
-										<img
-											src={profilePic}
-											alt='Demo User Profile Picture'
-										/>
+										<img src={profilePic} alt='Demo User Profile Picture' />
 									</div>
 									<div className='posted-content-container'>
 										<h3 className='user'>{demoPostData.userName}</h3>
 										<p className='post-content'>
-											{checkedWords.map(
-												({ word, isCorrect }, index) => (
-													<React.Fragment key={index}>
-														<span
-															className={
-																isCorrect ? '' : 'misspelled'
-															}
-														>
-															{word}
-														</span>
-														{index !== checkedWords.length - 1 && (
-															<span>&nbsp;</span>
-														)}
-													</React.Fragment>
-												)
-											)}
+											{checkedWords.map(({ word, isCorrect }, index) => (
+												<React.Fragment key={index}>
+													<span className={isCorrect ? '' : 'misspelled'}>
+														{word}
+													</span>
+													{index !== checkedWords.length - 1 && (
+														<span>&nbsp;</span>
+													)}
+												</React.Fragment>
+											))}
 										</p>
 										<div className='post-decorations'>
-											<p className='timestamp'>
-												{demoPostData.timestamp}
-											</p>
+											<p className='timestamp'>{demoPostData.timestamp}</p>
 											<div className='post-buttons'>
 												<div className='score-box'>
 													<Check
 														className='symbol'
 														sx={{
-															color: approve
-																? 'rgb(0, 200, 0)'
-																: '#525252',
+															color: approve ? 'rgb(0, 200, 0)' : '#525252',
 															fontSize: '1.5rem',
 															transform: 'translateY(-1px)',
 														}}
@@ -361,17 +380,13 @@ const LeftSide = () => {
 														}}
 													/>
 													<div className='post-buttons-divider'></div>
-													<div className='post-score'>
-														{postScore.approve}
-													</div>
+													<div className='post-score'>{postScore.approve}</div>
 												</div>
 												<div className='score-box'>
 													<Close
 														className='symbol'
 														sx={{
-															color: disapprove
-																? 'rgb(255, 0, 0)'
-																: '#525252',
+															color: disapprove ? 'rgb(255, 0, 0)' : '#525252',
 															fontSize: '1.5rem',
 														}}
 														onClick={() => {
@@ -406,7 +421,7 @@ const LeftSide = () => {
 					</div>
 				</section>
 			</div>
-			<div className="background-style">
+			<div className='background-style'>
 				<div className='style-blob-1'></div>
 			</div>
 		</section>
