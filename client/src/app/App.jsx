@@ -1,3 +1,5 @@
+// UNFORTUNATELY UNTIL CHROMIUM ALLOWS FOR KEYCODES TO BE IDENTIFIED ON MOBILE, THIS PROJECT IS POSTPONED INDEFINITELY
+
 // External Libraries
 import React from 'react';
 import { Route, Routes, Navigate } from 'react-router-dom';
