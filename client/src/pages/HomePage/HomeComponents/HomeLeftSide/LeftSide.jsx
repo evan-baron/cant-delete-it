@@ -118,7 +118,6 @@ const LeftSide = () => {
 			/^[a-zA-Z0-9\-=\[\]\\;',./`~!@#$%^&*()_+{}|:"<>? ]$|^Shift$/.test(e.key);
 
 		if (isValidKey) {
-			console.log(demoFormData.length);
 			setTimeLeft(3000);
 			if (
 				!demoFormData.length > 0 &&
