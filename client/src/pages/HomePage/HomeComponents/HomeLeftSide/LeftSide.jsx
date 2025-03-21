@@ -170,17 +170,17 @@ const LeftSide = () => {
 	const demoSubmit = () => {
 		if (!demoFormData) {
 			return;
-		} else {
-			setProfilePic(profilePictures[Math.floor(Math.random() * 8)].img);
-			setDemoPostData({
-				visible: true,
-				userName: 'Glizzy Kittles',
-				content: demoFormData.trim(' ').split(' '),
-				timestamp: `${dayjs().format('MMMM DD, YYYY')}, at ${dayjs().format(
-					'h:mm A'
-				)}`,
-			});
 		}
+
+		setProfilePic(profilePictures[Math.floor(Math.random() * 8)].img);
+		setDemoPostData({
+			visible: true,
+			userName: 'Glizzy Kittles',
+			content: demoFormData.trim(' ').split(' '),
+			timestamp: `${dayjs().format('MMMM DD, YYYY')}, at ${dayjs().format(
+				'h:mm A'
+			)}`,
+		});
 
 		setDemoFormData('');
 		setCountdownStarted(false);
