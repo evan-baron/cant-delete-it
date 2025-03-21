@@ -15,15 +15,7 @@ import LeftSide from './HomeComponents/HomeLeftSide/LeftSide';
 import RightSide from './HomeComponents/HomeRightSide/RightSide';
 
 const Home = () => {
-	const {
-		user,
-		screenHeight,
-		screenWidth,
-		sideActive,
-		setSideActive,
-		component,
-		setComponent,
-	} = useAppContext();
+	const { user, screenHeight, screenWidth, sideActive, setSideActive, component, setComponent } = useAppContext();
 
 	useEffect(() => {}, [user]);
 
@@ -47,60 +39,62 @@ const Home = () => {
 				)}
 			</div>
 			<div className='floating-links'>
-				<>
-					<div
-						className='floating-link'
-						aria-label='Get in touch'
-						role='button'
-						onClick={() => {
-							setComponent('contact');
-							setSideActive('right');
-						}}
-					>
-						<Mail
-							className='floating-icon'
-							sx={{
-								fontSize: '2.5rem',
-								filter: 'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
+
+					<>
+						<div
+							className='floating-link'
+							aria-label='Get in touch'
+							role='button'
+							onClick={() => {
+								setComponent('contact');
+								setSideActive('right');
 							}}
-						/>
-						<p>Get in touch!</p>
-					</div>
-					<div
-						className='floating-link'
-						onClick={() => {
-							setComponent('login');
-							setSideActive('right');
-						}}
-						role='button'
-						aria-label='Login'
-					>
-						{component !== 'login' && 
-							screenWidth > 1000 ? (
+						>
+							<Mail
+								className='floating-icon'
+								sx={{
+									fontSize: '2.5rem',
+									filter: 'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
+								}}
+							/>
+							<p>Get in touch!</p>
+						</div>
+						<div
+							className='floating-link'
+							onClick={() => {
+								setComponent('login');
+								setSideActive('right');
+							}}
+							role='button'
+							aria-label='Login'
+						>
+							{screenWidth > 1000 ? (component !== 'login' && 
 								<>
 									<Login
 										className='floating-icon'
 										sx={{
 											fontSize: '2.5rem',
-											filter: 'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
+											filter:
+												'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
 										}}
 									/>
 									<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
 								</>
-							) : (
+							) : ( component !== 'login' &&
 								<>
 									<p style={{ color: 'red', fontWeight: 'bold' }}>Login</p>
 									<Login
 										className='floating-icon'
 										sx={{
 											fontSize: '2.5rem',
-											filter: 'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
+											filter:
+												'drop-shadow(.5rem .5rem .25rem rgba(0, 0, 0, .375))',
 										}}
 									/>
 								</>
 							)}
-					</div>
-				</>
+						</div>
+					</>
 			</div>
 		</main>
 	);

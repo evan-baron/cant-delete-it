@@ -33,6 +33,8 @@ const LeftSide = () => {
 	const [timeLeft, setTimeLeft] = useState(3000);
 	const [countdownStarted, setCountdownStarted] = useState(false);
 
+	const textareaRef = useRef(null);
+
 	useEffect(() => {
 		const homeElement = document.querySelector('.home');
 		if (homeElement) {
@@ -104,18 +106,29 @@ const LeftSide = () => {
 	}, [demoPostData.content]);
 
 	const handleKeyDown = (e) => {
-		const keyNames = [
-			'Backspace',
-			'ContextMenu',
-			'Control',
-			'Delete',
-			'ArrowUp',
-			'ArrowDown',
-			'ArrowLeft',
-		];
+		if (e.key === 'Enter') {
+			e.preventDefault();
+			if (demoFormData.length > 0) {
+				demoSubmit();
+			}
+			return;
+		}
+
+		if (e.key === 'Backspace' && countdownStarted) {
+			e.preventDefault();
+			setTimeLeft((prev) => Math.max(prev - 1000, 0));
+			return;
+		}
+
+		if (
+			(e.ctrlKey && ['a', 'z', 'v'].includes(e.key))
+		) {
+			e.preventDefault();
+			return;
+		}
 
 		const isValidKey =
-			/^[a-zA-Z0-9\-=\[\]\\;',./`~!@#$%^&*()_+{}|:"<>? ]$|^Shift$/.test(e.key);
+			/^[a-zA-Z0-9\-=\[\]\\;',./`~!@#$%^&*()_+{}|:"<>? ]$/.test(e.key);
 
 		if (isValidKey) {
 			setTimeLeft(3000);
@@ -123,71 +136,35 @@ const LeftSide = () => {
 				setCountdownStarted(true);
 			}
 		} else {
-			console.log('something went wrong in leftside.jsx');
-		}
-
-		if (e.key === 'Backspace' && countdownStarted) {
 			e.preventDefault();
-			setTimeLeft((prev) => {
-				if (timeLeft > 0) {
-					return prev - 1000;
-				}
-				return prev;
-			});
-		}
-		if (
-			keyNames.includes(e.key) ||
-			(e.ctrlKey && e.key === 'a') ||
-			(e.ctrlKey && e.key === 'z') ||
-			(e.ctrlKey && e.key === 'v')
-		) {
-			e.preventDefault();
-		}
-		if (e.key === 'Enter') {
-			e.preventDefault();
-			if (demoFormData.length > 0) {
-				demoSubmit();
-			}
 		}
 	};
 
-	const textareaRef = useRef(null);
-
 	const demoChange = (e) => {
-		if (!textareaRef.current) return;
+		// if (!textareaRef.current) return;
 
-		const length = e.target.value.length; // Use updated value length
-		const { value } = e.target;
-		const isDeleting = e.nativeEvent.inputType === 'deleteContentBackward';
+		// const length = e.target.value.length; // Use updated value length
+		// const { value } = e.target;
+		// const isDeleting = e.nativeEvent.inputType === 'deleteContentBackward';
 
-		// Prevent cursor from moving back when deleting
-		if (isDeleting) {
-			e.preventDefault();
-			setTimeLeft((prev) => {
-				if (timeLeft > 0) {
-					return prev - 1000;
-				}
-				return prev;
-			});
-			setTimeout(() => {
-				textareaRef.current.setSelectionRange(length + 1, length + 1);
-			}, 0);
-			return;
-		}
-
-		// Only update state if not just a space
-		if (value !== ' ') setDemoFormData(value)
-
-		// Ensure cursor always moves to the end **after state update**
-		setTimeout(() => {
-			textareaRef.current.setSelectionRange(value.length, value.length);
-		}, 0);
-
-		// if (e.nativeEvent.inputType !== 'deleteContentBackward') {
-		// 	setDemoFormData(e.target.value);
+		// // Prevent cursor from moving back when deleting
+		// if (isDeleting) {
+		// 	setTimeout(() => {
+		// 		textareaRef.current.setSelectionRange(length + 1, length + 1);
+		// 	}, 0);
+		// 	return;
 		// }
 
-		// e.target.value !== ' ' && setDemoFormData(e.target.value); // Prevents spaces and empty data from being processed as a 'word'
+		// // Only update state if not just a space
+		// if (value !== ' ') setDemoFormData(value)
+
+		// // Ensure cursor always moves to the end **after state update**
+		// setTimeout(() => {
+		// 	textareaRef.current.setSelectionRange(value.length, value.length);
+		// }, 0);
+
+		// ORIGINAL CODE BELOW KEEP FOR DOCUMENTING SAKE
+		e.target.value !== ' ' && setDemoFormData(e.target.value); // Prevents spaces and empty data from being processed as a 'word'
 	};
 
 	const demoSubmit = () => {
@@ -290,8 +267,8 @@ const LeftSide = () => {
 										autoComplete='off'
 										autoCorrect='off'
 										inputMode='text'
-										// onChange={demoChange}
-										onInput={demoChange}
+										onChange={demoChange}
+										// onInput={demoChange}
 										value={demoFormData}
 										onDrop={(e) => {
 											e.preventDefault();
