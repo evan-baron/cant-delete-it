@@ -277,15 +277,6 @@ const LeftSide = () => {
 											e.preventDefault();
 										}}
 										onKeyDown={handleKeyDown}
-										onKeyUp={(e) => {
-											if (e.key === 'Backspace') {
-												if (timeLeft <= 0) {
-													setTimeLeft(3000);
-												} else {
-													return;
-												}
-											}
-										}}
 										onContextMenu={(e) => {
 											e.preventDefault();
 										}}
