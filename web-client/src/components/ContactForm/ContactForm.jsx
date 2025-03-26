@@ -27,7 +27,7 @@ const ContactForm = () => {
 		);
 	}, [formData.name, formData.email, formData.message]);
 
-	const maxLength = 1000;
+	const maxLength = 1337;
 	const remainingChars = maxLength - formData.message.length;
 
 	useEffect(() => {}, [formData.message]);
@@ -92,7 +92,7 @@ const ContactForm = () => {
 								name='message'
 								value={formData.message}
 								onChange={handleChange}
-								maxLength='1000'
+								maxLength='1337'
 								rows='5'
 								required
 							/>
